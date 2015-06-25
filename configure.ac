@@ -119,6 +119,10 @@ AC_ARG_ENABLE(checksum,
 	[AS_HELP_STRING([--disable-checksum],[disable the Checksum plugin])],
         checksum=$enableval, checksum=yes)
 
+AC_ARG_ENABLE(otrm,
+	[AS_HELP_STRING([--disable-otrm],[disable the OTRM plugin])],
+        otrm=$enableval, otrm=yes)
+
 AC_ARG_ENABLE(doat,
 	[AS_HELP_STRING([--disable-doat],[disable the Do At plugin])],
         doat=$enableval, doat=yes)
@@ -352,6 +356,21 @@ AS_IF([test "$checksum" != "no"], [
 ])
 
 dnl *********************************************************************
+dnl ** OTRM **********************************************************
+dnl *********************************************************************
+
+AS_IF([test "$otrm" != "no"], [
+	AC_MSG_CHECKING(for plugin interface used by OTRM)
+	AS_IF([test "$plugin" = yes], [
+		AC_MSG_RESULT([yes])
+    otrm=yes
+	], [
+		AC_MSG_RESULT([plugins are disabled, use the --enable-plugin option for OTRM])
+		otrm=no
+	])
+])
+
+dnl *********************************************************************
 dnl ** DO AT ************************************************************
 dnl *********************************************************************
 
@@ -457,6 +476,7 @@ AM_CONDITIONAL(DO_GTK, test "x$gtkfe" = "xyes")
 AM_CONDITIONAL(DO_PERL, test "x$perl" = "xyes")
 AM_CONDITIONAL(DO_PLUGIN, test "x$plugin" = "xyes")
 AM_CONDITIONAL(DO_CHECKSUM, test "x$checksum" = "xyes")
+AM_CONDITIONAL(DO_OTRM, test "x$otrm" = "xyes")
 AM_CONDITIONAL(DO_DOAT, test "x$doat" = "xyes")
 AM_CONDITIONAL(DO_FISHLIM, test "x$fishlim" = "xyes")
 AM_CONDITIONAL(DO_STATIC_ANALYSIS, test "x$analyze" = "xyes")
@@ -464,7 +484,6 @@ AM_CONDITIONAL(HAVE_ISO_CODES, test "x$isocodes" = "xyes")
 AM_CONDITIONAL(HAVE_GTK_MAC, test "x$_gdk_tgt" = xquartz)
 AM_CONDITIONAL(WITH_TM, test "x$theme_manager" != "xno")
 AM_CONDITIONAL(PLATFORM_OSX, test "x$platform_osx" == "xyes")
-AM_CONDITIONAL(DO_OTRM, test "x$otrm" = "xyes")
 
 dnl *********************************************************************
 dnl ** CFLAGS ***********************************************************
@@ -589,6 +608,7 @@ osx/Info.plist
 plugins/Makefile
 plugins/perl/Makefile
 plugins/checksum/Makefile
+plugins/otrm/Makefile
 plugins/doat/Makefile
 plugins/fishlim/Makefile
 po/Makefile.in
@@ -612,6 +632,7 @@ echo
 echo Perl .................. : $perl
 echo
 echo Checksum .............. : $checksum
+echo OTRM .................. : $otrm
 echo Do At ................. : $doat
 echo FiSHLiM ............... : $fishlim
 echo
