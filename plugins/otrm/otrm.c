@@ -1,4 +1,6 @@
 #include "hexchat-plugin.h"
+#include <stdio.h>
+#include <string.h>
 
 /**
  * OTRM - libotr plugin for hexchat
@@ -12,21 +14,16 @@
 #define PVERSION "1.0"
 
 static hexchat_plugin *ph;      /* plugin handle */
-static int enable = 1;
 
 static int
 otrm_cb (char *word[], char *word_eol[], void *userdata)
 {
-  if (!enable)
-    {
-      enable = 1;
-      hexchat_print (ph, "OTRM now enabled!\n");
-    }
-  else
-    {
-      enable = 0;
-      hexchat_print (ph, "OTRM now disabled!\n");
-    }
+  if (strncmp(word[2],"help",4)==0) {
+    hexchat_print (ph, "usage: /OTRM {help|version}\n");
+  }
+  else if (strncmp(word[2],"version",7)==0) {
+    hexchat_print (ph, "OTRM v"PVERSION"\n");
+  }
 
   return HEXCHAT_EAT_ALL; /* eat this command so HexChat and other plugins can't process it */
 }
@@ -50,7 +47,7 @@ hexchat_plugin_init (hexchat_plugin *plugin_handle, char **plugin_name, char **p
   *plugin_desc = PDESC;
   *plugin_version = PVERSION;
 
-  hexchat_hook_command (ph, "otrm", HEXCHAT_PRI_NORM, otrm_cb, "Usage: /OTRM {help}", 0);
+  hexchat_hook_command (ph, "otrm", HEXCHAT_PRI_NORM, otrm_cb, "Usage: /OTRM {help|version}", 0);
 
   hexchat_print (ph, PNAME" loaded successfully!\n");
 
