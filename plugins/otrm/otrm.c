@@ -1,9 +1,9 @@
 #include "hexchat-plugin.h"
 #include <stdio.h>
 #include <string.h>
+#include <libotr/proto.h>
 
-/**
- * OTRM - libotr plugin for hexchat
+/** @file plugins/otrm/otrm.c OTR implementation for hexchat
  *
  * Author: Kevin C. Krinke <kevin@krinke.ca>
  * License: GPLv2
@@ -39,6 +39,8 @@ hexchat_plugin_get_info (char **name, char **desc, char **version, void **reserv
 int
 hexchat_plugin_init (hexchat_plugin *plugin_handle, char **plugin_name, char **plugin_desc, char **plugin_version, char *arg)
 {
+  OTRL_INIT;
+
   /* we need to save this for use with any hexchat_* functions */
   ph = plugin_handle;
 
