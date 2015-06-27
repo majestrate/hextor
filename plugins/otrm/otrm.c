@@ -22,10 +22,18 @@ otrm_cb (char *word[], char *word_eol[], void *userdata)
 {
   if (strncmp(word[2],"version",7) == 0)
   {
-    hexchat_print (g_plugin, "OTRM Plugin v"PVERSION", libotr v"OTRL_VERSION"\n");
+    hexchat_print(g_plugin, "OTRM Plugin v"PVERSION", libotr v"OTRL_VERSION"\n");
     return HEXCHAT_EAT_ALL;
   }
 
+  if (strncmp(word[2],"help",4) == 0)
+  {
+    hexchat_print(g_plugin, "Commands: genkey init auth authq finish ...\n");
+    hexchat_print(g_plugin, "This should really display more helpful things.\n");
+    return HEXCHAT_EAT_ALL;
+  }
+
+  // basic usage info
   hexchat_print (g_plugin, "usage: /otrm {help|version}\n");
   return HEXCHAT_EAT_ALL;
 }
@@ -55,9 +63,10 @@ hexchat_plugin_init (hexchat_plugin *plugin_handle, char **plugin_name, char **p
   *plugin_desc = PDESC;
   *plugin_version = PVERSION;
 
-  hexchat_hook_command (g_plugin, "otrm", HEXCHAT_PRI_NORM, otrm_cb, "Usage: /OTRM {help|version}", 0);
+  hexchat_hook_command(g_plugin, "otrm", HEXCHAT_PRI_NORM, otrm_cb,
+                       "usage: /otrm help", 0);
 
-  hexchat_print (g_plugin, PNAME" plugin loaded.\n");
+  hexchat_print(g_plugin, PNAME" plugin loaded.\n");
   return RV_SUCCESS;
 }
 
@@ -65,6 +74,6 @@ int
 hexchat_plugin_deinit (void)
 {
   otrl_userstate_free(*g_userstate);
-  hexchat_print (g_plugin, PNAME" plugin unloaded.\n");
+  hexchat_print(g_plugin, PNAME" plugin unloaded.\n");
   return RV_SUCCESS;
 }
