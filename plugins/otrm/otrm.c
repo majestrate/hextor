@@ -10,12 +10,6 @@
 #define RV_SUCCESS 1
 #define RV_ERROR 0
 
-/** @file plugins/otrm/otrm.c OTR implementation for hexchat
- *
- * Author: Kevin C. Krinke <kevin@krinke.ca>
- * License: GPLv2
- */
-
 #define PNAME "OTRM"
 #define PDESC "Off The Record Messaging"
 #define PVERSION "1.0"
