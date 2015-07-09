@@ -1,0 +1,9 @@
+prefix=/usr/local
+exec_prefix=${prefix}
+includedir=${prefix}/include
+hexchatlibdir=${exec_prefix}/lib/hexchat/plugins
+
+Name: HexChat plugins
+Description: Header and path for HexChat plugins
+Version: 2.11.0
+Cflags: -I${includedir}
