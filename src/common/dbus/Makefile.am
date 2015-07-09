@@ -1,5 +1,5 @@
-noinst_LIBRARIES = libhexchatdbus.a
-libhexchatdbus_a_SOURCES =			\
+noinst_LIBRARIES = libhextordbus.a
+libhextordbus_a_SOURCES =			\
 	dbus-plugin.c				\
 	dbus-plugin.h				\
 	dbus-client.c				\
@@ -8,7 +8,7 @@ libhexchatdbus_a_SOURCES =			\
 EXTRA_DIST =				\
 	remote-object.xml		\
 	example.py			\
-	org.hexchat.service.service.in
+	org.hextor.service.service.in
 
 BUILT_SOURCES =				\
 	remote-object-glue.h
@@ -26,7 +26,7 @@ remote-object-glue.h: remote-object.xml
 
 # Dbus service file
 servicedir = $(DBUS_SERVICES_DIR)
-service_in_files = org.hexchat.service.service.in
+service_in_files = org.hextor.service.service.in
 service_DATA = $(service_in_files:.service.in=.service)
 
 # Rule to make the service file with bindir expanded

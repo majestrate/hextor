@@ -32,10 +32,10 @@
 #include <time.h>
 
 #include "config.h"
-#include "../common/hexchat.h"
+#include "../common/hextor.h"
 #include "../common/fe.h"
 #include "../common/util.h"
-#include "../common/hexchatc.h"
+#include "../common/hextorc.h"
 #include "../common/url.h"
 
 #ifdef WIN32
@@ -2293,7 +2293,7 @@ gtk_xtext_class_init (GtkXTextClass * class)
 							G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
 							G_STRUCT_OFFSET (GtkXTextClass, word_click),
 							NULL, NULL,
-							_hexchat_marshal_VOID__POINTER_POINTER,
+							_hextor_marshal_VOID__POINTER_POINTER,
 							G_TYPE_NONE,
 							2, G_TYPE_POINTER, G_TYPE_POINTER);
 	xtext_signals[SET_SCROLL_ADJUSTMENTS] =
@@ -2302,7 +2302,7 @@ gtk_xtext_class_init (GtkXTextClass * class)
 							G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
 							G_STRUCT_OFFSET (GtkXTextClass, set_scroll_adjustments),
 							NULL, NULL,
-							_hexchat_marshal_VOID__OBJECT_OBJECT,
+							_hextor_marshal_VOID__OBJECT_OBJECT,
 							G_TYPE_NONE,
 							2, GTK_TYPE_ADJUSTMENT, GTK_TYPE_ADJUSTMENT);
 

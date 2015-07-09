@@ -1,4 +1,4 @@
-/* HexChat
+/* Hextor
  * Copyright (C) 2015 Patrick Griffis.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -19,38 +19,38 @@
 #include "config.h"
 #include <glib.h>
 
-#include "../common/hexchat-plugin.h"
+#include "../common/hextor-plugin.h"
 #include "../common/inbound.h" /* For alert_match_word() */
 #include "notifications/notification-backend.h"
 
-static hexchat_plugin *ph;
+static hextor_plugin *ph;
 
 static gboolean
 should_alert (void)
 {
 	int omit_away, omit_focused, omit_tray;
 
-	if (hexchat_get_prefs (ph, "gui_focus_omitalerts", NULL, &omit_focused) == 3 && omit_focused)
+	if (hextor_get_prefs (ph, "gui_focus_omitalerts", NULL, &omit_focused) == 3 && omit_focused)
 	{
-		const char *status = hexchat_get_info (ph, "win_status");
+		const char *status = hextor_get_info (ph, "win_status");
 
 		if (status && !g_strcmp0 (status, "active"))
 			return FALSE;
 	}
 
-	if (hexchat_get_prefs (ph, "away_omit_alerts", NULL, &omit_away) == 3 && omit_away)
+	if (hextor_get_prefs (ph, "away_omit_alerts", NULL, &omit_away) == 3 && omit_away)
 	{
-		if (hexchat_get_info (ph, "away"))
+		if (hextor_get_info (ph, "away"))
 			return FALSE;
 	}
 
-	if (hexchat_get_prefs (ph, "gui_tray_quiet", NULL, &omit_tray) == 3 && omit_tray)
+	if (hextor_get_prefs (ph, "gui_tray_quiet", NULL, &omit_tray) == 3 && omit_tray)
 	{
 		int tray_enabled;
 
-		if (hexchat_get_prefs (ph, "gui_tray", NULL, &tray_enabled) == 3 && tray_enabled)
+		if (hextor_get_prefs (ph, "gui_tray", NULL, &tray_enabled) == 3 && tray_enabled)
 		{
-			const char *status = hexchat_get_info (ph, "win_status");
+			const char *status = hextor_get_info (ph, "win_status");
 
 			if (status && g_strcmp0 (status, "hidden") != 0)
 				return FALSE;
@@ -65,7 +65,7 @@ is_ignored (char *nick)
 {
 	const char *no_hilight;
 
-	if (hexchat_get_prefs (ph, "irc_no_hilight", &no_hilight, NULL) == 1 && no_hilight)
+	if (hextor_get_prefs (ph, "irc_no_hilight", &no_hilight, NULL) == 1 && no_hilight)
 	{
 		return alert_match_word (nick, (char*)no_hilight);
 	}
@@ -78,13 +78,13 @@ show_notification (const char *title, const char *text)
 	char *stripped_title, *stripped_text;
 
 	/* Strip all colors */
-	stripped_title = hexchat_strip (ph, title, -1, 7);
-	stripped_text = hexchat_strip (ph, text, -1, 7);
+	stripped_title = hextor_strip (ph, title, -1, 7);
+	stripped_text = hextor_strip (ph, text, -1, 7);
 	
 	notification_backend_show (stripped_title, stripped_text);
 
-	hexchat_free (ph, stripped_title);
-	hexchat_free (ph, stripped_text);
+	hextor_free (ph, stripped_title);
+	hextor_free (ph, stripped_text);
 }
 
 static void
@@ -106,11 +106,11 @@ incoming_hilight_cb (char *word[], gpointer userdata)
 {
 	int hilight;
 
-	if (hexchat_get_prefs (ph, "input_balloon_hilight", NULL, &hilight) == 3 && hilight && should_alert())
+	if (hextor_get_prefs (ph, "input_balloon_hilight", NULL, &hilight) == 3 && hilight && should_alert())
 	{
-		show_notificationf (word[2], _("Highlighted message from: %s (%s)"), word[1], hexchat_get_info (ph, "channel"));
+		show_notificationf (word[2], _("Highlighted message from: %s (%s)"), word[1], hextor_get_info (ph, "channel"));
 	}
-	return HEXCHAT_EAT_NONE;
+	return HEXTOR_EAT_NONE;
 }
 
 static int
@@ -118,11 +118,11 @@ incoming_message_cb (char *word[], gpointer userdata)
 {
 	int message;
 
-	if (hexchat_get_prefs (ph, "input_balloon_chans", NULL, &message) == 3 && message && should_alert ())
+	if (hextor_get_prefs (ph, "input_balloon_chans", NULL, &message) == 3 && message && should_alert ())
 	{
-		show_notificationf (word[2], _("Channel message from: %s (%s)"), word[1], hexchat_get_info (ph, "channel"));
+		show_notificationf (word[2], _("Channel message from: %s (%s)"), word[1], hextor_get_info (ph, "channel"));
 	}
-	return HEXCHAT_EAT_NONE;
+	return HEXTOR_EAT_NONE;
 }
 
 static int
@@ -130,11 +130,11 @@ incoming_priv_cb (char *word[], gpointer userdata)
 {
 	int priv;
 
-	if (hexchat_get_prefs (ph, "input_balloon_priv", NULL, &priv) == 3 && priv && should_alert ())
+	if (hextor_get_prefs (ph, "input_balloon_priv", NULL, &priv) == 3 && priv && should_alert ())
 	{
-		const char *network = hexchat_get_info (ph, "network");
+		const char *network = hextor_get_info (ph, "network");
 		if (!network)
-			network = hexchat_get_info (ph, "server");
+			network = hextor_get_info (ph, "server");
 
 		if (userdata != NULL) /* Special event */
 		{
@@ -157,7 +157,7 @@ incoming_priv_cb (char *word[], gpointer userdata)
 		else
 			show_notificationf (word[2], _("Private message from: %s (%s)"), word[1], network);
 	}
-	return HEXCHAT_EAT_NONE;
+	return HEXTOR_EAT_NONE;
 }
 
 static int
@@ -167,14 +167,14 @@ tray_cmd_cb (char *word[], char *word_eol[], gpointer userdata)
 	{
 		if (should_alert ())
 			show_notification (word[3], word_eol[4]);
-		return HEXCHAT_EAT_ALL;
+		return HEXTOR_EAT_ALL;
 	}
 
-	return HEXCHAT_EAT_NONE;
+	return HEXTOR_EAT_NONE;
 }
 
 int
-notification_plugin_init (hexchat_plugin *plugin_handle, char **plugin_name, char **plugin_desc, char **plugin_version, char *arg)
+notification_plugin_init (hextor_plugin *plugin_handle, char **plugin_name, char **plugin_desc, char **plugin_version, char *arg)
 {
 	if (!notification_backend_init ())
 		return 0;
@@ -184,24 +184,24 @@ notification_plugin_init (hexchat_plugin *plugin_handle, char **plugin_name, cha
 	*plugin_desc = "";
 	*plugin_version = "";
 
-	hexchat_hook_print (ph, "Channel Msg Hilight", HEXCHAT_PRI_LOWEST, incoming_hilight_cb, NULL);
-	hexchat_hook_print (ph, "Channel Action Hilight", HEXCHAT_PRI_LOWEST, incoming_hilight_cb, NULL);
+	hextor_hook_print (ph, "Channel Msg Hilight", HEXTOR_PRI_LOWEST, incoming_hilight_cb, NULL);
+	hextor_hook_print (ph, "Channel Action Hilight", HEXTOR_PRI_LOWEST, incoming_hilight_cb, NULL);
 
-	hexchat_hook_print (ph, "Channel Message", HEXCHAT_PRI_LOWEST, incoming_message_cb, NULL);
-	hexchat_hook_print (ph, "Channel Action", HEXCHAT_PRI_LOWEST, incoming_message_cb, NULL);
-	hexchat_hook_print (ph, "Channel Notice", HEXCHAT_PRI_LOWEST, incoming_message_cb, NULL);
+	hextor_hook_print (ph, "Channel Message", HEXTOR_PRI_LOWEST, incoming_message_cb, NULL);
+	hextor_hook_print (ph, "Channel Action", HEXTOR_PRI_LOWEST, incoming_message_cb, NULL);
+	hextor_hook_print (ph, "Channel Notice", HEXTOR_PRI_LOWEST, incoming_message_cb, NULL);
 
-	hexchat_hook_print (ph, "Private Message", HEXCHAT_PRI_LOWEST, incoming_priv_cb, NULL);
-	hexchat_hook_print (ph, "Private Message to Dialog", HEXCHAT_PRI_LOWEST, incoming_priv_cb, NULL);
-	hexchat_hook_print (ph, "Private Action", HEXCHAT_PRI_LOWEST, incoming_priv_cb, NULL);
-	hexchat_hook_print (ph, "Private Action to Dialog", HEXCHAT_PRI_LOWEST, incoming_priv_cb, NULL);
+	hextor_hook_print (ph, "Private Message", HEXTOR_PRI_LOWEST, incoming_priv_cb, NULL);
+	hextor_hook_print (ph, "Private Message to Dialog", HEXTOR_PRI_LOWEST, incoming_priv_cb, NULL);
+	hextor_hook_print (ph, "Private Action", HEXTOR_PRI_LOWEST, incoming_priv_cb, NULL);
+	hextor_hook_print (ph, "Private Action to Dialog", HEXTOR_PRI_LOWEST, incoming_priv_cb, NULL);
 
 	/* Special events treated as priv */
-	hexchat_hook_print (ph, "Notice", HEXCHAT_PRI_LOWEST, incoming_priv_cb, GINT_TO_POINTER (1));
-	hexchat_hook_print (ph, "Invited", HEXCHAT_PRI_LOWEST, incoming_priv_cb, GINT_TO_POINTER (2));
-	hexchat_hook_print (ph, "DCC Offer", HEXCHAT_PRI_LOWEST, incoming_priv_cb, GINT_TO_POINTER (3));
+	hextor_hook_print (ph, "Notice", HEXTOR_PRI_LOWEST, incoming_priv_cb, GINT_TO_POINTER (1));
+	hextor_hook_print (ph, "Invited", HEXTOR_PRI_LOWEST, incoming_priv_cb, GINT_TO_POINTER (2));
+	hextor_hook_print (ph, "DCC Offer", HEXTOR_PRI_LOWEST, incoming_priv_cb, GINT_TO_POINTER (3));
 
-	hexchat_hook_command (ph, "TRAY", HEXCHAT_PRI_HIGH, tray_cmd_cb, NULL, NULL);
+	hextor_hook_command (ph, "TRAY", HEXTOR_PRI_HIGH, tray_cmd_cb, NULL, NULL);
 	
 	return 1;
 }

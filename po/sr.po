@@ -8,53 +8,53 @@
 # Zlatan Vasović <legospace9876@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
-"Project-Id-Version: HexChat\n"
-"Report-Msgid-Bugs-To: www.hexchat.org\n"
+"Project-Id-Version: Hextor\n"
+"Report-Msgid-Bugs-To: www.hextor.org\n"
 "POT-Creation-Date: 2014-05-14 13:20-0400\n"
 "PO-Revision-Date: 2014-05-14 17:20+0000\n"
 "Last-Translator: TingPing <tingping@tingping.se>\n"
-"Language-Team: Serbian (http://www.transifex.com/projects/p/hexchat/language/sr/)\n"
+"Language-Team: Serbian (http://www.transifex.com/projects/p/hextor/language/sr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sr\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: ../data/misc/hexchat.appdata.xml.in.h:1
+#: ../data/misc/hextor.appdata.xml.in.h:1
 msgid ""
-"HexChat is an easy to use yet extensible IRC Client. It allows you to "
+"Hextor is an easy to use yet extensible IRC Client. It allows you to "
 "securely join multiple networks and talk to users privately or in channels "
 "using a customizable interface. You can even transfer files."
 msgstr ""
 
-#: ../data/misc/hexchat.appdata.xml.in.h:2
+#: ../data/misc/hextor.appdata.xml.in.h:2
 msgid ""
-"HexChat supports features such as: DCC, SASL, proxies, spellcheck, alerts, "
+"Hextor supports features such as: DCC, SASL, proxies, spellcheck, alerts, "
 "logging, custom themes, and Python/Perl scripts."
 msgstr ""
 
-#: ../data/misc/hexchat.desktop.in.h:1
-msgid "HexChat"
+#: ../data/misc/hextor.desktop.in.h:1
+msgid "Hextor"
 msgstr ""
 
-#: ../data/misc/hexchat.desktop.in.h:2
+#: ../data/misc/hextor.desktop.in.h:2
 msgid "IRC Client"
 msgstr ""
 
-#: ../data/misc/hexchat.desktop.in.h:3
+#: ../data/misc/hextor.desktop.in.h:3
 msgid "Chat with other people online"
 msgstr ""
 
-#: ../data/misc/hexchat.desktop.in.h:4
+#: ../data/misc/hextor.desktop.in.h:4
 msgid "IM;Chat;"
 msgstr ""
 
-#: ../data/misc/hexchat.desktop.in.h:5
+#: ../data/misc/hextor.desktop.in.h:5
 msgid "Open Safe Mode"
 msgstr ""
 
 #: ../data/misc/htm.desktop.in.h:1
-msgid "HexChat Theme Manager"
+msgid "Hextor Theme Manager"
 msgstr ""
 
 #. 0 means unlimited
@@ -120,144 +120,144 @@ msgstr "%s нуди „%s‟. Да ли желите да прихватите?"
 msgid "No active DCCs\n"
 msgstr "Нема активних DCC-ова\n"
 
-#: ../src/common/hexchat.c:867
+#: ../src/common/hextor.c:867
 msgid "_Open Dialog Window"
 msgstr "_Отвори прозор за разговор"
 
-#: ../src/common/hexchat.c:868
+#: ../src/common/hextor.c:868
 msgid "_Send a File"
 msgstr "_Пошаљи датотеку"
 
-#: ../src/common/hexchat.c:869
+#: ../src/common/hextor.c:869
 msgid "_User Info (WhoIs)"
 msgstr "_Информације о кориснику (WhoIs)"
 
-#: ../src/common/hexchat.c:870
+#: ../src/common/hextor.c:870
 msgid "_Add to Friends List"
 msgstr "_Додај у листу пријатеља"
 
-#: ../src/common/hexchat.c:871
+#: ../src/common/hextor.c:871
 msgid "_Ignore"
 msgstr "_Игнориши"
 
-#: ../src/common/hexchat.c:872
+#: ../src/common/hextor.c:872
 msgid "O_perator Actions"
 msgstr "О_ператорове акције"
 
-#: ../src/common/hexchat.c:874
+#: ../src/common/hextor.c:874
 msgid "Give Ops"
 msgstr "Дај опа"
 
-#: ../src/common/hexchat.c:875
+#: ../src/common/hextor.c:875
 msgid "Take Ops"
 msgstr "Одузми опа"
 
-#: ../src/common/hexchat.c:876
+#: ../src/common/hextor.c:876
 msgid "Give Voice"
 msgstr "Дај реч"
 
-#: ../src/common/hexchat.c:877
+#: ../src/common/hextor.c:877
 msgid "Take Voice"
 msgstr "Одузми реч"
 
-#: ../src/common/hexchat.c:879
+#: ../src/common/hextor.c:879
 msgid "Kick/Ban"
 msgstr "Шут/забр."
 
-#: ../src/common/hexchat.c:880 ../src/common/hexchat.c:917
+#: ../src/common/hextor.c:880 ../src/common/hextor.c:917
 msgid "Kick"
 msgstr "Шут"
 
-#: ../src/common/hexchat.c:881 ../src/common/hexchat.c:882
-#: ../src/common/hexchat.c:883 ../src/common/hexchat.c:884
-#: ../src/common/hexchat.c:885 ../src/common/hexchat.c:916
+#: ../src/common/hextor.c:881 ../src/common/hextor.c:882
+#: ../src/common/hextor.c:883 ../src/common/hextor.c:884
+#: ../src/common/hextor.c:885 ../src/common/hextor.c:916
 #: ../src/fe-gtk/banlist.c:50
 msgid "Ban"
 msgstr "Забр."
 
-#: ../src/common/hexchat.c:886 ../src/common/hexchat.c:887
-#: ../src/common/hexchat.c:888 ../src/common/hexchat.c:889
+#: ../src/common/hextor.c:886 ../src/common/hextor.c:887
+#: ../src/common/hextor.c:888 ../src/common/hextor.c:889
 msgid "KickBan"
 msgstr "Шут и забр."
 
-#: ../src/common/hexchat.c:899
+#: ../src/common/hextor.c:899
 msgid "Leave Channel"
 msgstr "Напусти канал"
 
-#: ../src/common/hexchat.c:900
+#: ../src/common/hextor.c:900
 msgid "Join Channel..."
 msgstr "Прикључи се..."
 
-#: ../src/common/hexchat.c:901 ../src/fe-gtk/menu.c:1410
+#: ../src/common/hextor.c:901 ../src/fe-gtk/menu.c:1410
 msgid "Enter Channel to Join:"
 msgstr "Унесите име канала:"
 
-#: ../src/common/hexchat.c:902
+#: ../src/common/hextor.c:902
 msgid "Server Links"
 msgstr "Везе са серверима"
 
-#: ../src/common/hexchat.c:903
+#: ../src/common/hextor.c:903
 msgid "Ping Server"
 msgstr "Одзив сервера"
 
-#: ../src/common/hexchat.c:904
+#: ../src/common/hextor.c:904
 msgid "Hide Version"
 msgstr "Сакриј верзију"
 
-#: ../src/common/hexchat.c:914
+#: ../src/common/hextor.c:914
 msgid "Op"
 msgstr "Оп"
 
-#: ../src/common/hexchat.c:915
+#: ../src/common/hextor.c:915
 msgid "DeOp"
 msgstr "Деоп"
 
-#: ../src/common/hexchat.c:918
+#: ../src/common/hextor.c:918
 msgid "bye"
 msgstr "Ћао"
 
-#: ../src/common/hexchat.c:919
+#: ../src/common/hextor.c:919
 #, c-format
 msgid "Enter reason to kick %s:"
 msgstr "Разлог да се избаци %s:"
 
-#: ../src/common/hexchat.c:920
+#: ../src/common/hextor.c:920
 msgid "Sendfile"
 msgstr "Пошаљи фајл"
 
-#: ../src/common/hexchat.c:921
+#: ../src/common/hextor.c:921
 msgid "Dialog"
 msgstr "Разговор"
 
-#: ../src/common/hexchat.c:930
+#: ../src/common/hextor.c:930
 msgid "WhoIs"
 msgstr "WhoIs"
 
-#: ../src/common/hexchat.c:931
+#: ../src/common/hextor.c:931
 msgid "Send"
 msgstr "Слање"
 
-#: ../src/common/hexchat.c:932
+#: ../src/common/hextor.c:932
 msgid "Chat"
 msgstr "Прича"
 
-#: ../src/common/hexchat.c:933 ../src/fe-gtk/banlist.c:852
+#: ../src/common/hextor.c:933 ../src/fe-gtk/banlist.c:852
 #: ../src/fe-gtk/dccgui.c:884 ../src/fe-gtk/ignoregui.c:385
 #: ../src/fe-gtk/urlgrab.c:212
 msgid "Clear"
 msgstr "Обриши"
 
-#: ../src/common/hexchat.c:934
+#: ../src/common/hextor.c:934
 msgid "Ping"
 msgstr "Ping"
 
-#: ../src/common/hexchat.c:1130
+#: ../src/common/hextor.c:1130
 #, c-format
 msgid ""
 "You do not have write access to %s. Nothing from this session can be saved."
 msgstr ""
 
-#: ../src/common/hexchat.c:1139
+#: ../src/common/hextor.c:1139
 msgid ""
 "* Running IRC as root is stupid! You should\n"
 "  create a User Account and use that to login.\n"
@@ -507,7 +507,7 @@ msgid "EXECWRITE, sends data to the processes stdin"
 msgstr "EXECWRITE, шаље податке на стандардни улаз процеса"
 
 #: ../src/common/outbound.c:3961
-msgid "EXPORTCONF, exports HexChat settings"
+msgid "EXPORTCONF, exports Hextor settings"
 msgstr ""
 
 #: ../src/common/outbound.c:3964
@@ -682,7 +682,7 @@ msgstr "RECONNECT [<рач.>] [<порт>] [<лозинка>], може се к�
 
 #: ../src/common/outbound.c:4051
 msgid ""
-"RECV <text>, send raw data to HexChat, as if it was received from the IRC "
+"RECV <text>, send raw data to Hextor, as if it was received from the IRC "
 "server"
 msgstr ""
 
@@ -824,8 +824,8 @@ msgid "Unknown Command. Try /help\n"
 msgstr "Команда није препозната. Пробајте са /help\n"
 
 #: ../src/common/plugin.c:412 ../src/common/plugin.c:448
-msgid "No hexchat_plugin_init symbol; is this really a HexChat plugin?"
-msgstr "Нема hexchat_plugin_init симбола; да ли је ово стварно HexChat додатак?"
+msgid "No hextor_plugin_init symbol; is this really a Hextor plugin?"
+msgstr "Нема hextor_plugin_init симбола; да ли је ово стварно Hextor додатак?"
 
 #: ../src/common/server.c:644
 msgid "Are you sure this is a SSL capable server and port?\n"
@@ -3406,8 +3406,8 @@ msgid "Execute command:"
 msgstr "Пошаљи ову команду:"
 
 #: ../src/fe-gtk/fe-gtk.c:88
-msgid "Open URL or execute command in an existing HexChat"
-msgstr "Отворите URL или извршите команду у постојећем HexChat-у"
+msgid "Open URL or execute command in an existing Hextor"
+msgstr "Отворите URL или извршите команду у постојећем Hextor-у"
 
 #: ../src/fe-gtk/fe-gtk.c:90
 msgid "Begin minimized. Level 0=Normal 1=Iconified 2=Tray"
@@ -3685,8 +3685,8 @@ msgid ""
 msgstr "Овај сервер има укупно оволико канала: %d или дијалога. Да ли желите да их све затворите?"
 
 #: ../src/fe-gtk/maingui.c:1203
-msgid "Quit HexChat?"
-msgstr "Излазите из HexChat-a?"
+msgid "Quit Hextor?"
+msgstr "Излазите из Hextor-a?"
 
 #: ../src/fe-gtk/maingui.c:1223
 msgid "Don't ask next time."
@@ -4011,7 +4011,7 @@ msgid ""
 "%m  =  machine info\n"
 "%n  =  your nick\n"
 "%t  =  time/date\n"
-"%v  =  HexChat version\n"
+"%v  =  Hextor version\n"
 "%2  =  word 2\n"
 "%3  =  word 3\n"
 "&2  =  word 2 to the end of line\n"
@@ -4079,7 +4079,7 @@ msgid ""
 "\n"
 "Putting a ! in front of the command\n"
 "indicates it should be sent to a\n"
-"shell instead of HexChat"
+"shell instead of Hextor"
 msgstr ""
 
 #: ../src/fe-gtk/menu.c:1527

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
 	<gresource prefix="/icons">
-		<file alias="hexchat.png" preprocess="to-pixdata" compressed="true">icons/hexchat.png</file>
+		<file alias="hextor.png" preprocess="to-pixdata" compressed="true">icons/hextor.png</file>
 		<file alias="book.png" preprocess="to-pixdata" compressed="true">icons/book.png</file>
 
 		<file alias="ulist_voice.png" preprocess="to-pixdata" compressed="true">icons/ulist_voice.png</file>

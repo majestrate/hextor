@@ -1,1 +1,1 @@
-require HexChat;
+require Hextor;

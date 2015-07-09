@@ -1,15 +1,15 @@
-AppName=HexChat Spelling Dictionaries
-AppVerName=HexChat Spelling Dictionaries r1
+AppName=Hextor Spelling Dictionaries
+AppVerName=Hextor Spelling Dictionaries r1
 AppVersion=1.0
 VersionInfoVersion=1.0
-OutputBaseFilename=HexChat Spelling Dictionaries r1
-AppPublisher=HexChat
-AppPublisherURL=http://www.hexchat.org/
+OutputBaseFilename=Hextor Spelling Dictionaries r1
+AppPublisher=Hextor
+AppPublisherURL=http://www.hextor.org/
 AppCopyright=Copyright (C) 1998-2010 Peter Zelezny
-AppSupportURL=https://github.com/hexchat/hexchat/issues
-AppUpdatesURL=http://www.hexchat.org/home/downloads
+AppSupportURL=https://github.com/hextor/hextor/issues
+AppUpdatesURL=http://www.hextor.org/home/downloads
 DefaultDirName={localappdata}\enchant
-DefaultGroupName=HexChat
+DefaultGroupName=Hextor
 DisableProgramGroupPage=yes
 DisableDirPage=yes
 SolidCompression=yes
@@ -28,4 +28,4 @@ ArchitecturesAllowed=x86 x64
 Source: "myspell\*"; DestDir: "{app}\myspell"; Flags: createallsubdirs recursesubdirs
 
 [Messages]
-BeveledLabel= HexChat
+BeveledLabel= Hextor

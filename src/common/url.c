@@ -20,8 +20,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "hexchat.h"
-#include "hexchatc.h"
+#include "hextor.h"
+#include "hextorc.h"
 #include "cfgfiles.h"
 #include "fe.h"
 #include "tree.h"
@@ -80,9 +80,9 @@ url_save_tree (const char *fname, const char *mode, gboolean fullpath)
 	FILE *fd;
 
 	if (fullpath)
-		fd = hexchat_fopen_file (fname, mode, XOF_FULLPATH);
+		fd = hextor_fopen_file (fname, mode, XOF_FULLPATH);
 	else
-		fd = hexchat_fopen_file (fname, mode, 0);
+		fd = hextor_fopen_file (fname, mode, 0);
 	if (fd == NULL)
 		return;
 
@@ -96,7 +96,7 @@ url_save_node (char* url)
 	FILE *fd;
 
 	/* open <config>/url.log in append mode */
-	fd = hexchat_fopen_file ("url.log", "a", 0);
+	fd = hextor_fopen_file ("url.log", "a", 0);
 	if (fd == NULL)
 	{
 		return;
@@ -166,7 +166,7 @@ url_add (char *urltext, int len)
 	if (prefs.hex_url_grabber_limit > 0 && size >= prefs.hex_url_grabber_limit)
 	{
 		/* the loop is necessary to handle having the limit lowered while
-		   HexChat is running */
+		   Hextor is running */
 		size -= prefs.hex_url_grabber_limit;
 		for(; size > 0; size--)
 		{

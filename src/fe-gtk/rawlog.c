@@ -31,8 +31,8 @@
 
 #include <gdk/gdkkeysyms.h>
 
-#include "../common/hexchat.h"
-#include "../common/hexchatc.h"
+#include "../common/hextor.h"
+#include "../common/hextorc.h"
 #include "../common/cfgfiles.h"
 #include "../common/server.h"
 #include "gtkutil.h"
@@ -57,7 +57,7 @@ rawlog_save (server *serv, char *file)
 	if (file)
 	{
 		if (serv->gui->rawlog_window)
-			fh = hexchat_open_file (file, O_TRUNC | O_WRONLY | O_CREAT,
+			fh = hextor_open_file (file, O_TRUNC | O_WRONLY | O_CREAT,
 										 0600, XOF_DOMODE | XOF_FULLPATH);
 		if (fh != -1)
 		{

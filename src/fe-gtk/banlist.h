@@ -1,4 +1,4 @@
-/* HexChat
+/* Hextor
  * Copyright (C) 1998-2010 Peter Zelezny.
  * Copyright (C) 2009-2013 Berke Viktor.
  *
@@ -17,10 +17,10 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
  */
 
-#ifndef HEXCHAT_BANLIST_H
-#define HEXCHAT_BANLIST_H
+#ifndef HEXTOR_BANLIST_H
+#define HEXTOR_BANLIST_H
 
-#include "../common/hexchat.h"
+#include "../common/hextor.h"
 void banlist_opengui (session *sess);
 
 #ifndef RPL_BANLIST
@@ -72,4 +72,4 @@ typedef struct mode_info_s {
 	void (*tester)(banlist_info *, int);	/* Function returns true to set bit into checkable */
 } mode_info;
 
-#endif /* HEXCHAT_BANLIST_H */
+#endif /* HEXTOR_BANLIST_H */

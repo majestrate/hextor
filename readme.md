@@ -1,19 +1,19 @@
-# HexChat [![Build Status](http://img.shields.io/travis/hexchat/hexchat.svg?style=flat)](https://travis-ci.org/hexchat/hexchat) [![Build Status](http://img.shields.io/jenkins/s/http/nekomimi.cloudapp.net:8080/hexchat.svg?style=flat)](http://nekomimi.cloudapp.net:8080/job/hexchat/)
+# Hextor [![Build Status](http://img.shields.io/travis/hextor/hextor.svg?style=flat)](https://travis-ci.org/hextor/hextor) [![Build Status](http://img.shields.io/jenkins/s/http/nekomimi.cloudapp.net:8080/hextor.svg?style=flat)](http://nekomimi.cloudapp.net:8080/job/hextor/)
 
-HexChat is an IRC client for Windows and UNIX-like operating systems.  
+Hextor is an IRC client for Windows and UNIX-like operating systems.  
 See [IRCHelp.org](http://irchelp.org) for information about IRC in general.  
-For more information on HexChat please read our [documentation](https://hexchat.readthedocs.org/en/latest/index.html):
-- [Downloads](http://hexchat.github.io/downloads.html)
-- [FAQ](https://hexchat.readthedocs.org/en/latest/faq.html)
-- [Changelog](https://hexchat.readthedocs.org/en/latest/changelog.html)
-- [Python API](https://hexchat.readthedocs.org/en/latest/script_python.html)
-- [Perl API](https://hexchat.readthedocs.org/en/latest/script_perl.html)
+For more information on Hextor please read our [documentation](https://hextor.readthedocs.org/en/latest/index.html):
+- [Downloads](http://hextor.github.io/downloads.html)
+- [FAQ](https://hextor.readthedocs.org/en/latest/faq.html)
+- [Changelog](https://hextor.readthedocs.org/en/latest/changelog.html)
+- [Python API](https://hextor.readthedocs.org/en/latest/script_python.html)
+- [Perl API](https://hextor.readthedocs.org/en/latest/script_perl.html)
 
 ---
 
 <sub>
 X-Chat ("xchat") Copyright (c) 1998-2010 By Peter Zelezny.  
-HexChat ("hexchat") Copyright (c) 2009-2014 By Berke Viktor.
+Hextor ("hextor") Copyright (c) 2009-2014 By Berke Viktor.
 </sub>
 
 <sub>

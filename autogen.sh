@@ -4,7 +4,7 @@
 srcdir=`dirname $0`
 test -z "$srcdir" && srcdir=.
 
-(test -f $srcdir/src/common/hexchat.c) || {
+(test -f $srcdir/src/common/hextor.c) || {
 	echo -n "**Error**: Directory "\`$srcdir\'" does not look like the top-level directory"
 	exit 1
 }

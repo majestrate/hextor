@@ -1,4 +1,4 @@
-/* HexChat
+/* Hextor
  * Copyright (C) 1998-2010 Peter Zelezny.
  * Copyright (C) 2009-2013 Berke Viktor.
  *
@@ -18,10 +18,10 @@
  */
 
 #include <time.h>
-#include "hexchat.h"
+#include "hextor.h"
 
-#ifndef HEXCHAT_PROTO_H
-#define HEXCHAT_PROTO_H
+#ifndef HEXTOR_PROTO_H
+#define HEXTOR_PROTO_H
 
 #define MESSAGE_TAGS_DATA_INIT			\
 	{									\

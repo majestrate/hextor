@@ -1,9 +1,9 @@
 prefix=@prefix@
 exec_prefix=${prefix}
 includedir=@includedir@
-hexchatlibdir=@hexchatlibdir@
+hextorlibdir=@hextorlibdir@
 
-Name: HexChat plugins
-Description: Header and path for HexChat plugins
+Name: Hextor plugins
+Description: Header and path for Hextor plugins
 Version: @VERSION@
 Cflags: -I${includedir}

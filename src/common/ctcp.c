@@ -24,7 +24,7 @@
 #include <unistd.h>
 #endif
 
-#include "hexchat.h"
+#include "hextor.h"
 #include "cfgfiles.h"
 #include "util.h"
 #include "modes.h"
@@ -35,7 +35,7 @@
 #include "text.h"
 #include "ctcp.h"
 #include "server.h"
-#include "hexchatc.h"
+#include "hextorc.h"
 
 
 static void
@@ -139,10 +139,10 @@ ctcp_handle (session *sess, char *to, char *nick, char *ip,
 	if (!g_ascii_strcasecmp (msg, "VERSION") && !prefs.hex_irc_hide_version)
 	{
 #ifdef WIN32
-		g_snprintf (outbuf, sizeof (outbuf), "VERSION HexChat "PACKAGE_VERSION" [x%d] / %s",
+		g_snprintf (outbuf, sizeof (outbuf), "VERSION Hextor "PACKAGE_VERSION" [x%d] / %s",
 					 get_cpu_arch (), get_sys_str (1));
 #else
-		g_snprintf (outbuf, sizeof (outbuf), "VERSION HexChat "PACKAGE_VERSION" / %s",
+		g_snprintf (outbuf, sizeof (outbuf), "VERSION Hextor "PACKAGE_VERSION" / %s",
 					 get_sys_str (1));
 #endif
 		serv->p_nctcp (serv, nick, outbuf);

@@ -3,7 +3,7 @@
 
 #define COMMA_VERSION <#= [string]::Join(',', $versionParts) #>,0
 
-XC_ICON ICON "<#= $env:SOLUTIONDIR -replace '\\', '/' #>data/icons/hexchat.ico"
+XC_ICON ICON "<#= $env:SOLUTIONDIR -replace '\\', '/' #>data/icons/hextor.ico"
 
 VS_VERSION_INFO VERSIONINFO
 	FILEVERSION    COMMA_VERSION
@@ -14,9 +14,9 @@ VS_VERSION_INFO VERSIONINFO
 			BLOCK "040904B0"
 			BEGIN
 				
-				VALUE "FileDescription", "HexChat IRC Client"
-				VALUE "CompanyName", "HexChat"
-				VALUE "ProductName", "HexChat"
+				VALUE "FileDescription", "Hextor IRC Client"
+				VALUE "CompanyName", "Hextor"
+				VALUE "ProductName", "Hextor"
 				VALUE "ProductVersion", PACKAGE_VERSION
 				VALUE "FileVersion", PACKAGE_VERSION
 			END

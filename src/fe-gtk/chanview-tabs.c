@@ -1,4 +1,4 @@
-/* HexChat
+/* Hextor
  * Copyright (C) 1998-2010 Peter Zelezny.
  * Copyright (C) 2009-2013 Berke Viktor.
  *
@@ -561,7 +561,7 @@ cv_tabs_add (chanview *cv, chan *ch, char *name, GtkTreeIter *parent)
 	GtkWidget *but;
 
 	but = gtk_toggle_button_new_with_label (name);
-	gtk_widget_set_name (but, "hexchat-tab");
+	gtk_widget_set_name (but, "hextor-tab");
 	g_object_set_data (G_OBJECT (but), "c", ch);
 	/* used to trap right-clicks */
 	g_signal_connect (G_OBJECT (but), "button_press_event",

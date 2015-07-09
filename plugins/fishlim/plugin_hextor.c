@@ -28,8 +28,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "hexchat-plugin.h"
-#define HEXCHAT_MAX_WORDS 32
+#include "hextor-plugin.h"
+#define HEXTOR_MAX_WORDS 32
 
 #include "fish.h"
 #include "keystore.h"
@@ -42,7 +42,7 @@ static const char plugin_version[] = "0.0.17";
 static const char usage_setkey[] = "Usage: SETKEY [<nick or #channel>] <password>, sets the key for a channel or nick";
 static const char usage_delkey[] = "Usage: DELKEY <nick or #channel>, deletes the key for a channel or nick";
 
-static hexchat_plugin *ph;
+static hextor_plugin *ph;
 
 
 /**
@@ -51,7 +51,7 @@ static hexchat_plugin *ph;
 gchar *get_config_filename() {
     char *filename_fs, *filename_utf8;
 
-    filename_utf8 = g_build_filename(hexchat_get_info(ph, "configdir"), "addon_fishlim.conf", NULL);
+    filename_utf8 = g_build_filename(hextor_get_info(ph, "configdir"), "addon_fishlim.conf", NULL);
     filename_fs = g_filename_from_utf8 (filename_utf8, -1, NULL, NULL, NULL);
 
     g_free (filename_utf8);
@@ -59,16 +59,16 @@ gchar *get_config_filename() {
 }
 
 int irc_nick_cmp(const char *a, const char *b) {
-	return hexchat_nickcmp (ph, a, b);
+	return hextor_nickcmp (ph, a, b);
 }
 
 /*static int handle_debug(char *word[], char *word_eol[], void *userdata) {
-    hexchat_printf(ph, "debug incoming: ");
+    hextor_printf(ph, "debug incoming: ");
     for (size_t i = 1; word[i] != NULL && word[i][0] != '\0'; i++) {
-        hexchat_printf(ph, ">%s< ", word[i]);
+        hextor_printf(ph, ">%s< ", word[i]);
     }
-    hexchat_printf(ph, "\n");
-    return HEXCHAT_EAT_NONE;
+    hextor_printf(ph, "\n");
+    return HEXTOR_EAT_NONE;
 }*/
 
 /**
@@ -77,25 +77,25 @@ int irc_nick_cmp(const char *a, const char *b) {
 static int handle_outgoing(char *word[], char *word_eol[], void *userdata) {
     const char *own_nick;
     /* Encrypt the message if possible */
-    const char *channel = hexchat_get_info(ph, "channel");
+    const char *channel = hextor_get_info(ph, "channel");
     char *encrypted = fish_encrypt_for_nick(channel, word_eol[1]);
-    if (!encrypted) return HEXCHAT_EAT_NONE;
+    if (!encrypted) return HEXTOR_EAT_NONE;
     
     /* Display message */
-    own_nick = hexchat_get_info(ph, "nick");
-    hexchat_emit_print(ph, "Your Message", own_nick, word_eol[1], NULL);
+    own_nick = hextor_get_info(ph, "nick");
+    hextor_emit_print(ph, "Your Message", own_nick, word_eol[1], NULL);
     
     /* Send message */
-    hexchat_commandf(ph, "PRIVMSG %s :+OK %s", channel, encrypted);
+    hextor_commandf(ph, "PRIVMSG %s :+OK %s", channel, encrypted);
     
     g_free(encrypted);
-    return HEXCHAT_EAT_HEXCHAT;
+    return HEXTOR_EAT_HEXTOR;
 }
 
 /**
  * Called when a channel message or private message is received.
  */
-static int handle_incoming(char *word[], char *word_eol[], hexchat_event_attrs *attrs, void *userdata) {
+static int handle_incoming(char *word[], char *word_eol[], hextor_event_attrs *attrs, void *userdata) {
     const char *prefix;
     const char *command;
     const char *recipient;
@@ -110,19 +110,19 @@ static int handle_incoming(char *word[], char *word_eol[], hexchat_event_attrs *
     GString *message;
 
     if (!irc_parse_message((const char **)word, &prefix, &command, &w))
-        return HEXCHAT_EAT_NONE;
+        return HEXTOR_EAT_NONE;
     
     /* Topic (command 332) has an extra parameter */
     if (!strcmp(command, "332")) w++;
     
     /* Look for encrypted data */
-    for (ew = w+1; ew < HEXCHAT_MAX_WORDS-1; ew++) {
+    for (ew = w+1; ew < HEXTOR_MAX_WORDS-1; ew++) {
         const char *s = (ew == w+1 ? word[ew]+1 : word[ew]);
         if (*s && (s[1] == '+' || s[1] == 'm')) { prefix_char = *(s++); }
         else { prefix_char = 0; }
         if (strcmp(s, "+OK") == 0 || strcmp(s, "mcps") == 0) goto has_encrypted_data;
     }
-    return HEXCHAT_EAT_NONE;
+    return HEXTOR_EAT_NONE;
   has_encrypted_data: ;
     /* Extract sender nick and recipient nick/channel */
     sender_nick = irc_prefix_get_nick(prefix);
@@ -150,7 +150,7 @@ static int handle_incoming(char *word[], char *word_eol[], hexchat_event_attrs *
        g_free (timestamp);
     }
 
-    for (uw = 1; uw < HEXCHAT_MAX_WORDS; uw++) {
+    for (uw = 1; uw < HEXTOR_MAX_WORDS; uw++) {
         if (word[uw][0] != '\0')
             g_string_append_c (message, ' ');
         
@@ -178,17 +178,17 @@ static int handle_incoming(char *word[], char *word_eol[], hexchat_event_attrs *
     g_free(decrypted);
     
     /* Simulate unencrypted message */
-    /* hexchat_printf(ph, "simulating: %s\n", message->str); */
-    hexchat_command(ph, message->str);
+    /* hextor_printf(ph, "simulating: %s\n", message->str); */
+    hextor_command(ph, message->str);
 
     g_string_free (message, TRUE);
     g_free(sender_nick);
-    return HEXCHAT_EAT_HEXCHAT;
+    return HEXTOR_EAT_HEXTOR;
   
   decrypt_error:
     g_free(decrypted);
     g_free(sender_nick);
-    return HEXCHAT_EAT_NONE;
+    return HEXTOR_EAT_NONE;
 }
 
 /**
@@ -200,13 +200,13 @@ static int handle_setkey(char *word[], char *word_eol[], void *userdata) {
     
     /* Check syntax */
     if (*word[2] == '\0') {
-        hexchat_printf(ph, "%s\n", usage_setkey);
-        return HEXCHAT_EAT_HEXCHAT;
+        hextor_printf(ph, "%s\n", usage_setkey);
+        return HEXTOR_EAT_HEXTOR;
     }
     
     if (*word[3] == '\0') {
         /* /setkey password */
-        nick = hexchat_get_info(ph, "channel");
+        nick = hextor_get_info(ph, "channel");
         key = word_eol[2];
     } else {
         /* /setkey #channel password */
@@ -216,12 +216,12 @@ static int handle_setkey(char *word[], char *word_eol[], void *userdata) {
     
     /* Set password */
     if (keystore_store_key(nick, key)) {
-        hexchat_printf(ph, "Stored key for %s\n", nick);
+        hextor_printf(ph, "Stored key for %s\n", nick);
     } else {
-        hexchat_printf(ph, "\00305Failed to store key in addon_fishlim.conf\n");
+        hextor_printf(ph, "\00305Failed to store key in addon_fishlim.conf\n");
     }
     
-    return HEXCHAT_EAT_HEXCHAT;
+    return HEXTOR_EAT_HEXTOR;
 }
 
 /**
@@ -232,26 +232,26 @@ static int handle_delkey(char *word[], char *word_eol[], void *userdata) {
     
     /* Check syntax */
     if (*word[2] == '\0' || *word[3] != '\0') {
-        hexchat_printf(ph, "%s\n", usage_delkey);
-        return HEXCHAT_EAT_HEXCHAT;
+        hextor_printf(ph, "%s\n", usage_delkey);
+        return HEXTOR_EAT_HEXTOR;
     }
     
     nick = g_strstrip (word_eol[2]);
     
     /* Delete the given nick from the key store */
     if (keystore_delete_nick(nick)) {
-        hexchat_printf(ph, "Deleted key for %s\n", nick);
+        hextor_printf(ph, "Deleted key for %s\n", nick);
     } else {
-        hexchat_printf(ph, "\00305Failed to delete key in addon_fishlim.conf!\n");
+        hextor_printf(ph, "\00305Failed to delete key in addon_fishlim.conf!\n");
     }
     
-    return HEXCHAT_EAT_HEXCHAT;
+    return HEXTOR_EAT_HEXTOR;
 }
 
 /**
  * Returns the plugin name version information.
  */
-void hexchat_plugin_get_info(const char **name, const char **desc,
+void hextor_plugin_get_info(const char **name, const char **desc,
                            const char **version, void **reserved) {
     *name = plugin_name;
     *desc = plugin_desc;
@@ -261,37 +261,37 @@ void hexchat_plugin_get_info(const char **name, const char **desc,
 /**
  * Plugin entry point.
  */
-int hexchat_plugin_init(hexchat_plugin *plugin_handle,
+int hextor_plugin_init(hextor_plugin *plugin_handle,
                       const char **name,
                       const char **desc,
                       const char **version,
                       char *arg) {
     ph = plugin_handle;
     
-    /* Send our info to HexChat */
+    /* Send our info to Hextor */
     *name = plugin_name;
     *desc = plugin_desc;
     *version = plugin_version;
     
     /* Register commands */
-    hexchat_hook_command(ph, "SETKEY", HEXCHAT_PRI_NORM, handle_setkey, usage_setkey, NULL);
-    hexchat_hook_command(ph, "DELKEY", HEXCHAT_PRI_NORM, handle_delkey, usage_delkey, NULL);
+    hextor_hook_command(ph, "SETKEY", HEXTOR_PRI_NORM, handle_setkey, usage_setkey, NULL);
+    hextor_hook_command(ph, "DELKEY", HEXTOR_PRI_NORM, handle_delkey, usage_delkey, NULL);
     
     /* Add handlers */
-    hexchat_hook_command(ph, "", HEXCHAT_PRI_NORM, handle_outgoing, NULL, NULL);
-    hexchat_hook_server_attrs(ph, "NOTICE", HEXCHAT_PRI_NORM, handle_incoming, NULL);
-    hexchat_hook_server_attrs(ph, "PRIVMSG", HEXCHAT_PRI_NORM, handle_incoming, NULL);
-    /* hexchat_hook_server(ph, "RAW LINE", HEXCHAT_PRI_NORM, handle_debug, NULL); */
-    hexchat_hook_server_attrs(ph, "TOPIC", HEXCHAT_PRI_NORM, handle_incoming, NULL);
-    hexchat_hook_server_attrs(ph, "332", HEXCHAT_PRI_NORM, handle_incoming, NULL);
+    hextor_hook_command(ph, "", HEXTOR_PRI_NORM, handle_outgoing, NULL, NULL);
+    hextor_hook_server_attrs(ph, "NOTICE", HEXTOR_PRI_NORM, handle_incoming, NULL);
+    hextor_hook_server_attrs(ph, "PRIVMSG", HEXTOR_PRI_NORM, handle_incoming, NULL);
+    /* hextor_hook_server(ph, "RAW LINE", HEXTOR_PRI_NORM, handle_debug, NULL); */
+    hextor_hook_server_attrs(ph, "TOPIC", HEXTOR_PRI_NORM, handle_incoming, NULL);
+    hextor_hook_server_attrs(ph, "332", HEXTOR_PRI_NORM, handle_incoming, NULL);
     
-    hexchat_printf(ph, "%s plugin loaded\n", plugin_name);
+    hextor_printf(ph, "%s plugin loaded\n", plugin_name);
     /* Return success */
     return 1;
 }
 
-int hexchat_plugin_deinit(void) {
-    hexchat_printf(ph, "%s plugin unloaded\n", plugin_name);
+int hextor_plugin_deinit(void) {
+    hextor_printf(ph, "%s plugin unloaded\n", plugin_name);
     return 1;
 }
 

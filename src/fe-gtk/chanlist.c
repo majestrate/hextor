@@ -32,8 +32,8 @@
 
 #include <gdk/gdkkeysyms.h>
 
-#include "../common/hexchat.h"
-#include "../common/hexchatc.h"
+#include "../common/hextor.h"
+#include "../common/hextorc.h"
 #include "../common/cfgfiles.h"
 #include "../common/outbound.h"
 #include "../common/util.h"
@@ -477,12 +477,12 @@ chanlist_filereq_done (server *serv, char *file)
 	if (!file)
 		return;
 
-	fh = hexchat_open_file (file, O_TRUNC | O_WRONLY | O_CREAT, 0600,
+	fh = hextor_open_file (file, O_TRUNC | O_WRONLY | O_CREAT, 0600,
 								 XOF_DOMODE | XOF_FULLPATH);
 	if (fh == -1)
 		return;
 
-	g_snprintf (buf, sizeof buf, "HexChat Channel List: %s - %s\n",
+	g_snprintf (buf, sizeof buf, "Hextor Channel List: %s - %s\n",
 				 serv->servername, ctime (&t));
 	write (fh, buf, strlen (buf));
 

@@ -1,4 +1,4 @@
-/* HexChat
+/* Hextor
  * Copyright (c) 2014 Leetsoftwerx
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -77,7 +77,7 @@ extern "C"
 	notification_backend_init (void)
 	{
 		if (!notifier)
-			notifier = ToastNotificationManager::CreateToastNotifier ("HexChat.Desktop.Notify");
+			notifier = ToastNotificationManager::CreateToastNotifier ("Hextor.Desktop.Notify");
 
 		if (FAILED (Windows::Foundation::Initialize (RO_INIT_SINGLETHREADED)))
 			return 0;

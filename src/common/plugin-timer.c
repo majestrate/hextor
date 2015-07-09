@@ -1,4 +1,4 @@
-/* HexChat
+/* Hextor
  * Copyright (C) 1998-2010 Peter Zelezny.
  * Copyright (C) 2009-2013 Berke Viktor.
  *
@@ -22,15 +22,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include <glib.h>
-#include "hexchat-plugin.h"
+#include "hextor-plugin.h"
 
 #ifdef WIN32
 #define g_ascii_strcasecmp stricmp
 #endif
 
-#define _(x) hexchat_gettext(ph,x)
+#define _(x) hextor_gettext(ph,x)
 
-static hexchat_plugin *ph;	/* plugin handle */
+static hextor_plugin *ph;	/* plugin handle */
 static GSList *timer_list = NULL;
 
 #define STATIC
@@ -40,8 +40,8 @@ static GSList *timer_list = NULL;
 
 typedef struct
 {
-	hexchat_hook *hook;
-	hexchat_context *context;
+	hextor_hook *hook;
+	hextor_context *context;
 	char *command;
 	int ref;
 	int repeat;
@@ -54,7 +54,7 @@ timer_del (timer *tim)
 {
 	timer_list = g_slist_remove (timer_list, tim);
 	g_free (tim->command);
-	hexchat_unhook (ph, tim->hook);
+	hextor_unhook (ph, tim->hook);
 	g_free (tim);
 }
 
@@ -72,21 +72,21 @@ timer_del_ref (int ref, int quiet)
 		{
 			timer_del (tim);
 			if (!quiet)
-				hexchat_printf (ph, _("Timer %d deleted.\n"), ref);
+				hextor_printf (ph, _("Timer %d deleted.\n"), ref);
 			return;
 		}
 		list = list->next;
 	}
 	if (!quiet)
-		hexchat_print (ph, _("No such ref number found.\n"));
+		hextor_print (ph, _("No such ref number found.\n"));
 }
 
 static int
 timeout_cb (timer *tim)
 {
-	if (hexchat_set_context (ph, tim->context))
+	if (hextor_set_context (ph, tim->context))
 	{
-		hexchat_command (ph, tim->command);
+		hextor_command (ph, tim->command);
 
 		if (tim->forever)
 			return 1;
@@ -124,13 +124,13 @@ timer_add (int ref, int timeout, int repeat, char *command)
 	tim->repeat = repeat;
 	tim->timeout = timeout;
 	tim->command = g_strdup (command);
-	tim->context = hexchat_get_context (ph);
+	tim->context = hextor_get_context (ph);
 	tim->forever = FALSE;
 
 	if (repeat == 0)
 		tim->forever = TRUE;
 
-	tim->hook = hexchat_hook_timer (ph, timeout, (void *)timeout_cb, tim);
+	tim->hook = hextor_hook_timer (ph, timeout, (void *)timeout_cb, tim);
 	timer_list = g_slist_append (timer_list, tim);
 }
 
@@ -142,17 +142,17 @@ timer_showlist (void)
 
 	if (timer_list == NULL)
 	{
-		hexchat_print (ph, _("No timers installed.\n"));
-		hexchat_print (ph, _(HELP));
+		hextor_print (ph, _("No timers installed.\n"));
+		hextor_print (ph, _(HELP));
 		return;
 	}
 							 /*  00000 00000000 0000000 abc */
-	hexchat_print (ph, _("\026 Ref#  Seconds  Repeat  Command \026\n"));
+	hextor_print (ph, _("\026 Ref#  Seconds  Repeat  Command \026\n"));
 	list = timer_list;
 	while (list)
 	{
 		tim = list->data;
-		hexchat_printf (ph, _("%5d %8.1f %7d  %s\n"), tim->ref, tim->timeout / 1000.0f,
+		hextor_printf (ph, _("%5d %8.1f %7d  %s\n"), tim->ref, tim->timeout / 1000.0f,
 						  tim->repeat, tim->command);
 		list = list->next;
 	}
@@ -171,7 +171,7 @@ timer_cb (char *word[], char *word_eol[], void *userdata)
 	if (!word[2][0])
 	{
 		timer_showlist ();
-		return HEXCHAT_EAT_HEXCHAT;
+		return HEXTOR_EAT_HEXTOR;
 	}
 
 	if (g_ascii_strcasecmp (word[2], "-quiet") == 0)
@@ -183,7 +183,7 @@ timer_cb (char *word[], char *word_eol[], void *userdata)
 	if (g_ascii_strcasecmp (word[2 + offset], "-delete") == 0)
 	{
 		timer_del_ref (atoi (word[3 + offset]), quiet);
-		return HEXCHAT_EAT_HEXCHAT;
+		return HEXTOR_EAT_HEXTOR;
 	}
 
 	if (g_ascii_strcasecmp (word[2 + offset], "-refnum") == 0)
@@ -202,30 +202,30 @@ timer_cb (char *word[], char *word_eol[], void *userdata)
 	command = word_eol[3 + offset];
 
 	if (timeout < 0.1 || timeout * 1000 > INT_MAX || !command[0])
-		hexchat_print (ph, HELP);
+		hextor_print (ph, HELP);
 	else
 		timer_add (ref, (int) timeout * 1000, repeat, command);
 
-	return HEXCHAT_EAT_HEXCHAT;
+	return HEXTOR_EAT_HEXTOR;
 }
 
 int
 #ifdef STATIC
 timer_plugin_init
 #else
-hexchat_plugin_init
+hextor_plugin_init
 #endif
-				(hexchat_plugin *plugin_handle, char **plugin_name,
+				(hextor_plugin *plugin_handle, char **plugin_name,
 				char **plugin_desc, char **plugin_version, char *arg)
 {
-	/* we need to save this for use with any hexchat_* functions */
+	/* we need to save this for use with any hextor_* functions */
 	ph = plugin_handle;
 
 	*plugin_name = "Timer";
 	*plugin_desc = "IrcII style /TIMER command";
 	*plugin_version = "";
 
-	hexchat_hook_command (ph, "TIMER", HEXCHAT_PRI_NORM, timer_cb, _(HELP), 0);
+	hextor_hook_command (ph, "TIMER", HEXTOR_PRI_NORM, timer_cb, _(HELP), 0);
 
 	return 1;       /* return 1 for success */
 }

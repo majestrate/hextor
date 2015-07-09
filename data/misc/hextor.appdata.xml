@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <application>
-	<id type="desktop">hexchat.desktop</id>
+	<id type="desktop">hextor.desktop</id>
 	<licence>CC0</licence>
 	<description>
-		<p>HexChat is an easy to use yet extensible IRC Client. It allows you to securely join multiple networks and talk to users privately or in channels using a customizable interface. You can even transfer files.</p>
+		<p>Hextor is an easy to use yet extensible IRC Client. It allows you to securely join multiple networks and talk to users privately or in channels using a customizable interface. You can even transfer files.</p>
 		<p xml:lang="de">HexChar ist ein einfach zu benutzender, aber erweiterbarer IRC-CLient. Er erlaubt es, sicher mehreren Netzwerken beizutreten und sich mithilfe der anpassbaren Benutzerschnittstelle privat oder auch in Kanälen zu Unterhalten. Sogar Dateiübertragungen sind möglich.</p>
-		<p xml:lang="en_GB">HexChat is an easy to use yet extensible IRC Client. It allows you to securely join multiple networks and talk to users privately or in channels using a customisable interface. You can even transfer files.</p>
-		<p xml:lang="es">HexChat es un cliente de IRC fácil de usar. Le permite unirse a múltiples redes de manera segura y hablar con los usuarios en privado o en los canales usando una interfaz personalizable. Incluso puede enviar archivos.</p>
-		<p xml:lang="fr">HexChat est un client IRC facile à utiliser et extensible. Il vous permet de rejoindre en toute sécurité plusieurs réseaux et parler à d'autres utilisateurs en privé ou dans des canaux grâce à une interface personnalisable. Vous pouvez même transférer des fichiers.</p>
-		<p xml:lang="it">HexChat è un client IRC semplice ed estensibile. Consente di accedere in modo sicuro a più reti e comunicare con altri utenti privatamente o nei canali usando una interfaccia personalizzabile. È inoltre possibile trasferire file.</p>
+		<p xml:lang="en_GB">Hextor is an easy to use yet extensible IRC Client. It allows you to securely join multiple networks and talk to users privately or in channels using a customisable interface. You can even transfer files.</p>
+		<p xml:lang="es">Hextor es un cliente de IRC fácil de usar. Le permite unirse a múltiples redes de manera segura y hablar con los usuarios en privado o en los canales usando una interfaz personalizable. Incluso puede enviar archivos.</p>
+		<p xml:lang="fr">Hextor est un client IRC facile à utiliser et extensible. Il vous permet de rejoindre en toute sécurité plusieurs réseaux et parler à d'autres utilisateurs en privé ou dans des canaux grâce à une interface personnalisable. Vous pouvez même transférer des fichiers.</p>
+		<p xml:lang="it">Hextor è un client IRC semplice ed estensibile. Consente di accedere in modo sicuro a più reti e comunicare con altri utenti privatamente o nei canali usando una interfaccia personalizzabile. È inoltre possibile trasferire file.</p>
 		<p xml:lang="ko">헥스채트는 사용하기 쉽고 확장성이 뛰어난 IRC 클라이언트 입니다. 여러 네트워크에 안전하게 참여할 수 있으며, 여러분이 직접 유연하게 꾸밀 수 있는 인터페이스를 사용하여 다른 사람과 개인적으로 대화하거나 대화방에서 대화할 수 있습니다. 게다가 파일도 보낼 수 있습니다.</p>
-		<p xml:lang="pl">HexChat jest prostym, lecz dowolnie poszerzalnym klientem IRC. Pozwala na bezpieczne dołączenie do wielu sieci i rozmawianie z użytkownikami prywatnie bądź na kanałach. Można nawet przesyłać pliki.</p>
-		<p xml:lang="sq">HexChat-i është një klient IRC-je i lehtë për t'u përdorur, por prapëseprapë shumë i zgjerueshëm. Ju lejon të hyni në mënyrë të sigurt, në shumë rrjete njëherësh, dhe të bisedoni me përdoruesit privatisht ose në kanale, duke përdorur një ndërfaqe të personalizueshme. Mundeni madje edhe të shkëmbeni kartela.</p>
-		<p xml:lang="zh_CN">HexChat 是一款易于使用的可扩展 IRC 客户端。它允许以安全的方式进入多个网络，与用户进行私密聊天，或者在频道中使用自定义界面，甚至还可以传送文件。</p>
-		<p>HexChat supports features such as: DCC, SASL, proxies, spellcheck, alerts, logging, custom themes, and Python/Perl scripts.</p>
-		<p xml:lang="en_GB">HexChat supports features such as: DCC, SASL, proxies, spellcheck, alerts, logging, custom themes, and Python/Perl scripts.</p>
-		<p xml:lang="es">HexChat soporta características como: DCC, SASL, proxies, autocorrector, alertas, registro automático, temas personalizados, y scripts en Python/Perl.</p>
-		<p xml:lang="fr">HexChat prend en charge des fonctionnalités telles que : DCC, SASL, serveur mandataire, vérification orthographie, alertes, journalisation, thèmes personnalisés et scripts Python et Perl.</p>
-		<p xml:lang="it">HexChat supporta caratteristiche come: DCC, SASL, proxy, controllo ortografico, avvisi, registrazione delle conversazioni, temi personalizzati e script Python e Perl.</p>
+		<p xml:lang="pl">Hextor jest prostym, lecz dowolnie poszerzalnym klientem IRC. Pozwala na bezpieczne dołączenie do wielu sieci i rozmawianie z użytkownikami prywatnie bądź na kanałach. Można nawet przesyłać pliki.</p>
+		<p xml:lang="sq">Hextor-i është një klient IRC-je i lehtë për t'u përdorur, por prapëseprapë shumë i zgjerueshëm. Ju lejon të hyni në mënyrë të sigurt, në shumë rrjete njëherësh, dhe të bisedoni me përdoruesit privatisht ose në kanale, duke përdorur një ndërfaqe të personalizueshme. Mundeni madje edhe të shkëmbeni kartela.</p>
+		<p xml:lang="zh_CN">Hextor 是一款易于使用的可扩展 IRC 客户端。它允许以安全的方式进入多个网络，与用户进行私密聊天，或者在频道中使用自定义界面，甚至还可以传送文件。</p>
+		<p>Hextor supports features such as: DCC, SASL, proxies, spellcheck, alerts, logging, custom themes, and Python/Perl scripts.</p>
+		<p xml:lang="en_GB">Hextor supports features such as: DCC, SASL, proxies, spellcheck, alerts, logging, custom themes, and Python/Perl scripts.</p>
+		<p xml:lang="es">Hextor soporta características como: DCC, SASL, proxies, autocorrector, alertas, registro automático, temas personalizados, y scripts en Python/Perl.</p>
+		<p xml:lang="fr">Hextor prend en charge des fonctionnalités telles que : DCC, SASL, serveur mandataire, vérification orthographie, alertes, journalisation, thèmes personnalisés et scripts Python et Perl.</p>
+		<p xml:lang="it">Hextor supporta caratteristiche come: DCC, SASL, proxy, controllo ortografico, avvisi, registrazione delle conversazioni, temi personalizzati e script Python e Perl.</p>
 		<p xml:lang="ko">핵스채트는 DCC, SASL, 프록시 서버, 철자 검사, 경고, 기록, 사용자 정의 테마, 파이썬/펄 스크립트 같은 기능을 지원합니다.</p>
-		<p xml:lang="pl">HexChat wspiera takie funkcje, jak: DCC, SASL, serwery proxy, sprawdzanie pisowni, alerty, logi, własne motywy i skrypty w Pythonie/Perlu.</p>
-		<p xml:lang="sq">HexChat-i mbulon veçori të tilla si: DCC, SASL, ndërmjetës, drejtshkrim, sinjalizime, regjistrim veprimtarie, tema të personalizueshme, dhe programthe Python/Perl.</p>
-		<p xml:lang="zh_CN">HexChat 支持以下特性: DCC、SASL、代理、拼写检查、消息提醒、聊天记录、自定义主题和 Python/Perl 脚本。</p>
+		<p xml:lang="pl">Hextor wspiera takie funkcje, jak: DCC, SASL, serwery proxy, sprawdzanie pisowni, alerty, logi, własne motywy i skrypty w Pythonie/Perlu.</p>
+		<p xml:lang="sq">Hextor-i mbulon veçori të tilla si: DCC, SASL, ndërmjetës, drejtshkrim, sinjalizime, regjistrim veprimtarie, tema të personalizueshme, dhe programthe Python/Perl.</p>
+		<p xml:lang="zh_CN">Hextor 支持以下特性: DCC、SASL、代理、拼写检查、消息提醒、聊天记录、自定义主题和 Python/Perl 脚本。</p>
 	</description>
-	<url type="homepage">http://hexchat.github.io</url>
+	<url type="homepage">http://hextor.github.io</url>
 	<screenshots>
 		<screenshot type="default">http://i.imgur.com/XBbQKXf.png</screenshot>
 	</screenshots>

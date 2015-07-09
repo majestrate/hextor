@@ -46,7 +46,7 @@
 #include <unistd.h>
 #endif
 
-#include "hexchat.h"
+#include "hextor.h"
 #include "util.h"
 #include "fe.h"
 #include "outbound.h"
@@ -56,7 +56,7 @@
 #include "server.h"
 #include "text.h"
 #include "url.h"
-#include "hexchatc.h"
+#include "hextorc.h"
 
 /* Setting _FILE_OFFSET_BITS to 64 doesn't change lseek to use off64_t on Windows, so override lseek to the version that does */
 #ifdef WIN32
@@ -233,7 +233,7 @@ is_dcc_completed (struct DCC *dcc)
 	return FALSE;
 }
 
-/* this is called from hexchat.c:hexchat_misc_checks() every 1 second. */
+/* this is called from hextor.c:hextor_misc_checks() every 1 second. */
 
 void
 dcc_check_timeouts (void)

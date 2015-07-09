@@ -1,4 +1,4 @@
-/* HexChat
+/* Hextor
  * Copyright (C) 1998-2010 Peter Zelezny.
  * Copyright (C) 2009-2013 Berke Viktor.
  *
@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
  */
 
-#ifndef HEXCHAT_MAINGUI_H
-#define HEXCHAT_MAINGUI_H
+#ifndef HEXTOR_MAINGUI_H
+#define HEXTOR_MAINGUI_H
 
 extern GtkStyle *input_style;
 extern GtkWidget *parent_window;

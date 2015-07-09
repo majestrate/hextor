@@ -1,5 +1,5 @@
 ﻿/**
- * HexChat Theme Manager
+ * Hextor Theme Manager
  *
  * Copyright (C) 2012 Patrick Griffs
  * Copyright (C) 2012 Berke Viktor
@@ -301,7 +301,7 @@ namespace thememan
             this.MaximizeBox = false;
             this.Name = "HTM";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "HexChat Theme Manager";
+            this.Text = "Hextor Theme Manager";
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -1,4 +1,4 @@
-/* HexChat
+/* Hextor
  * Copyright (C) 1998-2010 Peter Zelezny.
  * Copyright (C) 2009-2013 Berke Viktor.
  *
@@ -19,8 +19,8 @@
 
 #include "proto-irc.h"
 
-#ifndef HEXCHAT_NOTIFY_H
-#define HEXCHAT_NOTIFY_H
+#ifndef HEXTOR_NOTIFY_H
+#define HEXTOR_NOTIFY_H
 
 struct notify
 {

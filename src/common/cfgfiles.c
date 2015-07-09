@@ -23,19 +23,19 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#include "hexchat.h"
+#include "hextor.h"
 #include "cfgfiles.h"
 #include "util.h"
 #include "fe.h"
 #include "text.h"
-#include "hexchatc.h"
+#include "hextorc.h"
 #include "typedef.h"
 
 #ifdef WIN32
 #include <io.h>
 #else
 #include <unistd.h>
-#define HEXCHAT_DIR "hexchat"
+#define HEXTOR_DIR "hextor"
 #endif
 
 #define DEF_FONT "Monospace 9"
@@ -301,7 +301,7 @@ get_xdir (void)
 	if (!xdir)
 	{
 #ifndef WIN32
-		xdir = g_build_filename (g_get_user_config_dir (), HEXCHAT_DIR, NULL);
+		xdir = g_build_filename (g_get_user_config_dir (), HEXTOR_DIR, NULL);
 #else
 		wchar_t* roaming_path_wide;
 		gchar* roaming_path;
@@ -322,7 +322,7 @@ get_xdir (void)
 			roaming_path = g_utf16_to_utf8 (roaming_path_wide, -1, NULL, NULL, NULL);
 			CoTaskMemFree (roaming_path_wide);
 
-			xdir = g_build_filename (roaming_path, "HexChat", NULL);
+			xdir = g_build_filename (roaming_path, "Hextor", NULL);
 
 			g_free (roaming_path);
 		}
@@ -345,7 +345,7 @@ default_file (void)
 
 	if (!dfile)
 	{
-		dfile = g_build_filename (get_xdir (), "hexchat.conf", NULL);
+		dfile = g_build_filename (get_xdir (), "hextor.conf", NULL);
 	}
 	return dfile;
 }
@@ -731,7 +731,7 @@ load_default_config(void)
 	username = convert_with_fallback (username, "username");
 	realname = convert_with_fallback (realname, "realname");
 
-	memset (&prefs, 0, sizeof (struct hexchatprefs));
+	memset (&prefs, 0, sizeof (struct hextorprefs));
 
 	/* put in default values, anything left out is automatically zero */
 	
@@ -925,7 +925,7 @@ make_config_dirs (void)
 	}
 	g_free (buf);
 	
-	buf = g_build_filename (get_xdir (), HEXCHAT_SOUND_DIR, NULL);
+	buf = g_build_filename (get_xdir (), HEXTOR_SOUND_DIR, NULL);
 	if (g_mkdir (buf, 0700) != 0)
 	{
 		g_free (buf);
@@ -1311,7 +1311,7 @@ cmd_set (struct session *sess, char *tbuf, char *word[], char *word_eol[])
 }
 
 int
-hexchat_open_file (const char *file, int flags, int mode, int xof_flags)
+hextor_open_file (const char *file, int flags, int mode, int xof_flags)
 {
 	char *buf;
 	int fd;
@@ -1341,7 +1341,7 @@ hexchat_open_file (const char *file, int flags, int mode, int xof_flags)
 }
 
 FILE *
-hexchat_fopen_file (const char *file, const char *mode, int xof_flags)
+hextor_fopen_file (const char *file, const char *mode, int xof_flags)
 {
 	char *buf;
 	FILE *fh;

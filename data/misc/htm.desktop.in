@@ -1,7 +1,7 @@
 [Desktop Entry]
-_Name=HexChat Theme Manager
+_Name=Hextor Theme Manager
 Exec=thememan %f
-Icon=hexchat
+Icon=hextor
 Terminal=false
 Type=Application
 MimeType=application/x-hct;

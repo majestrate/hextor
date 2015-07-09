@@ -1,4 +1,4 @@
-/* HexChat
+/* Hextor
  * Copyright (C) 1998-2010 Peter Zelezny.
  * Copyright (C) 2009-2013 Berke Viktor.
  *
@@ -19,8 +19,8 @@
 
 #include "proto-irc.h"
 
-#ifndef HEXCHAT_MODES_H
-#define HEXCHAT_MODES_H
+#ifndef HEXTOR_MODES_H
+#define HEXTOR_MODES_H
 
 int is_channel (server *serv, char *chan);
 char get_nick_prefix (server *serv, unsigned int access);

@@ -24,7 +24,7 @@
     <ClInclude Include="ignore.h" />
     <ClInclude Include="inbound.h" />
     <ClInclude Include="inet.h" />
-    <ClInclude Include="$(HexChatLib)marshal.h" />
+    <ClInclude Include="$(HextorLib)marshal.h" />
     <ClInclude Include="modes.h" />
     <ClInclude Include="network.h" />
     <ClInclude Include="notify.h" />
@@ -37,16 +37,16 @@
     <ClInclude Include="servlist.h" />
     <ClInclude Include="ssl.h" />
     <ClInclude Include="text.h" />
-    <ClInclude Include="$(HexChatLib)textenums.h" />
-    <ClInclude Include="$(HexChatLib)textevents.h" />
+    <ClInclude Include="$(HextorLib)textenums.h" />
+    <ClInclude Include="$(HextorLib)textevents.h" />
     <ClInclude Include="tree.h" />
     <ClInclude Include="typedef.h" />
     <ClInclude Include="url.h" />
     <ClInclude Include="userlist.h" />
     <ClInclude Include="util.h" />
-    <ClInclude Include="hexchat-plugin.h" />
-    <ClInclude Include="hexchat.h" />
-    <ClInclude Include="hexchatc.h" />
+    <ClInclude Include="hextor-plugin.h" />
+    <ClInclude Include="hextor.h" />
+    <ClInclude Include="hextorc.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cfgfiles.c" />
@@ -57,7 +57,7 @@
     <ClCompile Include="plugin-identd.c" />
     <ClCompile Include="ignore.c" />
     <ClCompile Include="inbound.c" />
-    <ClCompile Include="$(HexChatLib)marshal.c" />
+    <ClCompile Include="$(HextorLib)marshal.c" />
     <ClCompile Include="modes.c" />
     <ClCompile Include="network.c" />
     <ClCompile Include="notify.c" />
@@ -73,11 +73,11 @@
     <ClCompile Include="url.c" />
     <ClCompile Include="userlist.c" />
     <ClCompile Include="util.c" />
-    <ClCompile Include="hexchat.c" />
+    <ClCompile Include="hextor.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\win32\config.h.tt" />
-    <ClInclude Include="$(HexChatLib)config.h" />
+    <ClInclude Include="$(HextorLib)config.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{87554B59-006C-4D94-9714-897B27067BA3}</ProjectGuid>
@@ -87,20 +87,20 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  <Import Project="..\..\win32\hexchat.props" />
+  <Import Project="..\..\win32\hextor.props" />
   <PropertyGroup>
-    <OutDir>$(HexChatLib)</OutDir>
+    <OutDir>$(HextorLib)</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;$(OwnFlags);%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(HexChatLib);$(DepsRoot)\include;$(Glib);$(Gtk);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(HextorLib);$(DepsRoot)\include;$(Glib);$(Gtk);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PreprocessorDefinitions>WIN32;_WIN64;_AMD64_;NDEBUG;_LIB;$(OwnFlags);%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(HexChatLib);$(DepsRoot)\include;$(Glib);$(Gtk);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(HextorLib);$(DepsRoot)\include;$(Glib);$(Gtk);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4267;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -109,10 +109,10 @@
     <PreBuildEvent>
       <Command><![CDATA[
 SET SOLUTIONDIR=$(SolutionDir)..\
-"$(HexChatLib)make-te.exe" < "$(ProjectDir)textevents.in" > "$(HexChatLib)textevents.h" 2> "$(HexChatLib)textenums.h"
-powershell -File "$(SolutionDir)..\win32\version-template.ps1" "$(SolutionDir)..\win32\config.h.tt" "$(HexChatLib)config.h"
-"$(DepsRoot)\bin\glib-genmarshal.exe" --prefix=_hexchat_marshal --header "$(ProjectDir)marshalers.list" > "$(HexChatLib)marshal.h"
-"$(DepsRoot)\bin\glib-genmarshal.exe" --prefix=_hexchat_marshal --body "$(ProjectDir)marshalers.list" > "$(HexChatLib)marshal.c"
+"$(HextorLib)make-te.exe" < "$(ProjectDir)textevents.in" > "$(HextorLib)textevents.h" 2> "$(HextorLib)textenums.h"
+powershell -File "$(SolutionDir)..\win32\version-template.ps1" "$(SolutionDir)..\win32\config.h.tt" "$(HextorLib)config.h"
+"$(DepsRoot)\bin\glib-genmarshal.exe" --prefix=_hextor_marshal --header "$(ProjectDir)marshalers.list" > "$(HextorLib)marshal.h"
+"$(DepsRoot)\bin\glib-genmarshal.exe" --prefix=_hextor_marshal --body "$(ProjectDir)marshalers.list" > "$(HextorLib)marshal.c"
 
       ]]></Command>
     </PreBuildEvent>

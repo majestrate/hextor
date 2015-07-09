@@ -11,9 +11,9 @@
 #include <string.h>
 #include <stdio.h>
 #include <glib.h>
-#include "hexchat-plugin.h"
+#include "hextor-plugin.h"
 
-static hexchat_plugin *ph;
+static hextor_plugin *ph;
 
 static int
 parse_command( char *word[], char *word_eol[], void *userdata ) {
@@ -22,7 +22,7 @@ parse_command( char *word[], char *word_eol[], void *userdata ) {
 	char *str1 = NULL;
 	char *delimiter = NULL;
 
-	hexchat_context *ctx = NULL;
+	hextor_context *ctx = NULL;
 
 	if( word[2] != NULL && word[3] != NULL ) {
 		for( str1 = word[2]; ; str1 = NULL ) {
@@ -55,9 +55,9 @@ parse_command( char *word[], char *word_eol[], void *userdata ) {
 
 /*			printf( "channel[%s] server[%s]\n", channel, server );*/
 
-			if( (ctx = hexchat_find_context( ph, server, channel ) ) != NULL ) {
-				if( hexchat_set_context( ph, ctx ) ) {
-					hexchat_command( ph, word_eol[3] );
+			if( (ctx = hextor_find_context( ph, server, channel ) ) != NULL ) {
+				if( hextor_set_context( ph, ctx ) ) {
+					hextor_command( ph, word_eol[3] );
 				}
 			}
 
@@ -65,11 +65,11 @@ parse_command( char *word[], char *word_eol[], void *userdata ) {
 			g_free( server );
 		}
 	}
-	return HEXCHAT_EAT_HEXCHAT;
+	return HEXTOR_EAT_HEXTOR;
 }
 
 int
-hexchat_plugin_init( hexchat_plugin * plugin_handle, char **plugin_name,
+hextor_plugin_init( hextor_plugin * plugin_handle, char **plugin_name,
 	char **plugin_desc, char **plugin_version, char *arg ) {
 
 	ph = plugin_handle;
@@ -77,16 +77,16 @@ hexchat_plugin_init( hexchat_plugin * plugin_handle, char **plugin_name,
 	*plugin_version = "1.0001";
 	*plugin_desc = "Perform an arbitrary command on multiple channels";
 
-	hexchat_hook_command( ph, "doat", HEXCHAT_PRI_NORM, parse_command, "DOAT [channel,list,/network] [command], perform a command on multiple contexts", NULL );
+	hextor_hook_command( ph, "doat", HEXTOR_PRI_NORM, parse_command, "DOAT [channel,list,/network] [command], perform a command on multiple contexts", NULL );
 
-	hexchat_print (ph, "Do At plugin loaded\n");
+	hextor_print (ph, "Do At plugin loaded\n");
 
 	return 1;
 }
 
 int
-hexchat_plugin_deinit (void)
+hextor_plugin_deinit (void)
 {
-	hexchat_print (ph, "Do At plugin unloaded\n");
+	hextor_print (ph, "Do At plugin unloaded\n");
 	return 1;
 }

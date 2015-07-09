@@ -1,4 +1,4 @@
-/* HexChat
+/* Hextor
  * Copyright (C) 1998-2010 Peter Zelezny.
  * Copyright (C) 2009-2013 Berke Viktor.
  *
@@ -20,8 +20,8 @@
 #include <time.h>
 #include "proto-irc.h"
 
-#ifndef HEXCHAT_USERLIST_H
-#define HEXCHAT_USERLIST_H
+#ifndef HEXTOR_USERLIST_H
+#define HEXTOR_USERLIST_H
 
 struct User
 {

@@ -1,4 +1,4 @@
-/* HexChat
+/* Hextor
  * Copyright (C) 1998-2010 Peter Zelezny.
  * Copyright (C) 2009-2013 Berke Viktor.
  *
@@ -18,250 +18,250 @@
  */
 
 /* You can distribute this header with your plugins for easy compilation */
-#ifndef HEXCHAT_PLUGIN_H
-#define HEXCHAT_PLUGIN_H
+#ifndef HEXTOR_PLUGIN_H
+#define HEXTOR_PLUGIN_H
 
 #include <time.h>
 
-#define HEXCHAT_PRI_HIGHEST	127
-#define HEXCHAT_PRI_HIGH		64
-#define HEXCHAT_PRI_NORM		0
-#define HEXCHAT_PRI_LOW		(-64)
-#define HEXCHAT_PRI_LOWEST	(-128)
+#define HEXTOR_PRI_HIGHEST	127
+#define HEXTOR_PRI_HIGH		64
+#define HEXTOR_PRI_NORM		0
+#define HEXTOR_PRI_LOW		(-64)
+#define HEXTOR_PRI_LOWEST	(-128)
 
-#define HEXCHAT_FD_READ		1
-#define HEXCHAT_FD_WRITE		2
-#define HEXCHAT_FD_EXCEPTION	4
-#define HEXCHAT_FD_NOTSOCKET	8
+#define HEXTOR_FD_READ		1
+#define HEXTOR_FD_WRITE		2
+#define HEXTOR_FD_EXCEPTION	4
+#define HEXTOR_FD_NOTSOCKET	8
 
-#define HEXCHAT_EAT_NONE		0	/* pass it on through! */
-#define HEXCHAT_EAT_HEXCHAT		1	/* don't let HexChat see this event */
-#define HEXCHAT_EAT_PLUGIN	2	/* don't let other plugins see this event */
-#define HEXCHAT_EAT_ALL		(HEXCHAT_EAT_HEXCHAT|HEXCHAT_EAT_PLUGIN)	/* don't let anything see this event */
+#define HEXTOR_EAT_NONE		0	/* pass it on through! */
+#define HEXTOR_EAT_HEXTOR		1	/* don't let Hextor see this event */
+#define HEXTOR_EAT_PLUGIN	2	/* don't let other plugins see this event */
+#define HEXTOR_EAT_ALL		(HEXTOR_EAT_HEXTOR|HEXTOR_EAT_PLUGIN)	/* don't let anything see this event */
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-typedef struct _hexchat_plugin hexchat_plugin;
-typedef struct _hexchat_list hexchat_list;
-typedef struct _hexchat_hook hexchat_hook;
+typedef struct _hextor_plugin hextor_plugin;
+typedef struct _hextor_list hextor_list;
+typedef struct _hextor_hook hextor_hook;
 #ifndef PLUGIN_C
-typedef struct _hexchat_context hexchat_context;
+typedef struct _hextor_context hextor_context;
 #endif
 typedef struct
 {
 	time_t server_time_utc; /* 0 if not used */
-} hexchat_event_attrs;
+} hextor_event_attrs;
 
 #ifndef PLUGIN_C
-struct _hexchat_plugin
+struct _hextor_plugin
 {
 	/* these are only used on win32 */
-	hexchat_hook *(*hexchat_hook_command) (hexchat_plugin *ph,
+	hextor_hook *(*hextor_hook_command) (hextor_plugin *ph,
 		    const char *name,
 		    int pri,
 		    int (*callback) (char *word[], char *word_eol[], void *user_data),
 		    const char *help_text,
 		    void *userdata);
-	hexchat_hook *(*hexchat_hook_server) (hexchat_plugin *ph,
+	hextor_hook *(*hextor_hook_server) (hextor_plugin *ph,
 		   const char *name,
 		   int pri,
 		   int (*callback) (char *word[], char *word_eol[], void *user_data),
 		   void *userdata);
-	hexchat_hook *(*hexchat_hook_print) (hexchat_plugin *ph,
+	hextor_hook *(*hextor_hook_print) (hextor_plugin *ph,
 		  const char *name,
 		  int pri,
 		  int (*callback) (char *word[], void *user_data),
 		  void *userdata);
-	hexchat_hook *(*hexchat_hook_timer) (hexchat_plugin *ph,
+	hextor_hook *(*hextor_hook_timer) (hextor_plugin *ph,
 		  int timeout,
 		  int (*callback) (void *user_data),
 		  void *userdata);
-	hexchat_hook *(*hexchat_hook_fd) (hexchat_plugin *ph,
+	hextor_hook *(*hextor_hook_fd) (hextor_plugin *ph,
 		   int fd,
 		   int flags,
 		   int (*callback) (int fd, int flags, void *user_data),
 		   void *userdata);
-	void *(*hexchat_unhook) (hexchat_plugin *ph,
-	      hexchat_hook *hook);
-	void (*hexchat_print) (hexchat_plugin *ph,
+	void *(*hextor_unhook) (hextor_plugin *ph,
+	      hextor_hook *hook);
+	void (*hextor_print) (hextor_plugin *ph,
 	     const char *text);
-	void (*hexchat_printf) (hexchat_plugin *ph,
+	void (*hextor_printf) (hextor_plugin *ph,
 	      const char *format, ...)
 #ifdef __GNUC__
 	__attribute__((format(printf, 2, 3)))
 #endif
 	;
-	void (*hexchat_command) (hexchat_plugin *ph,
+	void (*hextor_command) (hextor_plugin *ph,
 	       const char *command);
-	void (*hexchat_commandf) (hexchat_plugin *ph,
+	void (*hextor_commandf) (hextor_plugin *ph,
 		const char *format, ...)
 #ifdef __GNUC__
 	__attribute__((format(printf, 2, 3)))
 #endif
 	;
-	int (*hexchat_nickcmp) (hexchat_plugin *ph,
+	int (*hextor_nickcmp) (hextor_plugin *ph,
 	       const char *s1,
 	       const char *s2);
-	int (*hexchat_set_context) (hexchat_plugin *ph,
-		   hexchat_context *ctx);
-	hexchat_context *(*hexchat_find_context) (hexchat_plugin *ph,
+	int (*hextor_set_context) (hextor_plugin *ph,
+		   hextor_context *ctx);
+	hextor_context *(*hextor_find_context) (hextor_plugin *ph,
 		    const char *servname,
 		    const char *channel);
-	hexchat_context *(*hexchat_get_context) (hexchat_plugin *ph);
-	const char *(*hexchat_get_info) (hexchat_plugin *ph,
+	hextor_context *(*hextor_get_context) (hextor_plugin *ph);
+	const char *(*hextor_get_info) (hextor_plugin *ph,
 		const char *id);
-	int (*hexchat_get_prefs) (hexchat_plugin *ph,
+	int (*hextor_get_prefs) (hextor_plugin *ph,
 		 const char *name,
 		 const char **string,
 		 int *integer);
-	hexchat_list * (*hexchat_list_get) (hexchat_plugin *ph,
+	hextor_list * (*hextor_list_get) (hextor_plugin *ph,
 		const char *name);
-	void (*hexchat_list_free) (hexchat_plugin *ph,
-		 hexchat_list *xlist);
-	const char * const * (*hexchat_list_fields) (hexchat_plugin *ph,
+	void (*hextor_list_free) (hextor_plugin *ph,
+		 hextor_list *xlist);
+	const char * const * (*hextor_list_fields) (hextor_plugin *ph,
 		   const char *name);
-	int (*hexchat_list_next) (hexchat_plugin *ph,
-		 hexchat_list *xlist);
-	const char * (*hexchat_list_str) (hexchat_plugin *ph,
-		hexchat_list *xlist,
+	int (*hextor_list_next) (hextor_plugin *ph,
+		 hextor_list *xlist);
+	const char * (*hextor_list_str) (hextor_plugin *ph,
+		hextor_list *xlist,
 		const char *name);
-	int (*hexchat_list_int) (hexchat_plugin *ph,
-		hexchat_list *xlist,
+	int (*hextor_list_int) (hextor_plugin *ph,
+		hextor_list *xlist,
 		const char *name);
-	void * (*hexchat_plugingui_add) (hexchat_plugin *ph,
+	void * (*hextor_plugingui_add) (hextor_plugin *ph,
 		     const char *filename,
 		     const char *name,
 		     const char *desc,
 		     const char *version,
 		     char *reserved);
-	void (*hexchat_plugingui_remove) (hexchat_plugin *ph,
+	void (*hextor_plugingui_remove) (hextor_plugin *ph,
 			void *handle);
-	int (*hexchat_emit_print) (hexchat_plugin *ph,
+	int (*hextor_emit_print) (hextor_plugin *ph,
 			const char *event_name, ...);
-	int (*hexchat_read_fd) (hexchat_plugin *ph,
+	int (*hextor_read_fd) (hextor_plugin *ph,
 			void *src,
 			char *buf,
 			int *len);
-	time_t (*hexchat_list_time) (hexchat_plugin *ph,
-		hexchat_list *xlist,
+	time_t (*hextor_list_time) (hextor_plugin *ph,
+		hextor_list *xlist,
 		const char *name);
-	char *(*hexchat_gettext) (hexchat_plugin *ph,
+	char *(*hextor_gettext) (hextor_plugin *ph,
 		const char *msgid);
-	void (*hexchat_send_modes) (hexchat_plugin *ph,
+	void (*hextor_send_modes) (hextor_plugin *ph,
 		  const char **targets,
 		  int ntargets,
 		  int modes_per_line,
 		  char sign,
 		  char mode);
-	char *(*hexchat_strip) (hexchat_plugin *ph,
+	char *(*hextor_strip) (hextor_plugin *ph,
 	     const char *str,
 	     int len,
 	     int flags);
-	void (*hexchat_free) (hexchat_plugin *ph,
+	void (*hextor_free) (hextor_plugin *ph,
 	    void *ptr);
-	int (*hexchat_pluginpref_set_str) (hexchat_plugin *ph,
+	int (*hextor_pluginpref_set_str) (hextor_plugin *ph,
 		const char *var,
 		const char *value);
-	int (*hexchat_pluginpref_get_str) (hexchat_plugin *ph,
+	int (*hextor_pluginpref_get_str) (hextor_plugin *ph,
 		const char *var,
 		char *dest);
-	int (*hexchat_pluginpref_set_int) (hexchat_plugin *ph,
+	int (*hextor_pluginpref_set_int) (hextor_plugin *ph,
 		const char *var,
 		int value);
-	int (*hexchat_pluginpref_get_int) (hexchat_plugin *ph,
+	int (*hextor_pluginpref_get_int) (hextor_plugin *ph,
 		const char *var);
-	int (*hexchat_pluginpref_delete) (hexchat_plugin *ph,
+	int (*hextor_pluginpref_delete) (hextor_plugin *ph,
 		const char *var);
-	int (*hexchat_pluginpref_list) (hexchat_plugin *ph,
+	int (*hextor_pluginpref_list) (hextor_plugin *ph,
 		char *dest);
-	hexchat_hook *(*hexchat_hook_server_attrs) (hexchat_plugin *ph,
+	hextor_hook *(*hextor_hook_server_attrs) (hextor_plugin *ph,
 		   const char *name,
 		   int pri,
 		   int (*callback) (char *word[], char *word_eol[],
-							hexchat_event_attrs *attrs, void *user_data),
+							hextor_event_attrs *attrs, void *user_data),
 		   void *userdata);
-	hexchat_hook *(*hexchat_hook_print_attrs) (hexchat_plugin *ph,
+	hextor_hook *(*hextor_hook_print_attrs) (hextor_plugin *ph,
 		  const char *name,
 		  int pri,
-		  int (*callback) (char *word[], hexchat_event_attrs *attrs,
+		  int (*callback) (char *word[], hextor_event_attrs *attrs,
 						   void *user_data),
 		  void *userdata);
-	int (*hexchat_emit_print_attrs) (hexchat_plugin *ph, hexchat_event_attrs *attrs,
+	int (*hextor_emit_print_attrs) (hextor_plugin *ph, hextor_event_attrs *attrs,
 									 const char *event_name, ...);
-	hexchat_event_attrs *(*hexchat_event_attrs_create) (hexchat_plugin *ph);
-	void (*hexchat_event_attrs_free) (hexchat_plugin *ph,
-									  hexchat_event_attrs *attrs);
+	hextor_event_attrs *(*hextor_event_attrs_create) (hextor_plugin *ph);
+	void (*hextor_event_attrs_free) (hextor_plugin *ph,
+									  hextor_event_attrs *attrs);
 };
 #endif
 
 
-hexchat_hook *
-hexchat_hook_command (hexchat_plugin *ph,
+hextor_hook *
+hextor_hook_command (hextor_plugin *ph,
 		    const char *name,
 		    int pri,
 		    int (*callback) (char *word[], char *word_eol[], void *user_data),
 		    const char *help_text,
 		    void *userdata);
 
-hexchat_event_attrs *hexchat_event_attrs_create (hexchat_plugin *ph);
+hextor_event_attrs *hextor_event_attrs_create (hextor_plugin *ph);
 
-void hexchat_event_attrs_free (hexchat_plugin *ph, hexchat_event_attrs *attrs);
+void hextor_event_attrs_free (hextor_plugin *ph, hextor_event_attrs *attrs);
 
-hexchat_hook *
-hexchat_hook_server (hexchat_plugin *ph,
+hextor_hook *
+hextor_hook_server (hextor_plugin *ph,
 		   const char *name,
 		   int pri,
 		   int (*callback) (char *word[], char *word_eol[], void *user_data),
 		   void *userdata);
 
-hexchat_hook *
-hexchat_hook_server_attrs (hexchat_plugin *ph,
+hextor_hook *
+hextor_hook_server_attrs (hextor_plugin *ph,
 		   const char *name,
 		   int pri,
 		   int (*callback) (char *word[], char *word_eol[],
-							hexchat_event_attrs *attrs, void *user_data),
+							hextor_event_attrs *attrs, void *user_data),
 		   void *userdata);
 
-hexchat_hook *
-hexchat_hook_print (hexchat_plugin *ph,
+hextor_hook *
+hextor_hook_print (hextor_plugin *ph,
 		  const char *name,
 		  int pri,
 		  int (*callback) (char *word[], void *user_data),
 		  void *userdata);
 
-hexchat_hook *
-hexchat_hook_print_attrs (hexchat_plugin *ph,
+hextor_hook *
+hextor_hook_print_attrs (hextor_plugin *ph,
 		  const char *name,
 		  int pri,
-		  int (*callback) (char *word[], hexchat_event_attrs *attrs,
+		  int (*callback) (char *word[], hextor_event_attrs *attrs,
 						   void *user_data),
 		  void *userdata);
 
-hexchat_hook *
-hexchat_hook_timer (hexchat_plugin *ph,
+hextor_hook *
+hextor_hook_timer (hextor_plugin *ph,
 		  int timeout,
 		  int (*callback) (void *user_data),
 		  void *userdata);
 
-hexchat_hook *
-hexchat_hook_fd (hexchat_plugin *ph,
+hextor_hook *
+hextor_hook_fd (hextor_plugin *ph,
 		int fd,
 		int flags,
 		int (*callback) (int fd, int flags, void *user_data),
 		void *userdata);
 
 void *
-hexchat_unhook (hexchat_plugin *ph,
-	      hexchat_hook *hook);
+hextor_unhook (hextor_plugin *ph,
+	      hextor_hook *hook);
 
 void
-hexchat_print (hexchat_plugin *ph,
+hextor_print (hextor_plugin *ph,
 	     const char *text);
 
 void
-hexchat_printf (hexchat_plugin *ph,
+hextor_printf (hextor_plugin *ph,
 	      const char *format, ...)
 #ifdef __GNUC__
 	__attribute__((format(printf, 2, 3)))
@@ -269,11 +269,11 @@ hexchat_printf (hexchat_plugin *ph,
 ;
 
 void
-hexchat_command (hexchat_plugin *ph,
+hextor_command (hextor_plugin *ph,
 	       const char *command);
 
 void
-hexchat_commandf (hexchat_plugin *ph,
+hextor_commandf (hextor_plugin *ph,
 		const char *format, ...)
 #ifdef __GNUC__
 	__attribute__((format(printf, 2, 3)))
@@ -281,65 +281,65 @@ hexchat_commandf (hexchat_plugin *ph,
 ;
 
 int
-hexchat_nickcmp (hexchat_plugin *ph,
+hextor_nickcmp (hextor_plugin *ph,
 	       const char *s1,
 	       const char *s2);
 
 int
-hexchat_set_context (hexchat_plugin *ph,
-		   hexchat_context *ctx);
+hextor_set_context (hextor_plugin *ph,
+		   hextor_context *ctx);
 
-hexchat_context *
-hexchat_find_context (hexchat_plugin *ph,
+hextor_context *
+hextor_find_context (hextor_plugin *ph,
 		    const char *servname,
 		    const char *channel);
 
-hexchat_context *
-hexchat_get_context (hexchat_plugin *ph);
+hextor_context *
+hextor_get_context (hextor_plugin *ph);
 
 const char *
-hexchat_get_info (hexchat_plugin *ph,
+hextor_get_info (hextor_plugin *ph,
 		const char *id);
 
 int
-hexchat_get_prefs (hexchat_plugin *ph,
+hextor_get_prefs (hextor_plugin *ph,
 		 const char *name,
 		 const char **string,
 		 int *integer);
 
-hexchat_list *
-hexchat_list_get (hexchat_plugin *ph,
+hextor_list *
+hextor_list_get (hextor_plugin *ph,
 		const char *name);
 
 void
-hexchat_list_free (hexchat_plugin *ph,
-		 hexchat_list *xlist);
+hextor_list_free (hextor_plugin *ph,
+		 hextor_list *xlist);
 
 const char * const *
-hexchat_list_fields (hexchat_plugin *ph,
+hextor_list_fields (hextor_plugin *ph,
 		   const char *name);
 
 int
-hexchat_list_next (hexchat_plugin *ph,
-		 hexchat_list *xlist);
+hextor_list_next (hextor_plugin *ph,
+		 hextor_list *xlist);
 
 const char *
-hexchat_list_str (hexchat_plugin *ph,
-		hexchat_list *xlist,
+hextor_list_str (hextor_plugin *ph,
+		hextor_list *xlist,
 		const char *name);
 
 int
-hexchat_list_int (hexchat_plugin *ph,
-		hexchat_list *xlist,
+hextor_list_int (hextor_plugin *ph,
+		hextor_list *xlist,
 		const char *name);
 
 time_t
-hexchat_list_time (hexchat_plugin *ph,
-		 hexchat_list *xlist,
+hextor_list_time (hextor_plugin *ph,
+		 hextor_list *xlist,
 		 const char *name);
 
 void *
-hexchat_plugingui_add (hexchat_plugin *ph,
+hextor_plugingui_add (hextor_plugin *ph,
 		     const char *filename,
 		     const char *name,
 		     const char *desc,
@@ -347,23 +347,23 @@ hexchat_plugingui_add (hexchat_plugin *ph,
 		     char *reserved);
 
 void
-hexchat_plugingui_remove (hexchat_plugin *ph,
+hextor_plugingui_remove (hextor_plugin *ph,
 			void *handle);
 
 int 
-hexchat_emit_print (hexchat_plugin *ph,
+hextor_emit_print (hextor_plugin *ph,
 		  const char *event_name, ...);
 
 int 
-hexchat_emit_print_attrs (hexchat_plugin *ph, hexchat_event_attrs *attrs,
+hextor_emit_print_attrs (hextor_plugin *ph, hextor_event_attrs *attrs,
 						  const char *event_name, ...);
 
 char *
-hexchat_gettext (hexchat_plugin *ph,
+hextor_gettext (hextor_plugin *ph,
 	       const char *msgid);
 
 void
-hexchat_send_modes (hexchat_plugin *ph,
+hextor_send_modes (hextor_plugin *ph,
 		  const char **targets,
 		  int ntargets,
 		  int modes_per_line,
@@ -371,86 +371,86 @@ hexchat_send_modes (hexchat_plugin *ph,
 		  char mode);
 
 char *
-hexchat_strip (hexchat_plugin *ph,
+hextor_strip (hextor_plugin *ph,
 	     const char *str,
 	     int len,
 	     int flags);
 
 void
-hexchat_free (hexchat_plugin *ph,
+hextor_free (hextor_plugin *ph,
 	    void *ptr);
 
 int
-hexchat_pluginpref_set_str (hexchat_plugin *ph,
+hextor_pluginpref_set_str (hextor_plugin *ph,
 		const char *var,
 		const char *value);
 
 int
-hexchat_pluginpref_get_str (hexchat_plugin *ph,
+hextor_pluginpref_get_str (hextor_plugin *ph,
 		const char *var,
 		char *dest);
 
 int
-hexchat_pluginpref_set_int (hexchat_plugin *ph,
+hextor_pluginpref_set_int (hextor_plugin *ph,
 		const char *var,
 		int value);
 int
-hexchat_pluginpref_get_int (hexchat_plugin *ph,
+hextor_pluginpref_get_int (hextor_plugin *ph,
 		const char *var);
 
 int
-hexchat_pluginpref_delete (hexchat_plugin *ph,
+hextor_pluginpref_delete (hextor_plugin *ph,
 		const char *var);
 
 int
-hexchat_pluginpref_list (hexchat_plugin *ph,
+hextor_pluginpref_list (hextor_plugin *ph,
 		char *dest);
 
 #if !defined(PLUGIN_C) && defined(WIN32)
-#ifndef HEXCHAT_PLUGIN_HANDLE
-#define HEXCHAT_PLUGIN_HANDLE (ph)
+#ifndef HEXTOR_PLUGIN_HANDLE
+#define HEXTOR_PLUGIN_HANDLE (ph)
 #endif
-#define hexchat_hook_command ((HEXCHAT_PLUGIN_HANDLE)->hexchat_hook_command)
-#define hexchat_event_attrs_create ((HEXCHAT_PLUGIN_HANDLE)->hexchat_event_attrs_create)
-#define hexchat_event_attrs_free ((HEXCHAT_PLUGIN_HANDLE)->hexchat_event_attrs_free)
-#define hexchat_hook_server ((HEXCHAT_PLUGIN_HANDLE)->hexchat_hook_server)
-#define hexchat_hook_server_attrs ((HEXCHAT_PLUGIN_HANDLE)->hexchat_hook_server_attrs)
-#define hexchat_hook_print ((HEXCHAT_PLUGIN_HANDLE)->hexchat_hook_print)
-#define hexchat_hook_print_attrs ((HEXCHAT_PLUGIN_HANDLE)->hexchat_hook_print_attrs)
-#define hexchat_hook_timer ((HEXCHAT_PLUGIN_HANDLE)->hexchat_hook_timer)
-#define hexchat_hook_fd ((HEXCHAT_PLUGIN_HANDLE)->hexchat_hook_fd)
-#define hexchat_unhook ((HEXCHAT_PLUGIN_HANDLE)->hexchat_unhook)
-#define hexchat_print ((HEXCHAT_PLUGIN_HANDLE)->hexchat_print)
-#define hexchat_printf ((HEXCHAT_PLUGIN_HANDLE)->hexchat_printf)
-#define hexchat_command ((HEXCHAT_PLUGIN_HANDLE)->hexchat_command)
-#define hexchat_commandf ((HEXCHAT_PLUGIN_HANDLE)->hexchat_commandf)
-#define hexchat_nickcmp ((HEXCHAT_PLUGIN_HANDLE)->hexchat_nickcmp)
-#define hexchat_set_context ((HEXCHAT_PLUGIN_HANDLE)->hexchat_set_context)
-#define hexchat_find_context ((HEXCHAT_PLUGIN_HANDLE)->hexchat_find_context)
-#define hexchat_get_context ((HEXCHAT_PLUGIN_HANDLE)->hexchat_get_context)
-#define hexchat_get_info ((HEXCHAT_PLUGIN_HANDLE)->hexchat_get_info)
-#define hexchat_get_prefs ((HEXCHAT_PLUGIN_HANDLE)->hexchat_get_prefs)
-#define hexchat_list_get ((HEXCHAT_PLUGIN_HANDLE)->hexchat_list_get)
-#define hexchat_list_free ((HEXCHAT_PLUGIN_HANDLE)->hexchat_list_free)
-#define hexchat_list_fields ((HEXCHAT_PLUGIN_HANDLE)->hexchat_list_fields)
-#define hexchat_list_next ((HEXCHAT_PLUGIN_HANDLE)->hexchat_list_next)
-#define hexchat_list_str ((HEXCHAT_PLUGIN_HANDLE)->hexchat_list_str)
-#define hexchat_list_int ((HEXCHAT_PLUGIN_HANDLE)->hexchat_list_int)
-#define hexchat_plugingui_add ((HEXCHAT_PLUGIN_HANDLE)->hexchat_plugingui_add)
-#define hexchat_plugingui_remove ((HEXCHAT_PLUGIN_HANDLE)->hexchat_plugingui_remove)
-#define hexchat_emit_print ((HEXCHAT_PLUGIN_HANDLE)->hexchat_emit_print)
-#define hexchat_emit_print_attrs ((HEXCHAT_PLUGIN_HANDLE)->hexchat_emit_print_attrs)
-#define hexchat_list_time ((HEXCHAT_PLUGIN_HANDLE)->hexchat_list_time)
-#define hexchat_gettext ((HEXCHAT_PLUGIN_HANDLE)->hexchat_gettext)
-#define hexchat_send_modes ((HEXCHAT_PLUGIN_HANDLE)->hexchat_send_modes)
-#define hexchat_strip ((HEXCHAT_PLUGIN_HANDLE)->hexchat_strip)
-#define hexchat_free ((HEXCHAT_PLUGIN_HANDLE)->hexchat_free)
-#define hexchat_pluginpref_set_str ((HEXCHAT_PLUGIN_HANDLE)->hexchat_pluginpref_set_str)
-#define hexchat_pluginpref_get_str ((HEXCHAT_PLUGIN_HANDLE)->hexchat_pluginpref_get_str)
-#define hexchat_pluginpref_set_int ((HEXCHAT_PLUGIN_HANDLE)->hexchat_pluginpref_set_int)
-#define hexchat_pluginpref_get_int ((HEXCHAT_PLUGIN_HANDLE)->hexchat_pluginpref_get_int)
-#define hexchat_pluginpref_delete ((HEXCHAT_PLUGIN_HANDLE)->hexchat_pluginpref_delete)
-#define hexchat_pluginpref_list ((HEXCHAT_PLUGIN_HANDLE)->hexchat_pluginpref_list)
+#define hextor_hook_command ((HEXTOR_PLUGIN_HANDLE)->hextor_hook_command)
+#define hextor_event_attrs_create ((HEXTOR_PLUGIN_HANDLE)->hextor_event_attrs_create)
+#define hextor_event_attrs_free ((HEXTOR_PLUGIN_HANDLE)->hextor_event_attrs_free)
+#define hextor_hook_server ((HEXTOR_PLUGIN_HANDLE)->hextor_hook_server)
+#define hextor_hook_server_attrs ((HEXTOR_PLUGIN_HANDLE)->hextor_hook_server_attrs)
+#define hextor_hook_print ((HEXTOR_PLUGIN_HANDLE)->hextor_hook_print)
+#define hextor_hook_print_attrs ((HEXTOR_PLUGIN_HANDLE)->hextor_hook_print_attrs)
+#define hextor_hook_timer ((HEXTOR_PLUGIN_HANDLE)->hextor_hook_timer)
+#define hextor_hook_fd ((HEXTOR_PLUGIN_HANDLE)->hextor_hook_fd)
+#define hextor_unhook ((HEXTOR_PLUGIN_HANDLE)->hextor_unhook)
+#define hextor_print ((HEXTOR_PLUGIN_HANDLE)->hextor_print)
+#define hextor_printf ((HEXTOR_PLUGIN_HANDLE)->hextor_printf)
+#define hextor_command ((HEXTOR_PLUGIN_HANDLE)->hextor_command)
+#define hextor_commandf ((HEXTOR_PLUGIN_HANDLE)->hextor_commandf)
+#define hextor_nickcmp ((HEXTOR_PLUGIN_HANDLE)->hextor_nickcmp)
+#define hextor_set_context ((HEXTOR_PLUGIN_HANDLE)->hextor_set_context)
+#define hextor_find_context ((HEXTOR_PLUGIN_HANDLE)->hextor_find_context)
+#define hextor_get_context ((HEXTOR_PLUGIN_HANDLE)->hextor_get_context)
+#define hextor_get_info ((HEXTOR_PLUGIN_HANDLE)->hextor_get_info)
+#define hextor_get_prefs ((HEXTOR_PLUGIN_HANDLE)->hextor_get_prefs)
+#define hextor_list_get ((HEXTOR_PLUGIN_HANDLE)->hextor_list_get)
+#define hextor_list_free ((HEXTOR_PLUGIN_HANDLE)->hextor_list_free)
+#define hextor_list_fields ((HEXTOR_PLUGIN_HANDLE)->hextor_list_fields)
+#define hextor_list_next ((HEXTOR_PLUGIN_HANDLE)->hextor_list_next)
+#define hextor_list_str ((HEXTOR_PLUGIN_HANDLE)->hextor_list_str)
+#define hextor_list_int ((HEXTOR_PLUGIN_HANDLE)->hextor_list_int)
+#define hextor_plugingui_add ((HEXTOR_PLUGIN_HANDLE)->hextor_plugingui_add)
+#define hextor_plugingui_remove ((HEXTOR_PLUGIN_HANDLE)->hextor_plugingui_remove)
+#define hextor_emit_print ((HEXTOR_PLUGIN_HANDLE)->hextor_emit_print)
+#define hextor_emit_print_attrs ((HEXTOR_PLUGIN_HANDLE)->hextor_emit_print_attrs)
+#define hextor_list_time ((HEXTOR_PLUGIN_HANDLE)->hextor_list_time)
+#define hextor_gettext ((HEXTOR_PLUGIN_HANDLE)->hextor_gettext)
+#define hextor_send_modes ((HEXTOR_PLUGIN_HANDLE)->hextor_send_modes)
+#define hextor_strip ((HEXTOR_PLUGIN_HANDLE)->hextor_strip)
+#define hextor_free ((HEXTOR_PLUGIN_HANDLE)->hextor_free)
+#define hextor_pluginpref_set_str ((HEXTOR_PLUGIN_HANDLE)->hextor_pluginpref_set_str)
+#define hextor_pluginpref_get_str ((HEXTOR_PLUGIN_HANDLE)->hextor_pluginpref_get_str)
+#define hextor_pluginpref_set_int ((HEXTOR_PLUGIN_HANDLE)->hextor_pluginpref_set_int)
+#define hextor_pluginpref_get_int ((HEXTOR_PLUGIN_HANDLE)->hextor_pluginpref_get_int)
+#define hextor_pluginpref_delete ((HEXTOR_PLUGIN_HANDLE)->hextor_pluginpref_delete)
+#define hextor_pluginpref_list ((HEXTOR_PLUGIN_HANDLE)->hextor_pluginpref_list)
 #endif
 
 #ifdef __cplusplus

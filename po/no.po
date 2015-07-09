@@ -5,12 +5,12 @@
 # Kjartan Maraas <kmaraas@online.no>, 1999
 msgid ""
 msgstr ""
-"Project-Id-Version: HexChat\n"
-"Report-Msgid-Bugs-To: www.hexchat.org\n"
+"Project-Id-Version: Hextor\n"
+"Report-Msgid-Bugs-To: www.hextor.org\n"
 "POT-Creation-Date: 2013-09-08 01:16-0400\n"
 "PO-Revision-Date: 2013-11-20 09:21+0000\n"
 "Last-Translator: TingPing <tingping@tingping.se>\n"
-"Language-Team: Norwegian (http://www.transifex.com/projects/p/hexchat/language/no/)\n"
+"Language-Team: Norwegian (http://www.transifex.com/projects/p/hextor/language/no/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -69,136 +69,136 @@ msgstr ""
 msgid "No active DCCs\n"
 msgstr "Ingen aktive DCC\n"
 
-#: src/common/hexchat.c:860
+#: src/common/hextor.c:860
 msgid "_Open Dialog Window"
 msgstr ""
 
-#: src/common/hexchat.c:861
+#: src/common/hextor.c:861
 msgid "_Send a File"
 msgstr ""
 
-#: src/common/hexchat.c:862
+#: src/common/hextor.c:862
 msgid "_User Info (WhoIs)"
 msgstr ""
 
-#: src/common/hexchat.c:863
+#: src/common/hextor.c:863
 msgid "_Add to Friends List"
 msgstr ""
 
-#: src/common/hexchat.c:864
+#: src/common/hextor.c:864
 msgid "_Ignore"
 msgstr ""
 
-#: src/common/hexchat.c:865
+#: src/common/hextor.c:865
 msgid "O_perator Actions"
 msgstr ""
 
-#: src/common/hexchat.c:867
+#: src/common/hextor.c:867
 msgid "Give Ops"
 msgstr ""
 
-#: src/common/hexchat.c:868
+#: src/common/hextor.c:868
 msgid "Take Ops"
 msgstr ""
 
-#: src/common/hexchat.c:869
+#: src/common/hextor.c:869
 msgid "Give Voice"
 msgstr ""
 
-#: src/common/hexchat.c:870
+#: src/common/hextor.c:870
 msgid "Take Voice"
 msgstr ""
 
-#: src/common/hexchat.c:872
+#: src/common/hextor.c:872
 msgid "Kick/Ban"
 msgstr ""
 
-#: src/common/hexchat.c:873 src/common/hexchat.c:910
+#: src/common/hextor.c:873 src/common/hextor.c:910
 msgid "Kick"
 msgstr "Spark"
 
-#: src/common/hexchat.c:874 src/common/hexchat.c:875 src/common/hexchat.c:876
-#: src/common/hexchat.c:877 src/common/hexchat.c:878 src/common/hexchat.c:909
+#: src/common/hextor.c:874 src/common/hextor.c:875 src/common/hextor.c:876
+#: src/common/hextor.c:877 src/common/hextor.c:878 src/common/hextor.c:909
 #: src/fe-gtk/banlist.c:50
 msgid "Ban"
 msgstr ""
 
-#: src/common/hexchat.c:879 src/common/hexchat.c:880 src/common/hexchat.c:881
-#: src/common/hexchat.c:882
+#: src/common/hextor.c:879 src/common/hextor.c:880 src/common/hextor.c:881
+#: src/common/hextor.c:882
 msgid "KickBan"
 msgstr ""
 
-#: src/common/hexchat.c:892
+#: src/common/hextor.c:892
 msgid "Leave Channel"
 msgstr ""
 
-#: src/common/hexchat.c:893
+#: src/common/hextor.c:893
 msgid "Join Channel..."
 msgstr "Bli med i kanal..."
 
-#: src/common/hexchat.c:894 src/fe-gtk/menu.c:1377
+#: src/common/hextor.c:894 src/fe-gtk/menu.c:1377
 msgid "Enter Channel to Join:"
 msgstr ""
 
-#: src/common/hexchat.c:895
+#: src/common/hextor.c:895
 msgid "Server Links"
 msgstr "Lenker til tjenere"
 
-#: src/common/hexchat.c:896
+#: src/common/hextor.c:896
 msgid "Ping Server"
 msgstr "Ping tjener"
 
-#: src/common/hexchat.c:897
+#: src/common/hextor.c:897
 msgid "Hide Version"
 msgstr "Skjul versjon"
 
-#: src/common/hexchat.c:907
+#: src/common/hextor.c:907
 msgid "Op"
 msgstr "Op"
 
-#: src/common/hexchat.c:908
+#: src/common/hextor.c:908
 msgid "DeOp"
 msgstr "DeOp"
 
-#: src/common/hexchat.c:911
+#: src/common/hextor.c:911
 msgid "bye"
 msgstr "hadet"
 
-#: src/common/hexchat.c:912
+#: src/common/hextor.c:912
 #, c-format
 msgid "Enter reason to kick %s:"
 msgstr ""
 
-#: src/common/hexchat.c:913
+#: src/common/hextor.c:913
 msgid "Sendfile"
 msgstr ""
 
-#: src/common/hexchat.c:914
+#: src/common/hextor.c:914
 msgid "Dialog"
 msgstr ""
 
-#: src/common/hexchat.c:923
+#: src/common/hextor.c:923
 msgid "WhoIs"
 msgstr ""
 
-#: src/common/hexchat.c:924
+#: src/common/hextor.c:924
 msgid "Send"
 msgstr ""
 
-#: src/common/hexchat.c:925
+#: src/common/hextor.c:925
 msgid "Chat"
 msgstr ""
 
-#: src/common/hexchat.c:926 src/fe-gtk/banlist.c:847 src/fe-gtk/dccgui.c:886
+#: src/common/hextor.c:926 src/fe-gtk/banlist.c:847 src/fe-gtk/dccgui.c:886
 #: src/fe-gtk/ignoregui.c:385 src/fe-gtk/urlgrab.c:212
 msgid "Clear"
 msgstr "Tøm"
 
-#: src/common/hexchat.c:927
+#: src/common/hextor.c:927
 msgid "Ping"
 msgstr ""
 
-#: src/common/hexchat.c:1120
+#: src/common/hextor.c:1120
 msgid ""
 "* Running IRC as root is stupid! You should\n"
 "  create a User Account and use that to login.\n"
@@ -445,7 +445,7 @@ msgid "EXECWRITE, sends data to the processes stdin"
 msgstr ""
 
 #: src/common/outbound.c:3864
-msgid "EXPORTCONF, exports HexChat settings"
+msgid "EXPORTCONF, exports Hextor settings"
 msgstr ""
 
 #: src/common/outbound.c:3867
@@ -617,7 +617,7 @@ msgstr ""
 
 #: src/common/outbound.c:3953
 msgid ""
-"RECV <text>, send raw data to HexChat, as if it was received from the IRC "
+"RECV <text>, send raw data to Hextor, as if it was received from the IRC "
 "server"
 msgstr ""
 
@@ -754,7 +754,7 @@ msgid "Unknown Command. Try /help\n"
 msgstr ""
 
 #: src/common/plugin.c:407 src/common/plugin.c:443
-msgid "No hexchat_plugin_init symbol; is this really a HexChat plugin?"
+msgid "No hextor_plugin_init symbol; is this really a Hextor plugin?"
 msgstr ""
 
 #: src/common/server.c:644
@@ -3334,7 +3334,7 @@ msgid "Execute command:"
 msgstr ""
 
 #: src/fe-gtk/fe-gtk.c:130
-msgid "Open URL or execute command in an existing HexChat"
+msgid "Open URL or execute command in an existing Hextor"
 msgstr ""
 
 #: src/fe-gtk/fe-gtk.c:132
@@ -3681,7 +3681,7 @@ msgid ""
 msgstr ""
 
 #: src/fe-gtk/maingui.c:1231
-msgid "Quit HexChat?"
+msgid "Quit Hextor?"
 msgstr ""
 
 #: src/fe-gtk/maingui.c:1252
@@ -3940,7 +3940,7 @@ msgid ""
 "%m  =  machine info\n"
 "%n  =  your nick\n"
 "%t  =  time/date\n"
-"%v  =  HexChat version\n"
+"%v  =  Hextor version\n"
 "%2  =  word 2\n"
 "%3  =  word 3\n"
 "&2  =  word 2 to the end of line\n"
@@ -4006,7 +4006,7 @@ msgid ""
 "\n"
 "Putting a ! in front of the command\n"
 "indicates it should be sent to a\n"
-"shell instead of HexChat"
+"shell instead of Hextor"
 msgstr ""
 
 #: src/fe-gtk/menu.c:1486

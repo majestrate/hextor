@@ -34,13 +34,13 @@
 #include <unistd.h>
 #endif
 
-#include "hexchat.h"
+#include "hextor.h"
 #include "fe.h"
 #include "util.h"
 #include "cfgfiles.h"
 #include "chanopt.h"
 #include "ignore.h"
-#include "hexchat-plugin.h"
+#include "hextor-plugin.h"
 #include "inbound.h"
 #include "plugin.h"
 #include "plugin-identd.h"
@@ -51,7 +51,7 @@
 #include "outbound.h"
 #include "text.h"
 #include "url.h"
-#include "hexchatc.h"
+#include "hextorc.h"
 
 #if ! GLIB_CHECK_VERSION (2, 36, 0)
 #include <glib-object.h>			/* for g_type_init() */
@@ -92,8 +92,8 @@ GSList *tabmenu_list = 0;
 GList *sess_list_by_lastact[5] = {NULL, NULL, NULL, NULL, NULL};
 
 
-static int in_hexchat_exit = FALSE;
-int hexchat_is_quitting = FALSE;
+static int in_hextor_exit = FALSE;
+int hextor_is_quitting = FALSE;
 /* command-line args */
 int arg_dont_autoconnect = FALSE;
 int arg_skip_plugins = FALSE;
@@ -109,7 +109,7 @@ gint arg_existing = FALSE;
 
 struct session *current_tab;
 struct session *current_sess = 0;
-struct hexchatprefs prefs;
+struct hextorprefs prefs;
 
 #ifdef USE_LIBPROXY
 pxProxyFactory *libproxy_factory;
@@ -355,7 +355,7 @@ doover:
 }
 
 static int
-hexchat_misc_checks (void)		/* this gets called every 1/2 second */
+hextor_misc_checks (void)		/* this gets called every 1/2 second */
 {
 	static int count = 0;
 
@@ -406,7 +406,7 @@ irc_init (session *sess)
 											  notify_checklist, 0);
 
 	fe_timeout_add (prefs.hex_away_timeout * 1000, away_check, 0);
-	fe_timeout_add (500, hexchat_misc_checks, 0);
+	fe_timeout_add (500, hextor_misc_checks, 0);
 
 	if (arg_url != NULL)
 	{
@@ -561,7 +561,7 @@ send_quit_or_part (session * killsess)
 			list = list->next;
 	}
 
-	if (hexchat_is_quitting)
+	if (hextor_is_quitting)
 		willquit = TRUE;
 
 	if (killserv->connected)
@@ -655,8 +655,8 @@ session_free (session *killsess)
 
 	g_free (killsess);
 
-	if (!sess_list && !in_hexchat_exit)
-		hexchat_exit ();						/* sess_list is empty, quit! */
+	if (!sess_list && !in_hextor_exit)
+		hextor_exit ();						/* sess_list is empty, quit! */
 
 	list = sess_list;
 	while (list)
@@ -715,7 +715,7 @@ static char defaultconf_commands[] =
 	"NAME SPING\n"			"CMD ping\n\n"\
 	"NAME SQUERY\n"		"CMD quote SQUERY %2 :&3\n\n"\
 	"NAME SSLSERVER\n"	"CMD server -ssl &2\n\n"\
-	"NAME SV\n"				"CMD echo HexChat %v %m\n\n"\
+	"NAME SV\n"				"CMD echo Hextor %v %m\n\n"\
 	"NAME UMODE\n"			"CMD mode %n &2\n\n"\
 	"NAME UPTIME\n"		"CMD quote STATS u\n\n"\
 	"NAME VER\n"			"CMD ctcp %2 VERSION\n\n"\
@@ -944,10 +944,10 @@ xchat_init (void)
 }
 
 void
-hexchat_exit (void)
+hextor_exit (void)
 {
-	hexchat_is_quitting = TRUE;
-	in_hexchat_exit = TRUE;
+	hextor_is_quitting = TRUE;
+	in_hextor_exit = TRUE;
 	plugin_kill_all ();
 	fe_cleanup ();
 
@@ -967,7 +967,7 @@ hexchat_exit (void)
 }
 
 void
-hexchat_exec (const char *cmd)
+hextor_exec (const char *cmd)
 {
 	util_exec (cmd);
 }
@@ -977,16 +977,16 @@ static void
 set_locale (void)
 {
 #ifdef WIN32
-	char hexchat_lang[13];	/* LC_ALL= plus 5 chars of hex_gui_lang and trailing \0 */
+	char hextor_lang[13];	/* LC_ALL= plus 5 chars of hex_gui_lang and trailing \0 */
 
-	strcpy (hexchat_lang, "LC_ALL=");
+	strcpy (hextor_lang, "LC_ALL=");
 
 	if (0 <= prefs.hex_gui_lang && prefs.hex_gui_lang < LANGUAGES_LENGTH)
-		strcat (hexchat_lang, languages[prefs.hex_gui_lang]);
+		strcat (hextor_lang, languages[prefs.hex_gui_lang]);
 	else
-		strcat (hexchat_lang, "en");
+		strcat (hextor_lang, "en");
 
-	putenv (hexchat_lang);
+	putenv (hextor_lang);
 #endif
 }
 
@@ -1055,7 +1055,7 @@ main (int argc, char *argv[])
 		return ret;
 	
 #ifdef USE_DBUS
-	hexchat_remote ();
+	hextor_remote ();
 #endif
 
 #ifdef USE_LIBPROXY

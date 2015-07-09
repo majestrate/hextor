@@ -1,4 +1,4 @@
-libdir = $(hexchatlibdir)
+libdir = $(hextorlibdir)
 
 sources = sysinfo.c format.c shared/df.c
 

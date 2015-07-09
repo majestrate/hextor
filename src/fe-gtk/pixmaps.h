@@ -1,4 +1,4 @@
-/* HexChat
+/* Hextor
  * Copyright (C) 1998-2010 Peter Zelezny.
  * Copyright (C) 2009-2013 Berke Viktor.
  *
@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
  */
 
-#ifndef HEXCHAT_PIXMAPS_H
-#define HEXCHAT_PIXMAPS_H
+#ifndef HEXTOR_PIXMAPS_H
+#define HEXTOR_PIXMAPS_H
 
 extern GdkPixbuf *pix_ulist_voice;
 extern GdkPixbuf *pix_ulist_halfop;
@@ -37,7 +37,7 @@ extern GdkPixbuf *pix_tree_server;
 extern GdkPixbuf *pix_tree_util;
 
 extern GdkPixbuf *pix_book;
-extern GdkPixbuf *pix_hexchat;
+extern GdkPixbuf *pix_hextor;
 
 extern GdkPixmap *pixmap_load_from_file (char *file);
 extern void pixmaps_init (void);

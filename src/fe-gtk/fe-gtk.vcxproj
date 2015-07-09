@@ -22,22 +22,22 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  <Import Project="..\..\win32\hexchat.props" />
+  <Import Project="..\..\win32\hextor.props" />
   <PropertyGroup>
-    <TargetName>hexchat</TargetName>
-    <OutDir>$(HexChatRel)</OutDir>
+    <TargetName>hextor</TargetName>
+    <OutDir>$(HextorRel)</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <!-- WholeProgramOptimization must be turned off for gresource constructors to work, otherwise the .CRT$XCU section is not emitted. -->
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;$(OwnFlags);%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\common;$(HexChatLib);$(DepsRoot)\include;$(Glib);$(Gtk);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\common;$(HextorLib);$(DepsRoot)\include;$(Glib);$(Gtk);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(DepsRoot)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(DepLibs);$(HexChatLib)common.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(DepLibs);$(HextorLib)common.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
   </ItemDefinitionGroup>
@@ -46,12 +46,12 @@
       <!-- WholeProgramOptimization must be turned off for gresource constructors to work, otherwise the .CRT$XCU section is not emitted. -->
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <PreprocessorDefinitions>WIN32;_WIN64;_AMD64_;NDEBUG;_WINDOWS;$(OwnFlags);%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\common;$(HexChatLib);$(DepsRoot)\include;$(Glib);$(Gtk);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\common;$(HextorLib);$(DepsRoot)\include;$(Glib);$(Gtk);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4244;4267;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(DepsRoot)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(DepLibs);$(HexChatLib)common.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(DepLibs);$(HextorLib)common.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
   </ItemDefinitionGroup>
@@ -59,12 +59,12 @@
     <PreBuildEvent>
       <Command><![CDATA[
 SET SOLUTIONDIR=$(SolutionDir)..\
-powershell -File "$(SolutionDir)..\win32\version-template.ps1" "$(SolutionDir)..\src\fe-gtk\hexchat.rc.tt" "$(HexChatLib)hexchat.rc.utf8"
-REM hexchat.rc needs to be in UCS-2 or Resource Compiler will complain
-powershell "Get-Content -Encoding UTF8 '$(HexChatLib)hexchat.rc.utf8' | Out-File '$(HexChatLib)hexchat.rc'; Remove-Item '$(HexChatLib)hexchat.rc.utf8'"
-"$(DepsRoot)\bin\glib-compile-resources.exe" --generate-source --sourcedir "$(DataDir)" --target "$(HexChatLib)resources.c" "$(DataDir)hexchat.gresource.xml"
+powershell -File "$(SolutionDir)..\win32\version-template.ps1" "$(SolutionDir)..\src\fe-gtk\hextor.rc.tt" "$(HextorLib)hextor.rc.utf8"
+REM hextor.rc needs to be in UCS-2 or Resource Compiler will complain
+powershell "Get-Content -Encoding UTF8 '$(HextorLib)hextor.rc.utf8' | Out-File '$(HextorLib)hextor.rc'; Remove-Item '$(HextorLib)hextor.rc.utf8'"
+"$(DepsRoot)\bin\glib-compile-resources.exe" --generate-source --sourcedir "$(DataDir)" --target "$(HextorLib)resources.c" "$(DataDir)hextor.gresource.xml"
       ]]></Command>
-      <Message>Build hexchat.rc and gresource file</Message>
+      <Message>Build hextor.rc and gresource file</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -119,7 +119,7 @@ powershell "Get-Content -Encoding UTF8 '$(HexChatLib)hexchat.rc.utf8' | Out-File
     <ClCompile Include="plugin-tray.c" />
     <ClCompile Include="plugingui.c" />
     <ClCompile Include="rawlog.c" />
-    <ClCompile Include="$(HexChatLib)resources.c" />
+    <ClCompile Include="$(HextorLib)resources.c" />
     <ClCompile Include="servlistgui.c" />
     <ClCompile Include="setup.c" />
     <ClCompile Include="sexy-iso-codes.c" />
@@ -130,17 +130,17 @@ powershell "Get-Content -Encoding UTF8 '$(HexChatLib)hexchat.rc.utf8' | Out-File
     <ClCompile Include="xtext.c" />
   </ItemGroup>
   <ItemGroup>
-    <Manifest Include="..\..\win32\hexchat.exe.manifest" />
+    <Manifest Include="..\..\win32\hextor.exe.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="hexchat.rc.tt" />
-    <ResourceCompile Include="$(HexChatLib)hexchat.rc" />
+    <None Include="hextor.rc.tt" />
+    <ResourceCompile Include="$(HextorLib)hextor.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\data\icons\hexchat.ico" />
+    <None Include="..\..\data\icons\hextor.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="..\..\data\hexchat.gresource.xml" />
+    <Xml Include="..\..\data\hextor.gresource.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

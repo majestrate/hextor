@@ -31,11 +31,11 @@
 #include <pango/pangocairo.h>
 #endif
 
-#include "../common/hexchat.h"
+#include "../common/hextor.h"
 #include "../common/fe.h"
 #include "../common/util.h"
 #include "../common/cfgfiles.h"
-#include "../common/hexchatc.h"
+#include "../common/hextorc.h"
 #include "../common/typedef.h"
 #include "gtkutil.h"
 #include "pixmaps.h"
@@ -571,7 +571,7 @@ gtkutil_set_icon (GtkWidget *win)
 	/* FIXME: Magically breaks icon rendering in most
 	 * (sub)windows, but OFC only on Windows. GTK <3
 	 */
-	gtk_window_set_icon (GTK_WINDOW (win), pix_hexchat);
+	gtk_window_set_icon (GTK_WINDOW (win), pix_hextor);
 #endif
 }
 
@@ -585,7 +585,7 @@ gtkutil_window_new (char *title, char *role, int width, int height, int flags)
 	win = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtkutil_set_icon (win);
 #ifdef WIN32
-	gtk_window_set_wmclass (GTK_WINDOW (win), "HexChat", "hexchat");
+	gtk_window_set_wmclass (GTK_WINDOW (win), "Hextor", "hextor");
 #endif
 	gtk_window_set_title (GTK_WINDOW (win), title);
 	gtk_window_set_default_size (GTK_WINDOW (win), width, height);

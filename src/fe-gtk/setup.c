@@ -22,13 +22,13 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-#include "../common/hexchat.h"
+#include "../common/hextor.h"
 #include "../common/cfgfiles.h"
 #include "../common/fe.h"
 #include "../common/text.h"
 #include "../common/userlist.h"
 #include "../common/util.h"
-#include "../common/hexchatc.h"
+#include "../common/hextorc.h"
 #include "fe-gtk.h"
 #include "gtkutil.h"
 #include "maingui.h"
@@ -50,7 +50,7 @@ GtkStyle *create_input_style (GtkStyle *);
 static int last_selected_page = 0;
 static int last_selected_row = 0; /* sound row */
 static gboolean color_change;
-static struct hexchatprefs setup_prefs;
+static struct hextorprefs setup_prefs;
 static GtkWidget *cancel_button;
 static GtkWidget *font_dialog = NULL;
 
@@ -1471,7 +1471,7 @@ setup_create_color_button (GtkWidget *table, int num, int row, int col)
 	but = gtk_button_new_with_label (" ");
 	gtk_label_set_markup (GTK_LABEL (gtk_bin_get_child (GTK_BIN (but))), buf);
 	/* win32 build uses this to turn off themeing */
-	g_object_set_data (G_OBJECT (but), "hexchat-color", (gpointer)1);
+	g_object_set_data (G_OBJECT (but), "hextor-color", (gpointer)1);
 	gtk_table_attach (GTK_TABLE (table), but, col, col+1, row, row+1,
 							GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0);
 	g_signal_connect (G_OBJECT (but), "clicked",
@@ -1677,7 +1677,7 @@ setup_snd_filereq_cb (GtkWidget *entry, char *file)
 			/* Use just the filename if the given sound file is in the default <config>/sounds directory.
 			 * We're comparing absolute paths so this won't work in portable mode which uses a relative path.
 			 */
-			if (!strcmp (g_path_get_dirname (file), g_build_filename (get_xdir (), HEXCHAT_SOUND_DIR, NULL)))
+			if (!strcmp (g_path_get_dirname (file), g_build_filename (get_xdir (), HEXTOR_SOUND_DIR, NULL)))
 			{
 				gtk_entry_set_text (GTK_ENTRY (entry), g_path_get_basename (file));
 			}
@@ -1692,7 +1692,7 @@ setup_snd_filereq_cb (GtkWidget *entry, char *file)
 static void
 setup_snd_browse_cb (GtkWidget *button, GtkEntry *entry)
 {
-	char *sounds_dir = g_build_filename (get_xdir (), HEXCHAT_SOUND_DIR, NULL);
+	char *sounds_dir = g_build_filename (get_xdir (), HEXTOR_SOUND_DIR, NULL);
 	char *filter = NULL;
 	int filter_type;
 #ifdef WIN32 /* win32 only supports wav, others could support anything */
@@ -2125,7 +2125,7 @@ setup_apply_real (int new_pix, int do_ulist, int do_layout)
 }
 
 static void
-setup_apply (struct hexchatprefs *pr)
+setup_apply (struct hextorprefs *pr)
 {
 #ifdef WIN32
 	PangoFontDescription *old_desc;

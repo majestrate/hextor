@@ -23,8 +23,8 @@
 
 #include <gdk/gdkkeysyms.h>
 
-#include "../common/hexchat.h"
-#include "../common/hexchatc.h"
+#include "../common/hextor.h"
+#include "../common/hextorc.h"
 #include "../common/servlist.h"
 #include "../common/cfgfiles.h"
 #include "../common/fe.h"
@@ -113,7 +113,7 @@ static const char *pages[]=
  * network list without breaking config compatibility.
  *
  * Also make sure inbound_nickserv_login() won't break, i.e. if you add a new
- * type that is NickServ-based, add it there as well so that HexChat knows to
+ * type that is NickServ-based, add it there as well so that Hextor knows to
  * treat it as such.
  */
 static int login_types_conf[] =
@@ -968,7 +968,7 @@ servlist_savegui (void)
 		sp[0] = 0;	/* spaces will break the login */
 	/* strcpy (prefs.hex_irc_real_name, gtk_entry_get_text (GTK_ENTRY (entry_greal))); */
 	servlist_save ();
-	save_config (); /* For nicks stored in hexchat.conf */
+	save_config (); /* For nicks stored in hextor.conf */
 
 	return 0;
 }
@@ -1286,7 +1286,7 @@ servlist_delete_cb (GtkWidget *win, GdkEventAny *event, gpointer userdata)
 	selected_net = NULL;
 
 	if (sess_list == NULL)
-		hexchat_exit ();
+		hextor_exit ();
 
 	return FALSE;
 }
@@ -1300,7 +1300,7 @@ servlist_close_cb (GtkWidget *button, gpointer userdata)
 	selected_net = NULL;
 
 	if (sess_list == NULL)
-		hexchat_exit ();
+		hextor_exit ();
 }
 
 /* convert "host:port" format to "host/port" */
