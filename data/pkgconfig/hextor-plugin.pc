@@ -1,9 +1,0 @@
-prefix=/usr/local
-exec_prefix=${prefix}
-includedir=${prefix}/include
-hextorlibdir=${exec_prefix}/lib/hextor/plugins
-
-Name: Hextor plugins
-Description: Header and path for Hextor plugins
-Version: 2.11.0
-Cflags: -I${includedir}
