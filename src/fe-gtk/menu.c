@@ -1740,7 +1740,7 @@ menu_about (GtkWidget *wid, gpointer sess)
 }
 
 static struct mymenu mymenu[] = {
-	{N_("He_xChat"), 0, 0, M_NEWMENU, MENU_ID_HEXTOR, 0, 1},
+	{N_("He_xtor"), 0, 0, M_NEWMENU, MENU_ID_HEXTOR, 0, 1},
 	{N_("Network Li_st..."), menu_open_server_list, (char *)&pix_book, M_MENUPIX, 0, 0, 1, GDK_KEY_s},
 	{0, 0, 0, M_SEP, 0, 0, 0},
 

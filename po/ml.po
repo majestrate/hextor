@@ -4115,7 +4115,7 @@ msgid ": CTCP Replies"
 msgstr ""
 
 #: ../src/fe-gtk/menu.c:1743
-msgid "He_xChat"
+msgid "He_xtor"
 msgstr ""
 
 #: ../src/fe-gtk/menu.c:1744
