@@ -70,6 +70,8 @@
 static struct session *g_sess = NULL;
 #endif
 
+#define TOR_SUPPORT
+
 static GSList *away_list = NULL;
 GSList *serv_list = NULL;
 
@@ -1328,6 +1330,10 @@ server_child (server * serv)
 	int proxy_type = 0;
 	char *proxy_host = NULL;
 	int proxy_port;
+#ifdef TOR_SUPPORT
+  int onion_check_len;
+  char *onion_check_ptr;
+#endif
 
 	ns_server = net_store_new ();
 
@@ -1349,8 +1355,26 @@ server_child (server * serv)
 		net_store_destroy (ns_local);
 	}
 
-	if (!serv->dont_use_proxy) /* blocked in serverlist? */
-	{
+#ifdef TOR_SUPPORT
+  // .onion
+  onion_check_len = strlen(serv->hostname);
+  onion_check_ptr = serv->hostname;
+  if (onion_check_len > 6)
+  {
+    int i;
+    for (i=0;i<(onion_check_len - 6);i++)
+      onion_check_ptr++;
+    if (strncmp(onion_check_ptr,".onion",6)==0)
+    { // we are tor
+      proxy_type = 3;
+      proxy_port = 9050;
+      proxy_host = g_strdup("127.0.0.1");
+    }
+  }
+  else
+#endif
+  if (!serv->dont_use_proxy) /* blocked in serverlist? */
+  {
 #ifdef USE_LIBPROXY
 		if (prefs.hex_net_proxy_type == 5)
 		{
