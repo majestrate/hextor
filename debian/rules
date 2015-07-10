@@ -23,6 +23,5 @@ override_dh_auto_clean:
 	rm -f src/common/make-te
 	rm -f po/stamp-po
 	rm -f debian/substvars
-	rm -f debian/changelog.gz
 	rm -f debian/hextor.xpm
 	dh_auto_clean
