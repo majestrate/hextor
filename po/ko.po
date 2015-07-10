@@ -7,53 +7,53 @@
 # Darkcircle <darkcircle.0426@gmail.com>, 2014
 msgid ""
 msgstr ""
-"Project-Id-Version: HexChat\n"
-"Report-Msgid-Bugs-To: www.hexchat.org\n"
+"Project-Id-Version: Hextor\n"
+"Report-Msgid-Bugs-To: www.hextor.org\n"
 "POT-Creation-Date: 2014-05-14 13:20-0400\n"
 "PO-Revision-Date: 2014-05-15 13:09+0000\n"
 "Last-Translator: Darkcircle <darkcircle.0426@gmail.com>\n"
-"Language-Team: Korean (http://www.transifex.com/projects/p/hexchat/language/ko/)\n"
+"Language-Team: Korean (http://www.transifex.com/projects/p/hextor/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ../data/misc/hexchat.appdata.xml.in.h:1
+#: ../data/misc/hextor.appdata.xml.in.h:1
 msgid ""
-"HexChat is an easy to use yet extensible IRC Client. It allows you to "
+"Hextor is an easy to use yet extensible IRC Client. It allows you to "
 "securely join multiple networks and talk to users privately or in channels "
 "using a customizable interface. You can even transfer files."
 msgstr "헥스채트는 사용하기 쉽고 확장성이 뛰어난 IRC 클라이언트 입니다. 여러 네트워크에 안전하게 참여할 수 있으며, 여러분이 직접 유연하게 꾸밀 수 있는 인터페이스를 사용하여 다른 사람과 개인적으로 대화하거나 대화방에서 대화할 수 있습니다. 게다가 파일도 보낼 수 있습니다."
 
-#: ../data/misc/hexchat.appdata.xml.in.h:2
+#: ../data/misc/hextor.appdata.xml.in.h:2
 msgid ""
-"HexChat supports features such as: DCC, SASL, proxies, spellcheck, alerts, "
+"Hextor supports features such as: DCC, SASL, proxies, spellcheck, alerts, "
 "logging, custom themes, and Python/Perl scripts."
 msgstr "핵스채트는 DCC, SASL, 프록시 서버, 철자 검사, 경고, 기록, 사용자 정의 테마, 파이썬/펄 스크립트 같은 기능을 지원합니다."
 
-#: ../data/misc/hexchat.desktop.in.h:1
-msgid "HexChat"
+#: ../data/misc/hextor.desktop.in.h:1
+msgid "Hextor"
 msgstr "헥스채트"
 
-#: ../data/misc/hexchat.desktop.in.h:2
+#: ../data/misc/hextor.desktop.in.h:2
 msgid "IRC Client"
 msgstr "IRC 클라이언트"
 
-#: ../data/misc/hexchat.desktop.in.h:3
+#: ../data/misc/hextor.desktop.in.h:3
 msgid "Chat with other people online"
 msgstr "온라인에 있는 사람들과 대화합니다"
 
-#: ../data/misc/hexchat.desktop.in.h:4
+#: ../data/misc/hextor.desktop.in.h:4
 msgid "IM;Chat;"
 msgstr "IM;인스턴트 메신저;Chat;대화;"
 
-#: ../data/misc/hexchat.desktop.in.h:5
+#: ../data/misc/hextor.desktop.in.h:5
 msgid "Open Safe Mode"
 msgstr "공개 안전 모드"
 
 #: ../data/misc/htm.desktop.in.h:1
-msgid "HexChat Theme Manager"
+msgid "Hextor Theme Manager"
 msgstr "핵스채트 테마 관리자"
 
 #. 0 means unlimited
@@ -119,144 +119,144 @@ msgstr "%s님이 \"%s\"(을)를 전송합니다. 수락하시겠습니까?"
 msgid "No active DCCs\n"
 msgstr "DCC가 활성화되지 않았습니다\n"
 
-#: ../src/common/hexchat.c:867
+#: ../src/common/hextor.c:867
 msgid "_Open Dialog Window"
 msgstr "귓속말 창 열기(_O)"
 
-#: ../src/common/hexchat.c:868
+#: ../src/common/hextor.c:868
 msgid "_Send a File"
 msgstr "파일 전송(_S)"
 
-#: ../src/common/hexchat.c:869
+#: ../src/common/hextor.c:869
 msgid "_User Info (WhoIs)"
 msgstr "사용자 정보(WhoIs)(_U)"
 
-#: ../src/common/hexchat.c:870
+#: ../src/common/hextor.c:870
 msgid "_Add to Friends List"
 msgstr "친구 목록에 추가(_A)"
 
-#: ../src/common/hexchat.c:871
+#: ../src/common/hextor.c:871
 msgid "_Ignore"
 msgstr "무시(_I)"
 
-#: ../src/common/hexchat.c:872
+#: ../src/common/hextor.c:872
 msgid "O_perator Actions"
 msgstr "관리자 명령(_P)"
 
-#: ../src/common/hexchat.c:874
+#: ../src/common/hextor.c:874
 msgid "Give Ops"
 msgstr "관리 권한 주기"
 
-#: ../src/common/hexchat.c:875
+#: ../src/common/hextor.c:875
 msgid "Take Ops"
 msgstr "관리 권한 박탈"
 
-#: ../src/common/hexchat.c:876
+#: ../src/common/hextor.c:876
 msgid "Give Voice"
 msgstr "발언권 주기"
 
-#: ../src/common/hexchat.c:877
+#: ../src/common/hextor.c:877
 msgid "Take Voice"
 msgstr "발언권 뺏기"
 
-#: ../src/common/hexchat.c:879
+#: ../src/common/hextor.c:879
 msgid "Kick/Ban"
 msgstr "퇴장/입장 금지"
 
-#: ../src/common/hexchat.c:880 ../src/common/hexchat.c:917
+#: ../src/common/hextor.c:880 ../src/common/hextor.c:917
 msgid "Kick"
 msgstr "퇴장"
 
-#: ../src/common/hexchat.c:881 ../src/common/hexchat.c:882
-#: ../src/common/hexchat.c:883 ../src/common/hexchat.c:884
-#: ../src/common/hexchat.c:885 ../src/common/hexchat.c:916
+#: ../src/common/hextor.c:881 ../src/common/hextor.c:882
+#: ../src/common/hextor.c:883 ../src/common/hextor.c:884
+#: ../src/common/hextor.c:885 ../src/common/hextor.c:916
 #: ../src/fe-gtk/banlist.c:50
 msgid "Ban"
 msgstr "입장 금지"
 
-#: ../src/common/hexchat.c:886 ../src/common/hexchat.c:887
-#: ../src/common/hexchat.c:888 ../src/common/hexchat.c:889
+#: ../src/common/hextor.c:886 ../src/common/hextor.c:887
+#: ../src/common/hextor.c:888 ../src/common/hextor.c:889
 msgid "KickBan"
 msgstr "퇴장 후 입장 금지"
 
-#: ../src/common/hexchat.c:899
+#: ../src/common/hextor.c:899
 msgid "Leave Channel"
 msgstr "대화방 나가기"
 
-#: ../src/common/hexchat.c:900
+#: ../src/common/hextor.c:900
 msgid "Join Channel..."
 msgstr "대화방 입장..."
 
-#: ../src/common/hexchat.c:901 ../src/fe-gtk/menu.c:1410
+#: ../src/common/hextor.c:901 ../src/fe-gtk/menu.c:1410
 msgid "Enter Channel to Join:"
 msgstr "입장할 대화방을 입력하십시오:"
 
-#: ../src/common/hexchat.c:902
+#: ../src/common/hextor.c:902
 msgid "Server Links"
 msgstr "서버 연결"
 
-#: ../src/common/hexchat.c:903
+#: ../src/common/hextor.c:903
 msgid "Ping Server"
 msgstr "서버에 핑"
 
-#: ../src/common/hexchat.c:904
+#: ../src/common/hextor.c:904
 msgid "Hide Version"
 msgstr "버전 숨기기"
 
-#: ../src/common/hexchat.c:914
+#: ../src/common/hextor.c:914
 msgid "Op"
 msgstr "관리 권한"
 
-#: ../src/common/hexchat.c:915
+#: ../src/common/hextor.c:915
 msgid "DeOp"
 msgstr "관리권 뺏기"
 
-#: ../src/common/hexchat.c:918
+#: ../src/common/hextor.c:918
 msgid "bye"
 msgstr "안녕"
 
-#: ../src/common/hexchat.c:919
+#: ../src/common/hextor.c:919
 #, c-format
 msgid "Enter reason to kick %s:"
 msgstr "%s님을 강제로 퇴장시키는 이유:"
 
-#: ../src/common/hexchat.c:920
+#: ../src/common/hextor.c:920
 msgid "Sendfile"
 msgstr "파일 보내기"
 
-#: ../src/common/hexchat.c:921
+#: ../src/common/hextor.c:921
 msgid "Dialog"
 msgstr "귓속말"
 
-#: ../src/common/hexchat.c:930
+#: ../src/common/hextor.c:930
 msgid "WhoIs"
 msgstr "사용자 정보"
 
-#: ../src/common/hexchat.c:931
+#: ../src/common/hextor.c:931
 msgid "Send"
 msgstr "보내기"
 
-#: ../src/common/hexchat.c:932
+#: ../src/common/hextor.c:932
 msgid "Chat"
 msgstr "대화"
 
-#: ../src/common/hexchat.c:933 ../src/fe-gtk/banlist.c:852
+#: ../src/common/hextor.c:933 ../src/fe-gtk/banlist.c:852
 #: ../src/fe-gtk/dccgui.c:884 ../src/fe-gtk/ignoregui.c:385
 #: ../src/fe-gtk/urlgrab.c:212
 msgid "Clear"
 msgstr "지우기"
 
-#: ../src/common/hexchat.c:934
+#: ../src/common/hextor.c:934
 msgid "Ping"
 msgstr "핑"
 
-#: ../src/common/hexchat.c:1130
+#: ../src/common/hextor.c:1130
 #, c-format
 msgid ""
 "You do not have write access to %s. Nothing from this session can be saved."
 msgstr "%s에 쓰기 권한이 없습니다. 이 세션에서 저장할 수 없습니다."
 
-#: ../src/common/hexchat.c:1139
+#: ../src/common/hextor.c:1139
 msgid ""
 "* Running IRC as root is stupid! You should\n"
 "  create a User Account and use that to login.\n"
@@ -506,7 +506,7 @@ msgid "EXECWRITE, sends data to the processes stdin"
 msgstr "EXECWRITE, 프로세스의 표준 입력으로 데이터를 보냅니다"
 
 #: ../src/common/outbound.c:3961
-msgid "EXPORTCONF, exports HexChat settings"
+msgid "EXPORTCONF, exports Hextor settings"
 msgstr "EXPORTCONF, 헥스채트 설정을 내보냅니다"
 
 #: ../src/common/outbound.c:3964
@@ -681,7 +681,7 @@ msgstr "RECONNECT [<호스트>] [<포트>] [<암호>], 그냥 /RECONNECT는 현�
 
 #: ../src/common/outbound.c:4051
 msgid ""
-"RECV <text>, send raw data to HexChat, as if it was received from the IRC "
+"RECV <text>, send raw data to Hextor, as if it was received from the IRC "
 "server"
 msgstr "RECV <텍스트>, IRC 서버의 데이터와 같은 원시 데이터를 헥스채트에 보냅니다"
 
@@ -823,8 +823,8 @@ msgid "Unknown Command. Try /help\n"
 msgstr "알 수 없는 명령. /help를 사용하십시오.\n"
 
 #: ../src/common/plugin.c:412 ../src/common/plugin.c:448
-msgid "No hexchat_plugin_init symbol; is this really a HexChat plugin?"
-msgstr "hexchat_plugin_init 심볼이 없습니다. 헥스채트 추가 기능이 맞습니까?"
+msgid "No hextor_plugin_init symbol; is this really a Hextor plugin?"
+msgstr "hextor_plugin_init 심볼이 없습니다. 헥스채트 추가 기능이 맞습니까?"
 
 #: ../src/common/server.c:644
 msgid "Are you sure this is a SSL capable server and port?\n"
@@ -3405,7 +3405,7 @@ msgid "Execute command:"
 msgstr "연결시 명령:"
 
 #: ../src/fe-gtk/fe-gtk.c:88
-msgid "Open URL or execute command in an existing HexChat"
+msgid "Open URL or execute command in an existing Hextor"
 msgstr "URL을 열거나 헥스채트의 명령을 실행합니다"
 
 #: ../src/fe-gtk/fe-gtk.c:90
@@ -3684,7 +3684,7 @@ msgid ""
 msgstr "이 서버에 대화방 또는 참여자 %d개(명)과 연결되어 있습니다. 모두 닫으시겠습니까?"
 
 #: ../src/fe-gtk/maingui.c:1203
-msgid "Quit HexChat?"
+msgid "Quit Hextor?"
 msgstr "헥스채트를 끝낼까요?"
 
 #: ../src/fe-gtk/maingui.c:1223
@@ -4010,7 +4010,7 @@ msgid ""
 "%m  =  machine info\n"
 "%n  =  your nick\n"
 "%t  =  time/date\n"
-"%v  =  HexChat version\n"
+"%v  =  Hextor version\n"
 "%2  =  word 2\n"
 "%3  =  word 3\n"
 "&2  =  word 2 to the end of line\n"
@@ -4078,7 +4078,7 @@ msgid ""
 "\n"
 "Putting a ! in front of the command\n"
 "indicates it should be sent to a\n"
-"shell instead of HexChat"
+"shell instead of Hextor"
 msgstr "URL 처리기 - 특수 코드:\n\n%s  =  URL 문자열\n\n명령 앞에 ! 문자를 놓으십시오\n헥스채트 대신 쉘로 보내야 함을\n나타냅니다"
 
 #: ../src/fe-gtk/menu.c:1527
@@ -4114,7 +4114,7 @@ msgid ": CTCP Replies"
 msgstr ": CTCP 회신"
 
 #: ../src/fe-gtk/menu.c:1743
-msgid "He_xChat"
+msgid "He_xtor"
 msgstr "헥스채트(_X)"
 
 #: ../src/fe-gtk/menu.c:1744

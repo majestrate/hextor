@@ -1,4 +1,4 @@
-/* HexChat
+/* Hextor
  * Copyright (C) 1998-2010 Peter Zelezny.
  * Copyright (C) 2009-2013 Berke Viktor.
  *
@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
  */
 
-#ifndef HEXCHAT_CHANOPT_H
-#define HEXCHAT_CHANOPT_H
+#ifndef HEXTOR_CHANOPT_H
+#define HEXTOR_CHANOPT_H
 
 int chanopt_command (session *sess, char *tbuf, char *word[], char *word_eol[]);
 gboolean chanopt_is_set (unsigned int global, guint8 per_chan_setting);

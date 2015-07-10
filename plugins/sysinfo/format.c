@@ -1,5 +1,5 @@
 /*
- * SysInfo - sysinfo plugin for HexChat
+ * SysInfo - sysinfo plugin for Hextor
  * Copyright (c) 2015 Patrick Griffis.
  *
  * This program is free software you can redistribute it and/or modify

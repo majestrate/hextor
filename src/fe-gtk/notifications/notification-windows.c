@@ -1,4 +1,4 @@
-/* HexChat
+/* Hextor
  * Copyright (C) 2015 Arnav Singh.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -18,7 +18,7 @@
 
 #include <gmodule.h>
 
-#include "hexchat.h"
+#include "hextor.h"
 #include "plugin.h"
 
 #include <Windows.h>
@@ -48,7 +48,7 @@ notification_backend_init (void)
 	/* Temporarily suppress the "DLL could not be loaded" dialog box before trying to load hcnotifications-winrt.dll */
 	original_error_mode = GetErrorMode ();
 	SetErrorMode(SEM_FAILCRITICALERRORS);
-	module = module_load (HEXCHATLIBDIR "\\hcnotifications-winrt.dll");
+	module = module_load (HEXTORLIBDIR "\\hcnotifications-winrt.dll");
 	SetErrorMode (original_error_mode);
 
 	if (module == NULL)

@@ -71,10 +71,10 @@
     <ClInclude Include="text.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="$(HexChatLib)textenums.h">
+    <ClInclude Include="$(HextorLib)textenums.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="$(HexChatLib)textevents.h">
+    <ClInclude Include="$(HextorLib)textevents.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="tree.h">
@@ -89,22 +89,22 @@
     <ClInclude Include="util.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hexchat.h">
+    <ClInclude Include="hextor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hexchatc.h">
+    <ClInclude Include="hextorc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hexchat-plugin.h">
+    <ClInclude Include="hextor-plugin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="$(HexChatLib)config.h">
+    <ClInclude Include="$(HextorLib)config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="typedef.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="$(HexChatLib)marshal.h">
+    <ClInclude Include="$(HextorLib)marshal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="plugin-identd.h">
@@ -178,10 +178,10 @@
     <ClCompile Include="util.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="hexchat.c">
+    <ClCompile Include="hextor.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="$(HexChatLib)marshal.c">
+    <ClCompile Include="$(HextorLib)marshal.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="plugin-identd.c">

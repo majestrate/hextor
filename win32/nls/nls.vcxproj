@@ -21,9 +21,9 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  <Import Project="..\hexchat.props" />
+  <Import Project="..\hextor.props" />
   <PropertyGroup>
-    <OutDir>$(HexChatBin)</OutDir>
+    <OutDir>$(HextorBin)</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <PreBuildEvent>
@@ -32,7 +32,7 @@ rmdir /q /s "$(OutDir)\locale"
 mkdir "$(OutDir)\locale"
 for %%A in (*.po) do (
 mkdir "$(OutDir)\locale\%%~nA\LC_MESSAGES"
-"$(MsgfmtPath)\msgfmt" -co "$(OutDir)\locale\%%~nA\LC_MESSAGES\hexchat.mo" %%A
+"$(MsgfmtPath)\msgfmt" -co "$(OutDir)\locale\%%~nA\LC_MESSAGES\hextor.mo" %%A
 )</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>

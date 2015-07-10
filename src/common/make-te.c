@@ -1,4 +1,4 @@
-/* HexChat
+/* Hextor
  * Copyright (C) 1998-2010 Peter Zelezny.
  * Copyright (C) 2009-2013 Berke Viktor.
  *
@@ -34,7 +34,7 @@
  *  - $t means the xtext tab, i.e. the vertical separator line for indented nicks.
  *    That means $t forces a new line for that event.
  *
- *  - Text events are emitted in ctcp.c, dcc.c, hexchat.c, ignore.c, inbound.c,
+ *  - Text events are emitted in ctcp.c, dcc.c, hextor.c, ignore.c, inbound.c,
  *    modes.c, notify.c, outbound.c, proto-irc.c, server.c and text.c.
  */
 

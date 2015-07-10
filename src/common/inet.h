@@ -1,4 +1,4 @@
-/* HexChat
+/* Hextor
  * Copyright (C) 1998-2010 Peter Zelezny.
  * Copyright (C) 2009-2013 Berke Viktor.
  *
@@ -19,8 +19,8 @@
 
 /* include stuff for internet */
 
-#ifndef HEXCHAT_INET_H
-#define HEXCHAT_INET_H
+#ifndef HEXTOR_INET_H
+#define HEXTOR_INET_H
 
 #ifndef WIN32
 

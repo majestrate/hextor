@@ -32,8 +32,8 @@
 
 #include <gdk/gdkkeysyms.h>
 
-#include "../common/hexchat.h"
-#include "../common/hexchatc.h"
+#include "../common/hextor.h"
+#include "../common/hextorc.h"
 #include "../common/cfgfiles.h"
 #include "../common/outbound.h"
 #include "../common/ignore.h"
@@ -101,7 +101,7 @@ static void
 nick_command (session * sess, char *cmd)
 {
 	if (*cmd == '!')
-		hexchat_exec (cmd + 1);
+		hextor_exec (cmd + 1);
 	else
 		handle_command (sess, cmd, TRUE);
 }
@@ -514,7 +514,7 @@ menu_create (GtkWidget *menu, GSList *list, char *target, int check_path)
 		{
 			char *icon, *label;
 
-			/* default command in hexchat.c */
+			/* default command in hextor.c */
 			if (pop->cmd[0] == 'n' && !strcmp (pop->cmd, "notify -n ASK %s"))
 			{
 				/* don't create this item if already in notify list */
@@ -1472,7 +1472,7 @@ menu_noplugin_info (void)
 									"%m  =  machine info\n"\
                            "%n  =  your nick\n"\
 									"%t  =  time/date\n"\
-                           "%v  =  HexChat version\n"\
+                           "%v  =  Hextor version\n"\
                            "%2  =  word 2\n"\
                            "%3  =  word 3\n"\
                            "&2  =  word 2 to the end of line\n"\
@@ -1519,7 +1519,7 @@ menu_noplugin_info (void)
                            "%s  =  the URL string\n\n"\
                            "Putting a ! in front of the command\n"\
                            "indicates it should be sent to a\n"\
-                           "shell instead of HexChat")
+                           "shell instead of Hextor")
 
 static void
 menu_usercommands (void)
@@ -1585,7 +1585,7 @@ menu_ctcpguiopen (void)
 static void
 menu_docs (GtkWidget *wid, gpointer none)
 {
-	fe_open_url ("http://hexchat.readthedocs.org");
+	fe_open_url ("http://hextor.readthedocs.org");
 }
 
 /*static void
@@ -1726,9 +1726,9 @@ menu_about (GtkWidget *wid, gpointer sess)
 	gtk_about_dialog_set_program_name (dialog, DISPLAY_NAME);
 	gtk_about_dialog_set_version (dialog, PACKAGE_VERSION);
 	gtk_about_dialog_set_license (dialog, license); /* gtk3 can use GTK_LICENSE_GPL_2_0 */
-	gtk_about_dialog_set_website (dialog, "http://hexchat.github.io");
+	gtk_about_dialog_set_website (dialog, "http://hextor.github.io");
 	gtk_about_dialog_set_website_label (dialog, "Website");
-	gtk_about_dialog_set_logo (dialog, pix_hexchat);
+	gtk_about_dialog_set_logo (dialog, pix_hextor);
 	gtk_about_dialog_set_copyright (dialog, "\302\251 1998-2010 Peter \305\275elezn\303\275\n\302\251 2009-2014 Berke Viktor");
 	gtk_about_dialog_set_comments (dialog, comment);
 
@@ -1740,7 +1740,7 @@ menu_about (GtkWidget *wid, gpointer sess)
 }
 
 static struct mymenu mymenu[] = {
-	{N_("He_xChat"), 0, 0, M_NEWMENU, MENU_ID_HEXCHAT, 0, 1},
+	{N_("He_xtor"), 0, 0, M_NEWMENU, MENU_ID_HEXTOR, 0, 1},
 	{N_("Network Li_st..."), menu_open_server_list, (char *)&pix_book, M_MENUPIX, 0, 0, 1, GDK_KEY_s},
 	{0, 0, 0, M_SEP, 0, 0, 0},
 
@@ -2364,7 +2364,7 @@ menu_create_main (void *accel_group, int bar, int away, int toplevel,
 			/* record the English name for /menu */
 			g_object_set_data (G_OBJECT (menu_item), "name", mymenu[i].text);
 #ifdef HAVE_GTK_MAC /* Added to app menu, see below */
-			if (!bar || mymenu[i].id != MENU_ID_HEXCHAT)		
+			if (!bar || mymenu[i].id != MENU_ID_HEXTOR)		
 #endif
 				gtk_menu_shell_append (GTK_MENU_SHELL (menu_bar), menu_item);
 			gtk_widget_show (menu_item);
@@ -2469,8 +2469,8 @@ togitem:
 			menu_widgets[mymenu[i].id] = item;
 
 #ifdef HAVE_GTK_MAC
-		/* We want HexChat to be the app menu, not including Quit or HexChat itself */
-		if (bar && item && i <= CLOSE_OFFSET + 1 && mymenu[i].id != MENU_ID_HEXCHAT)
+		/* We want Hextor to be the app menu, not including Quit or Hextor itself */
+		if (bar && item && i <= CLOSE_OFFSET + 1 && mymenu[i].id != MENU_ID_HEXTOR)
 		{
 			if (!submenu || mymenu[i].type == M_MENUSUB)
 				gtkosx_application_insert_app_menu_item (osx_app, item, appmenu_offset++);

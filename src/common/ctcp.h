@@ -1,4 +1,4 @@
-/* HexChat
+/* Hextor
  * Copyright (C) 1998-2010 Peter Zelezny.
  * Copyright (C) 2009-2013 Berke Viktor.
  *
@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
  */
 
-#ifndef HEXCHAT_CTCP_H
-#define HEXCHAT_CTCP_H
+#ifndef HEXTOR_CTCP_H
+#define HEXTOR_CTCP_H
 
 void ctcp_handle (session *sess, char *to, char *nick, char *ip, char *msg,
 						char *word[], char *word_eol[], int id,

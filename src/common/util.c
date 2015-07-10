@@ -43,8 +43,8 @@
 #include "config.h"
 #include <fcntl.h>
 #include <errno.h>
-#include "hexchat.h"
-#include "hexchatc.h"
+#include "hextor.h"
+#include "hextorc.h"
 #include <ctype.h>
 #include "util.h"
 

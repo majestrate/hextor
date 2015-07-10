@@ -1,4 +1,4 @@
-/* dbus-client.h - HexChat command-line options for D-Bus
+/* dbus-client.h - Hextor command-line options for D-Bus
  * Copyright (C) 2006 Claessens Xavier
  *
  * This program is free software; you can redistribute it and/or modify
@@ -22,6 +22,6 @@
 #ifndef __DBUS_PLUGIN_H__
 #define __DBUS_PLUGIN_H__
 
-void hexchat_remote (void);
+void hextor_remote (void);
 
 #endif /* __DBUS_PLUGIN_H__ */

@@ -1,4 +1,4 @@
-/* HexChat
+/* Hextor
  * Copyright (c) 2010-2012 Berke Viktor.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,26 +22,26 @@
 
 #include <winsparkle.h>
 
-#include "hexchat-plugin.h"
+#include "hextor-plugin.h"
 
-#define APPCAST_URL "https://dl.hexchat.net/appcast.xml"
+#define APPCAST_URL "https://dl.hextor.net/appcast.xml"
 
-static hexchat_plugin *ph;   /* plugin handle */
+static hextor_plugin *ph;   /* plugin handle */
 static char name[] = "Update Checker";
-static char desc[] = "Check for HexChat updates automatically";
+static char desc[] = "Check for Hextor updates automatically";
 static char version[] = "5.0";
-static const char upd_help[] = "Update Checker Usage:\n  /UPDCHK, check for HexChat updates\n";
+static const char upd_help[] = "Update Checker Usage:\n  /UPDCHK, check for Hextor updates\n";
 
 static int
 check_cmd (char *word[], char *word_eol[], void *userdata)
 {
 	win_sparkle_check_update_with_ui ();
 
-	return HEXCHAT_EAT_ALL;
+	return HEXTOR_EAT_ALL;
 }
 
 int
-hexchat_plugin_init (hexchat_plugin *plugin_handle, char **plugin_name, char **plugin_desc, char **plugin_version, char *arg)
+hextor_plugin_init (hextor_plugin *plugin_handle, char **plugin_name, char **plugin_desc, char **plugin_version, char *arg)
 {
 	ph = plugin_handle;
 
@@ -52,19 +52,19 @@ hexchat_plugin_init (hexchat_plugin *plugin_handle, char **plugin_name, char **p
 	win_sparkle_set_appcast_url (APPCAST_URL);
 	win_sparkle_init ();
 
-	hexchat_hook_command (ph, "UPDCHK", HEXCHAT_PRI_NORM, check_cmd, upd_help, NULL);
-	hexchat_command (ph, "MENU -ishare\\download.png ADD \"Help/Check for Updates\" \"UPDCHK\"");
-	hexchat_printf (ph, "%s plugin loaded\n", name);
+	hextor_hook_command (ph, "UPDCHK", HEXTOR_PRI_NORM, check_cmd, upd_help, NULL);
+	hextor_command (ph, "MENU -ishare\\download.png ADD \"Help/Check for Updates\" \"UPDCHK\"");
+	hextor_printf (ph, "%s plugin loaded\n", name);
 
 	return 1;
 }
 
 int
-hexchat_plugin_deinit (void)
+hextor_plugin_deinit (void)
 {
 	win_sparkle_cleanup ();
 
-	hexchat_command (ph, "MENU DEL \"Help/Check for updates\"");
-	hexchat_printf (ph, "%s plugin unloaded\n", name);
+	hextor_command (ph, "MENU DEL \"Help/Check for updates\"");
+	hextor_printf (ph, "%s plugin unloaded\n", name);
 	return 1;
 }

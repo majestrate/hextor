@@ -1,7 +1,7 @@
-icon_DATA = hexchat.png
+icon_DATA = hextor.png
 icondir = $(datadir)/icons/hicolor/48x48/apps
 
-hicolor_DATA = hexchat.svg
+hicolor_DATA = hextor.svg
 hicolordir = $(datadir)/icons/hicolor/scalable/apps
 
 UPDATE_ICON_CACHE = gtk-update-icon-cache -f -t $(datadir)/icons/hicolor || :

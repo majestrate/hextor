@@ -28,11 +28,11 @@
 
 #include "fe-gtk.h"
 
-#include "../common/hexchat.h"
+#include "../common/hextor.h"
 #include "../common/fe.h"
 #include "../common/modes.h"
 #include "../common/outbound.h"
-#include "../common/hexchatc.h"
+#include "../common/hextorc.h"
 #include "gtkutil.h"
 #include "maingui.h"
 #include "banlist.h"

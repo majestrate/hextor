@@ -32,7 +32,7 @@
 #include <sys/mman.h>
 #endif
 
-#include "hexchat.h"
+#include "hextor.h"
 #include "cfgfiles.h"
 #include "chanopt.h"
 #include "plugin.h"
@@ -40,7 +40,7 @@
 #include "server.h"
 #include "util.h"
 #include "outbound.h"
-#include "hexchatc.h"
+#include "hextorc.h"
 #include "text.h"
 #include "typedef.h"
 #ifdef WIN32
@@ -1518,7 +1518,7 @@ pevent_make_pntevts ()
 			if (pevt_build_string (pntevts_text[i], &(pntevts[i]), &m) != 0)
 			{
 				fprintf (stderr,
-							"HexChat CRITICAL *** default event text failed to build!\n");
+							"Hextor CRITICAL *** default event text failed to build!\n");
 				abort ();
 			}
 		}
@@ -1588,9 +1588,9 @@ pevent_load (char *filename)
 	char *ofs;
 
 	if (filename == NULL)
-		fd = hexchat_open_file ("pevents.conf", O_RDONLY, 0, 0);
+		fd = hextor_open_file ("pevents.conf", O_RDONLY, 0, 0);
 	else
-		fd = hexchat_open_file (filename, O_RDONLY, 0, XOF_FULLPATH);
+		fd = hextor_open_file (filename, O_RDONLY, 0, XOF_FULLPATH);
 
 	if (fd == -1)
 		return 1;
@@ -1647,7 +1647,7 @@ pevent_check_all_loaded ()
 		if (pntevts_text[i] == NULL)
 		{
 			/*printf ("%s\n", te[i].name);
-			g_snprintf(out, sizeof(out), "The data for event %s failed to load. Reverting to defaults.\nThis may be because a new version of HexChat is loading an old config file.\n\nCheck all print event texts are correct", evtnames[i]);
+			g_snprintf(out, sizeof(out), "The data for event %s failed to load. Reverting to defaults.\nThis may be because a new version of Hextor is loading an old config file.\n\nCheck all print event texts are correct", evtnames[i]);
 			   gtkutil_simpledialog(out); */
 			/* make-te.c sets this 128 flag (DON'T call gettext() flag) */
 			if (te[i].num_args & 128)
@@ -1716,7 +1716,7 @@ format_event (session *sess, int index, char **args, char *o, gsize sizeofo, uns
 			if (a > numargs)
 			{
 				fprintf (stderr,
-							"HexChat DEBUG: display_event: arg > numargs (%d %d %s)\n",
+							"Hextor DEBUG: display_event: arg > numargs (%d %d %s)\n",
 							a, numargs, i);
 				break;
 			}
@@ -2097,10 +2097,10 @@ pevent_save (char *fn)
 	char buf[1024];
 
 	if (!fn)
-		fd = hexchat_open_file ("pevents.conf", O_CREAT | O_TRUNC | O_WRONLY,
+		fd = hextor_open_file ("pevents.conf", O_CREAT | O_TRUNC | O_WRONLY,
 									 0x180, XOF_DOMODE);
 	else
-		fd = hexchat_open_file (fn, O_CREAT | O_TRUNC | O_WRONLY, 0x180,
+		fd = hextor_open_file (fn, O_CREAT | O_TRUNC | O_WRONLY, 0x180,
 									 XOF_FULLPATH | XOF_DOMODE);
 	if (fd == -1)
 	{
@@ -2167,7 +2167,7 @@ sound_play (const char *file, gboolean quiet)
 	}
 	else
 	{
-		wavfile = g_build_filename (get_xdir (), HEXCHAT_SOUND_DIR, file, NULL);
+		wavfile = g_build_filename (get_xdir (), HEXTOR_SOUND_DIR, file, NULL);
 	}
 
 	if (g_access (wavfile, R_OK) == 0)
@@ -2187,9 +2187,9 @@ sound_play (const char *file, gboolean quiet)
 		{
 			ca_context_create (&ca_con);
 			ca_context_change_props (ca_con,
-											CA_PROP_APPLICATION_ID, "hexchat",
-											CA_PROP_APPLICATION_NAME, "HexChat",
-											CA_PROP_APPLICATION_ICON_NAME, "hexchat", NULL);
+											CA_PROP_APPLICATION_ID, "hextor",
+											CA_PROP_APPLICATION_NAME, "Hextor",
+											CA_PROP_APPLICATION_ICON_NAME, "hextor", NULL);
 		}
 
 		if (ca_context_play (ca_con, 0, CA_PROP_MEDIA_FILENAME, wavfile, NULL) != 0)
@@ -2200,7 +2200,7 @@ sound_play (const char *file, gboolean quiet)
 			if (cmd)
 			{
 				buf = g_strdup_printf ("%s \"%s\"", cmd, wavfile);
-				hexchat_exec (buf);
+				hextor_exec (buf);
 				g_free (buf);
 				g_free (cmd);
 			}
@@ -2250,7 +2250,7 @@ sound_load ()
 
 	memset (&sound_files, 0, sizeof (char *) * (NUM_XP));
 
-	fd = hexchat_open_file ("sound.conf", O_RDONLY, 0, 0);
+	fd = hextor_open_file ("sound.conf", O_RDONLY, 0, 0);
 	if (fd == -1)
 		return;
 
@@ -2280,7 +2280,7 @@ sound_save ()
 	int fd, i;
 	char buf[512];
 
-	fd = hexchat_open_file ("sound.conf", O_CREAT | O_TRUNC | O_WRONLY, 0x180,
+	fd = hextor_open_file ("sound.conf", O_CREAT | O_TRUNC | O_WRONLY, 0x180,
 								 XOF_DOMODE);
 	if (fd == -1)
 		return;

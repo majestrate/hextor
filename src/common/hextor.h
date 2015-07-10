@@ -1,4 +1,4 @@
-/* HexChat
+/* Hextor
  * Copyright (C) 1998-2010 Peter Zelezny.
  * Copyright (C) 2009-2013 Berke Viktor.
  *
@@ -26,8 +26,8 @@
 
 #include <time.h>			/* need time_t */
 
-#ifndef HEXCHAT_H
-#define HEXCHAT_H
+#ifndef HEXTOR_H
+#define HEXTOR_H
 
 #ifdef USE_OPENSSL
 #ifdef __APPLE__
@@ -90,9 +90,9 @@ struct nbexec
 	struct session *sess;
 };
 
-struct hexchatprefs
+struct hextorprefs
 {
-	/* these are the rebranded, consistent, sorted hexchat variables */
+	/* these are the rebranded, consistent, sorted hextor variables */
 
 	/* BOOLEANS */
 	unsigned int hex_away_auto_unmark;

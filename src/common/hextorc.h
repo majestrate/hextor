@@ -1,4 +1,4 @@
-/* HexChat
+/* Hextor
  * Copyright (C) 1998-2010 Peter Zelezny.
  * Copyright (C) 2009-2013 Berke Viktor.
  *
@@ -17,12 +17,12 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
  */
 
-#ifndef HEXCHAT_C_H
-#define HEXCHAT_C_H
+#ifndef HEXTOR_C_H
+#define HEXTOR_C_H
 
-extern struct hexchatprefs prefs;
+extern struct hextorprefs prefs;
 
-extern int hexchat_is_quitting;
+extern int hextor_is_quitting;
 extern gint arg_skip_plugins;	/* command-line args */
 extern gint arg_dont_autoconnect;
 extern char *arg_url;
@@ -55,7 +55,7 @@ session * lastact_getfirst (int (*filter) (session *sess));
 int is_session (session * sess);
 void session_free (session *killsess);
 void lag_check (void);
-void hexchat_exit (void);
-void hexchat_exec (const char *cmd);
+void hextor_exit (void);
+void hextor_exec (const char *cmd);
 
 #endif

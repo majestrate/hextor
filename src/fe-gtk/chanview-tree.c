@@ -1,4 +1,4 @@
-/* HexChat
+/* Hextor
  * Copyright (C) 1998-2010 Peter Zelezny.
  * Copyright (C) 2009-2013 Berke Viktor.
  *
@@ -98,11 +98,11 @@ cv_tree_init (chanview *cv)
 	int wid1, wid2;
 	static const GtkTargetEntry dnd_src_target[] =
 	{
-		{"HEXCHAT_CHANVIEW", GTK_TARGET_SAME_APP, 75 }
+		{"HEXTOR_CHANVIEW", GTK_TARGET_SAME_APP, 75 }
 	};
 	static const GtkTargetEntry dnd_dest_target[] =
 	{
-		{"HEXCHAT_USERLIST", GTK_TARGET_SAME_APP, 75 }
+		{"HEXTOR_USERLIST", GTK_TARGET_SAME_APP, 75 }
 	};
 
 	win = gtk_scrolled_window_new (0, 0);
@@ -115,7 +115,7 @@ cv_tree_init (chanview *cv)
 	gtk_widget_show (win);
 
 	view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (cv->store));
-	gtk_widget_set_name (view, "hexchat-tree");
+	gtk_widget_set_name (view, "hextor-tree");
 	if (cv->style)
 		gtk_widget_set_style (view, cv->style);
 	/*gtk_widget_modify_base (view, GTK_STATE_NORMAL, &colors[COL_BG]);*/

@@ -5,13 +5,13 @@
     <key>CFBundleDevelopmentRegion</key>
     <string>English</string>
     <key>CFBundleExecutable</key>
-    <string>HexChat</string>
+    <string>Hextor</string>
     <key>CFBundleGetInfoString</key>
     <string>@VERSION@</string>
     <key>CFBundleIconFile</key>
-    <string>hexchat.icns</string>
+    <string>hextor.icns</string>
     <key>CFBundleIdentifier</key>
-    <string>org.hexchat</string>
+    <string>org.hextor</string>
     <key>CFBundleInfoDictionaryVersion</key>
     <string>6.0</string>
     <key>CFBundlePackageType</key>

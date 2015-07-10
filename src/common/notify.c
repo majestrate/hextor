@@ -30,14 +30,14 @@
 #include <unistd.h>
 #endif
 
-#include "hexchat.h"
+#include "hextor.h"
 #include "notify.h"
 #include "cfgfiles.h"
 #include "fe.h"
 #include "server.h"
 #include "text.h"
 #include "util.h"
-#include "hexchatc.h"
+#include "hextorc.h"
 
 
 GSList *notify_list = 0;
@@ -125,7 +125,7 @@ notify_save (void)
 	struct notify *notify;
 	GSList *list = notify_list;
 
-	fh = hexchat_open_file ("notify.conf", O_TRUNC | O_WRONLY | O_CREAT, 0600, XOF_DOMODE);
+	fh = hextor_open_file ("notify.conf", O_TRUNC | O_WRONLY | O_CREAT, 0600, XOF_DOMODE);
 	if (fh != -1)
 	{
 		while (list)
@@ -151,7 +151,7 @@ notify_load (void)
 	char buf[256];
 	char *sep;
 
-	fh = hexchat_open_file ("notify.conf", O_RDONLY, 0, 0);
+	fh = hextor_open_file ("notify.conf", O_RDONLY, 0, 0);
 	if (fh != -1)
 	{
 		while (waitline (fh, buf, sizeof buf, FALSE) != -1)
@@ -473,7 +473,7 @@ notify_markonline (server *serv, char *word[], const message_tags_data *tags_dat
 			   about 27 people */
 			if (i > PDIWORDS - 5)
 			{
-				/*fprintf (stderr, _("*** HEXCHAT WARNING: notify list too large.\n"));*/
+				/*fprintf (stderr, _("*** HEXTOR WARNING: notify list too large.\n"));*/
 				break;
 			}
 		}
@@ -510,7 +510,7 @@ notify_checklist_for_server (server *serv)
 				/* LAME: we can't send more than 512 bytes to the server, but     *
 				 * if we split it in two packets, our offline detection wouldn't  *
 				 work                                                           */
-				/*fprintf (stderr, _("*** HEXCHAT WARNING: notify list too large.\n"));*/
+				/*fprintf (stderr, _("*** HEXTOR WARNING: notify list too large.\n"));*/
 				break;
 			}
 		}

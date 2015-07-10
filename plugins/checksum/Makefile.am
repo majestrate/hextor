@@ -1,4 +1,4 @@
-libdir = $(hexchatlibdir)
+libdir = $(hextorlibdir)
 
 lib_LTLIBRARIES = checksum.la
 checksum_la_SOURCES = checksum.c

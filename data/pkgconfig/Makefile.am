@@ -1,4 +1,4 @@
 pkgcfgdir = $(pkgconfigdir)
-pkgcfg_DATA = hexchat-plugin.pc
+pkgcfg_DATA = hextor-plugin.pc
 
-EXTRA_DIST = hexchat-plugin.pc.in
+EXTRA_DIST = hextor-plugin.pc.in

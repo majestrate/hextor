@@ -1,10 +1,10 @@
-appdata_in_files = hexchat.appdata.xml.in
+appdata_in_files = hextor.appdata.xml.in
 appdata_DATA = $(appdata_in_files:.xml.in=.xml)
 appdatadir = $(datadir)/appdata
 @INTLTOOL_XML_RULE@
 
 data_desktopdir = $(datadir)/applications
-data_desktop_in_files = hexchat.desktop.in
+data_desktop_in_files = hextor.desktop.in
 
 if WITH_TM
 data_desktop_in_files += htm.desktop.in

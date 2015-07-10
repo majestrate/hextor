@@ -1,4 +1,4 @@
-/* dbus-plugin.c - hexchat plugin for remote access using D-Bus
+/* dbus-plugin.c - hextor plugin for remote access using D-Bus
  * Copyright (C) 2006 Claessens Xavier
  *
  * This program is free software; you can redistribute it and/or modify
@@ -25,17 +25,17 @@
 #include <dbus/dbus-glib.h>
 #include <dbus/dbus-glib-lowlevel.h>
 #include <glib/gi18n.h>
-#include "hexchat-plugin.h"
+#include "hextor-plugin.h"
 #include "dbus-plugin.h"
 
 #define PNAME _("remote access")
 #define PDESC _("plugin for remote access using DBUS")
 #define PVERSION ""
 
-#define DBUS_SERVICE "org.hexchat.service"
-#define DBUS_OBJECT_PATH "/org/hexchat"
+#define DBUS_SERVICE "org.hextor.service"
+#define DBUS_OBJECT_PATH "/org/hextor"
 
-static hexchat_plugin *ph;
+static hextor_plugin *ph;
 static guint last_context_id = 0;
 static GList *contexts = NULL;
 static GHashTable *clients = NULL;
@@ -52,7 +52,7 @@ struct RemoteObject
 
 	guint last_hook_id;
 	guint last_list_id;
-	hexchat_context *context;
+	hextor_context *context;
 	char *dbus_path;
 	char *filename;
 	GHashTable *hooks;
@@ -69,14 +69,14 @@ typedef struct
 {
 	guint id;
 	int return_value;
-	hexchat_hook *hook;
+	hextor_hook *hook;
 	RemoteObject *obj;
 } HookInfo;
 
 typedef struct
 {
 	guint id;
-	hexchat_context *context;
+	hextor_context *context;
 } ContextInfo;
 
 enum
@@ -247,8 +247,8 @@ static gboolean		remote_object_send_modes	(RemoteObject *obj,
 /* Useful functions */
 
 static char**		build_list			(char *word[]);
-static guint		context_list_find_id		(hexchat_context *context);
-static hexchat_context*	context_list_find_context	(guint id);
+static guint		context_list_find_id		(hextor_context *context);
+static hextor_context*	context_list_find_context	(guint id);
 
 /* Remote Object */
 
@@ -260,14 +260,14 @@ hook_info_destroy (gpointer data)
 	if (info == NULL) {
 		return;
 	}
-	hexchat_unhook (ph, info->hook);
+	hextor_unhook (ph, info->hook);
 	g_free (info);
 }
 
 static void
 list_info_destroy (gpointer data)
 {
-	hexchat_list_free (ph, (hexchat_list*)data);
+	hextor_list_free (ph, (hextor_list*)data);
 }
 
 static void
@@ -279,7 +279,7 @@ remote_object_finalize (GObject *obj)
 	g_hash_table_destroy (self->hooks);
 	g_free (self->dbus_path);
 	g_free (self->filename);
-	hexchat_plugingui_remove (ph, self->handle);
+	hextor_plugingui_remove (ph, self->handle);
 
 	G_OBJECT_CLASS (remote_object_parent_class)->finalize (obj);
 }
@@ -302,7 +302,7 @@ remote_object_init (RemoteObject *obj)
 	obj->filename = NULL;
 	obj->last_hook_id = 0;
 	obj->last_list_id = 0;
-	obj->context = hexchat_get_context (ph);
+	obj->context = hextor_get_context (ph);
 }
 
 static void
@@ -318,7 +318,7 @@ remote_object_class_init (RemoteObjectClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      0,
 			      NULL, NULL,
-			      _hexchat_marshal_VOID__POINTER_POINTER_UINT_UINT,
+			      _hextor_marshal_VOID__POINTER_POINTER_UINT_UINT,
 			      G_TYPE_NONE,
 			      4, G_TYPE_STRV, G_TYPE_STRV, G_TYPE_UINT, G_TYPE_UINT);
 
@@ -328,7 +328,7 @@ remote_object_class_init (RemoteObjectClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      0,
 			      NULL, NULL,
-			      _hexchat_marshal_VOID__POINTER_POINTER_UINT_UINT,
+			      _hextor_marshal_VOID__POINTER_POINTER_UINT_UINT,
 			      G_TYPE_NONE,
 			      4, G_TYPE_STRV, G_TYPE_STRV, G_TYPE_UINT, G_TYPE_UINT);
 
@@ -338,7 +338,7 @@ remote_object_class_init (RemoteObjectClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      0,
 			      NULL, NULL,
-			      _hexchat_marshal_VOID__POINTER_POINTER_UINT_UINT,
+			      _hextor_marshal_VOID__POINTER_POINTER_UINT_UINT,
 			      G_TYPE_NONE,
 			      3, G_TYPE_STRV, G_TYPE_UINT, G_TYPE_UINT);
 
@@ -378,7 +378,7 @@ remote_object_connect (RemoteObject *obj,
 	remote_object = g_object_new (REMOTE_TYPE_OBJECT, NULL);
 	remote_object->dbus_path = path;
 	remote_object->filename = g_path_get_basename (filename);
-	remote_object->handle = hexchat_plugingui_add (ph,
+	remote_object->handle = hextor_plugingui_add (ph,
 						     remote_object->filename,
 						     name,
 						     desc,
@@ -414,8 +414,8 @@ remote_object_command (RemoteObject *obj,
 		       const char *command,
 		       GError **error)
 {
-	if (hexchat_set_context (ph, obj->context)) {
-		hexchat_command (ph, command);
+	if (hextor_set_context (ph, obj->context)) {
+		hextor_command (ph, command);
 	}
 	return TRUE;
 }
@@ -425,8 +425,8 @@ remote_object_print (RemoteObject *obj,
 		     const char *text,
 		     GError **error)
 {
-	if (hexchat_set_context (ph, obj->context)) {
-		hexchat_print (ph, text);
+	if (hextor_set_context (ph, obj->context)) {
+		hextor_print (ph, text);
 	}
 	return TRUE;
 }
@@ -438,7 +438,7 @@ remote_object_find_context (RemoteObject *obj,
 			    guint *ret_id,
 			    GError **error)
 {
-	hexchat_context *context;
+	hextor_context *context;
 
 	if (*server == '\0') {
 		server = NULL;
@@ -446,7 +446,7 @@ remote_object_find_context (RemoteObject *obj,
 	if (*channel == '\0') {
 		channel = NULL;
 	}
-	context = hexchat_find_context (ph, server, channel);
+	context = hextor_find_context (ph, server, channel);
 	*ret_id = context_list_find_id (context);
 
 	return TRUE;
@@ -467,7 +467,7 @@ remote_object_set_context (RemoteObject *obj,
 			   gboolean *ret,
 			   GError **error)
 {
-	hexchat_context *context;
+	hextor_context *context;
 	
 	context = context_list_find_context (id);
 	if (context == NULL) {
@@ -488,12 +488,12 @@ remote_object_get_info (RemoteObject *obj,
 {
 	/* win_ptr is a GtkWindow* casted to char* and will crash
 	 * D-Bus if we send it as a string */
-	if (!hexchat_set_context (ph, obj->context) ||
+	if (!hextor_set_context (ph, obj->context) ||
 	    g_str_equal (id, "win_ptr")) {
 		*ret_info = NULL;
 		return TRUE;
 	}
-	*ret_info = g_strdup (hexchat_get_info (ph, id));
+	*ret_info = g_strdup (hextor_get_info (ph, id));
 	return TRUE;
 }
 
@@ -507,11 +507,11 @@ remote_object_get_prefs (RemoteObject *obj,
 {
 	const char *str;
 
-	if (!hexchat_set_context (ph, obj->context)) {
+	if (!hextor_set_context (ph, obj->context)) {
 		*ret_type = 0;
 		return TRUE;
 	}
-	*ret_type = hexchat_get_prefs (ph, name, &str, ret_int);
+	*ret_type = hextor_get_prefs (ph, name, &str, ret_int);
 	*ret_str = g_strdup (str);
 
 	return TRUE;
@@ -528,7 +528,7 @@ server_hook_cb (char *word[],
 
 	arg1 = build_list (word + 1);
 	arg2 = build_list (word_eol + 1);
-	info->obj->context = hexchat_get_context (ph);
+	info->obj->context = hextor_get_context (ph);
 	g_signal_emit (info->obj,
 		       signals[SERVER_SIGNAL],
 		       0,
@@ -551,7 +551,7 @@ command_hook_cb (char *word[],
 
 	arg1 = build_list (word + 1);
 	arg2 = build_list (word_eol + 1);
-	info->obj->context = hexchat_get_context (ph);
+	info->obj->context = hextor_get_context (ph);
 	g_signal_emit (info->obj,
 		       signals[COMMAND_SIGNAL],
 		       0,
@@ -571,7 +571,7 @@ print_hook_cb (char *word[],
 	char **arg1;
 
 	arg1 = build_list (word + 1);
-	info->obj->context = hexchat_get_context (ph);
+	info->obj->context = hextor_get_context (ph);
 	g_signal_emit (info->obj,
 		       signals[PRINT_SIGNAL],
 		       0,
@@ -597,7 +597,7 @@ remote_object_hook_command (RemoteObject *obj,
 	info->obj = obj;
 	info->return_value = return_value;
 	info->id = ++obj->last_hook_id;
-	info->hook = hexchat_hook_command (ph,
+	info->hook = hextor_hook_command (ph,
 					 name,
 					 priority,
 					 command_hook_cb,
@@ -623,7 +623,7 @@ remote_object_hook_server (RemoteObject *obj,
 	info->obj = obj;
 	info->return_value = return_value;
 	info->id = ++obj->last_hook_id;
-	info->hook = hexchat_hook_server (ph,
+	info->hook = hextor_hook_server (ph,
 					name,
 					priority,
 					server_hook_cb,
@@ -648,7 +648,7 @@ remote_object_hook_print (RemoteObject *obj,
 	info->obj = obj;
 	info->return_value = return_value;
 	info->id = ++obj->last_hook_id;
-	info->hook = hexchat_hook_print (ph,
+	info->hook = hextor_hook_print (ph,
 				       name,
 				       priority,
 				       print_hook_cb,
@@ -674,14 +674,14 @@ remote_object_list_get (RemoteObject *obj,
 			guint *ret_id,
 			GError **error)
 {
-	hexchat_list *xlist;
+	hextor_list *xlist;
 	guint *id;
 
-	if (!hexchat_set_context (ph, obj->context)) {
+	if (!hextor_set_context (ph, obj->context)) {
 		*ret_id = 0;
 		return TRUE;
 	}
-	xlist = hexchat_list_get (ph, name);
+	xlist = hextor_list_get (ph, name);
 	if (xlist == NULL) {
 		*ret_id = 0;
 		return TRUE;
@@ -702,14 +702,14 @@ remote_object_list_next	(RemoteObject *obj,
 			 gboolean *ret,
 			 GError **error)
 {
-	hexchat_list *xlist;
+	hextor_list *xlist;
 	
 	xlist = g_hash_table_lookup (obj->lists, &id);
 	if (xlist == NULL) {
 		*ret = FALSE;
 		return TRUE;
 	}
-	*ret = hexchat_list_next (ph, xlist);
+	*ret = hextor_list_next (ph, xlist);
 
 	return TRUE;
 }			 
@@ -721,10 +721,10 @@ remote_object_list_str (RemoteObject *obj,
 			char **ret_str,
 			GError **error)
 {
-	hexchat_list *xlist;
+	hextor_list *xlist;
 	
 	xlist = g_hash_table_lookup (obj->lists, &id);
-	if (xlist == NULL && !hexchat_set_context (ph, obj->context)) {
+	if (xlist == NULL && !hextor_set_context (ph, obj->context)) {
 		*ret_str = NULL;
 		return TRUE;
 	}
@@ -732,7 +732,7 @@ remote_object_list_str (RemoteObject *obj,
 		*ret_str = NULL;
 		return TRUE;
 	}
-	*ret_str = g_strdup (hexchat_list_str (ph, xlist, name));
+	*ret_str = g_strdup (hextor_list_str (ph, xlist, name));
 
 	return TRUE;
 }
@@ -744,19 +744,19 @@ remote_object_list_int (RemoteObject *obj,
 			int *ret_int,
 			GError **error)
 {
-	hexchat_list *xlist;
+	hextor_list *xlist;
 	
 	xlist = g_hash_table_lookup (obj->lists, &id);
-	if (xlist == NULL && !hexchat_set_context (ph, obj->context)) {
+	if (xlist == NULL && !hextor_set_context (ph, obj->context)) {
 		*ret_int = -1;
 		return TRUE;
 	}
 	if (g_str_equal (name, "context")) {
-		hexchat_context *context;
-		context = (hexchat_context*)hexchat_list_str (ph, xlist, name);
+		hextor_context *context;
+		context = (hextor_context*)hextor_list_str (ph, xlist, name);
 		*ret_int = context_list_find_id (context);
 	} else {
-		*ret_int = hexchat_list_int (ph, xlist, name);
+		*ret_int = hextor_list_int (ph, xlist, name);
 	}
 
 	return TRUE;
@@ -769,14 +769,14 @@ remote_object_list_time (RemoteObject *obj,
 			 guint64 *ret_time,
 			 GError **error)
 {
-	hexchat_list *xlist;
+	hextor_list *xlist;
 	
 	xlist = g_hash_table_lookup (obj->lists, &id);
 	if (xlist == NULL) {
 		*ret_time = (guint64) -1;
 		return TRUE;
 	}
-	*ret_time = hexchat_list_time (ph, xlist, name);
+	*ret_time = hextor_list_time (ph, xlist, name);
 	
 	return TRUE;
 }
@@ -787,7 +787,7 @@ remote_object_list_fields (RemoteObject *obj,
 			   char ***ret,
 			   GError **error)
 {
-	*ret = g_strdupv ((char**)hexchat_list_fields (ph, name));
+	*ret = g_strdupv ((char**)hextor_list_fields (ph, name));
 	if (*ret == NULL) {
 		*ret = g_new0 (char*, 1);
 	}
@@ -817,9 +817,9 @@ remote_object_emit_print (RemoteObject *obj,
 		argv[i] = args[i];
 	}
 
-	*ret = hexchat_set_context (ph, obj->context);
+	*ret = hextor_set_context (ph, obj->context);
 	if (*ret) {
-		*ret = hexchat_emit_print (ph, event_name, argv[0], argv[1],
+		*ret = hextor_emit_print (ph, event_name, argv[0], argv[1],
 							 argv[2], argv[3]);
 	}
 
@@ -833,8 +833,8 @@ remote_object_nickcmp (RemoteObject *obj,
 		       int *ret,
 		       GError **error)
 {
-	hexchat_set_context (ph, obj->context);
-	*ret = hexchat_nickcmp (ph, nick1, nick2);
+	hextor_set_context (ph, obj->context);
+	*ret = hextor_nickcmp (ph, nick1, nick2);
 	return TRUE;
 }
 
@@ -846,7 +846,7 @@ remote_object_strip (RemoteObject *obj,
 		     char **ret_str,
 		     GError **error)
 {
-	*ret_str = hexchat_strip (ph, str, len, flag);
+	*ret_str = hextor_strip (ph, str, len, flag);
 	return TRUE;
 }
 
@@ -858,8 +858,8 @@ remote_object_send_modes (RemoteObject *obj,
 			  char mode,
 			  GError **error)
 {
-	if (hexchat_set_context (ph, obj->context)) {
-		hexchat_send_modes (ph, targets,
+	if (hextor_set_context (ph, obj->context)) {
+		hextor_send_modes (ph, targets,
 				  g_strv_length ((char**)targets),
 				  modes_per_line,
 				  sign, mode);
@@ -895,7 +895,7 @@ init_dbus (void)
 
 	connection = dbus_g_bus_get (DBUS_BUS_SESSION, &error);
 	if (connection == NULL) {
-		hexchat_printf (ph, _("Couldn't connect to session bus: %s\n"),
+		hextor_printf (ph, _("Couldn't connect to session bus: %s\n"),
 			      error->message);
 		g_error_free (error);
 		return FALSE;
@@ -912,7 +912,7 @@ init_dbus (void)
 				G_TYPE_INVALID,
 				G_TYPE_UINT, &request_name_result,
 				G_TYPE_INVALID)) {
-		hexchat_printf (ph, _("Failed to acquire %s: %s\n"),
+		hextor_printf (ph, _("Failed to acquire %s: %s\n"),
 			      DBUS_SERVICE,
 			      error->message);
 		g_error_free (error);
@@ -937,7 +937,7 @@ init_dbus (void)
 	return TRUE;
 }
 
-/* hexchat_plugin stuffs */
+/* hextor_plugin stuffs */
 
 static char**
 build_list (char *word[])
@@ -963,7 +963,7 @@ build_list (char *word[])
 }
 
 static guint
-context_list_find_id (hexchat_context *context)
+context_list_find_id (hextor_context *context)
 {
 	GList *l = NULL;
 
@@ -976,7 +976,7 @@ context_list_find_id (hexchat_context *context)
 	return 0;
 }
 
-static hexchat_context*
+static hextor_context*
 context_list_find_context (guint id)
 {
 	GList *l = NULL;
@@ -998,10 +998,10 @@ open_context_cb (char *word[],
 	
 	info = g_new0 (ContextInfo, 1);
 	info->id = ++last_context_id;
-	info->context = hexchat_get_context (ph);
+	info->context = hextor_get_context (ph);
 	contexts = g_list_prepend (contexts, info);
 
-	return HEXCHAT_EAT_NONE;
+	return HEXTOR_EAT_NONE;
 }
 
 static int
@@ -1009,7 +1009,7 @@ close_context_cb (char *word[],
 		  void *userdata)
 {
 	GList *l;
-	hexchat_context *context = hexchat_get_context (ph);
+	hextor_context *context = hextor_get_context (ph);
 
 	for (l = contexts; l != NULL; l = l->next) {
 		if (((ContextInfo*)l->data)->context == context) {
@@ -1019,7 +1019,7 @@ close_context_cb (char *word[],
 		}
 	}
 
-	return HEXCHAT_EAT_NONE;
+	return HEXTOR_EAT_NONE;
 }
 
 static gboolean
@@ -1043,14 +1043,14 @@ unload_plugin_cb (char *word[], char *word_eol[], void *userdata)
 		g_signal_emit (obj, 
 			       signals[UNLOAD_SIGNAL],
 			       0);
-		return HEXCHAT_EAT_ALL;
+		return HEXTOR_EAT_ALL;
 	}
 	
-	return HEXCHAT_EAT_NONE;
+	return HEXTOR_EAT_NONE;
 }
 
 int
-dbus_plugin_init (hexchat_plugin *plugin_handle,
+dbus_plugin_init (hextor_plugin *plugin_handle,
 		  char **plugin_name,
 		  char **plugin_desc,
 		  char **plugin_version,
@@ -1062,25 +1062,25 @@ dbus_plugin_init (hexchat_plugin *plugin_handle,
 	*plugin_version = PVERSION;
 
 	if (init_dbus()) {
-		/*hexchat_printf (ph, _("%s loaded successfully!\n"), PNAME);*/
+		/*hextor_printf (ph, _("%s loaded successfully!\n"), PNAME);*/
 
 		clients = g_hash_table_new_full (g_str_hash,
 						 g_str_equal,
 						 g_free,
 						 g_object_unref);
 
-		hexchat_hook_print (ph, "Open Context",
-				  HEXCHAT_PRI_NORM,
+		hextor_hook_print (ph, "Open Context",
+				  HEXTOR_PRI_NORM,
 				  open_context_cb,
 				  NULL);
 
-		hexchat_hook_print (ph, "Close Context",
-				  HEXCHAT_PRI_NORM,
+		hextor_hook_print (ph, "Close Context",
+				  HEXTOR_PRI_NORM,
 				  close_context_cb,
 				  NULL);
 
-		hexchat_hook_command (ph, "unload",
-				    HEXCHAT_PRI_HIGHEST,
+		hextor_hook_command (ph, "unload",
+				    HEXTOR_PRI_HIGHEST,
 				    unload_plugin_cb, NULL, NULL);
 	}
 

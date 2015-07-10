@@ -1,4 +1,4 @@
-/* HexChat
+/* Hextor
  * Copyright (C) 1998-2010 Peter Zelezny.
  * Copyright (C) 2009-2013 Berke Viktor.
  *
@@ -17,10 +17,10 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
  */
 
-#ifndef HEXCHAT_PLUGIN_IDENTD_H
-#define HEXCHAT_PLUGIN_IDENTD_H
+#ifndef HEXTOR_PLUGIN_IDENTD_H
+#define HEXTOR_PLUGIN_IDENTD_H
 
-int identd_plugin_init (hexchat_plugin *plugin_handle, char **plugin_name,
+int identd_plugin_init (hextor_plugin *plugin_handle, char **plugin_name,
 				char **plugin_desc, char **plugin_version, char *arg);
 
 int identd_plugin_deinit ();

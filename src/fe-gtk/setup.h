@@ -1,4 +1,4 @@
-/* HexChat
+/* Hextor
  * Copyright (C) 1998-2010 Peter Zelezny.
  * Copyright (C) 2009-2013 Berke Viktor.
  *
@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
  */
 
-#ifndef HEXCHAT_SETUP_H
-#define HEXCHAT_SETUP_H
+#ifndef HEXTOR_SETUP_H
+#define HEXTOR_SETUP_H
 
 void setup_apply_real (int new_pix, int do_ulist, int do_layout);
 

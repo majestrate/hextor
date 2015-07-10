@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 
-AC_INIT([HexChat],[2.11.0])
+AC_INIT([Hextor],[2.11.0])
 
 AC_PREREQ([2.64])
 AC_COPYRIGHT([Copyright (C) 1998-2010 Peter Zelezny])
@@ -33,7 +33,7 @@ PKG_PROG_PKG_CONFIG
 dnl -----------------------------------------------------------
 dnl Language Support
 dnl -----------------------------------------------------------
-GETTEXT_PACKAGE=hexchat
+GETTEXT_PACKAGE=hextor
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE",[Gettext package name])
 IT_PROG_INTLTOOL([0.40.0])
@@ -42,8 +42,8 @@ AM_GLIB_GNU_GETTEXT
 dnl displaced from acconfig.h
 AH_VERBATIM([OLD_PERL],[#undef OLD_PERL])
 AH_VERBATIM([PREFIX],[#undef PREFIX])
-AH_VERBATIM([HEXCHATLIBDIR],[#undef HEXCHATLIBDIR])
-AH_VERBATIM([HEXCHATSHAREDIR],[#undef HEXCHATSHAREDIR])
+AH_VERBATIM([HEXTORLIBDIR],[#undef HEXTORLIBDIR])
+AH_VERBATIM([HEXTORSHAREDIR],[#undef HEXTORSHAREDIR])
 AH_VERBATIM([USE_LIBPROXY],[#undef USE_LIBPROXY])
 AH_VERBATIM([HAVE_LIBPCI],[#undef HAVE_LIBPCI])
 AH_VERBATIM([HAVE_ISO_CODES],[#undef HAVE_ISO_CODES])
@@ -676,15 +676,15 @@ AS_IF([test "x$exec_prefix" = xNONE], [
 
 AC_DEFINE_UNQUOTED(PREFIX, "${prefix}")
 
-AS_AC_EXPAND(HEXCHATLIBDIR, "${libdir}/hexchat/plugins")
-AC_DEFINE_UNQUOTED(HEXCHATLIBDIR, "$HEXCHATLIBDIR")
+AS_AC_EXPAND(HEXTORLIBDIR, "${libdir}/hextor/plugins")
+AC_DEFINE_UNQUOTED(HEXTORLIBDIR, "$HEXTORLIBDIR")
 
-AS_AC_EXPAND(HEXCHATSHAREDIR, "$datadir")
-AC_DEFINE_UNQUOTED(HEXCHATSHAREDIR, "$HEXCHATSHAREDIR")
+AS_AC_EXPAND(HEXTORSHAREDIR, "$datadir")
+AC_DEFINE_UNQUOTED(HEXTORSHAREDIR, "$HEXTORSHAREDIR")
 
 dnl for plugins/xxx/Makefile.am
-hexchatlibdir=${libdir}/hexchat/plugins
-AC_SUBST(hexchatlibdir)
+hextorlibdir=${libdir}/hextor/plugins
+AC_SUBST(hextorlibdir)
 
 AC_CONFIG_FILES([
 Makefile
@@ -692,9 +692,9 @@ data/Makefile
 data/icons/Makefile
 data/misc/Makefile
 data/man/Makefile
-data/man/hexchat.1
+data/man/hextor.1
 data/pkgconfig/Makefile
-data/pkgconfig/hexchat-plugin.pc
+data/pkgconfig/hextor-plugin.pc
 src/Makefile
 src/common/Makefile
 src/common/dbus/Makefile
@@ -716,7 +716,7 @@ po/Makefile.in
 AC_OUTPUT
 
 echo
-echo HexChat $VERSION
+echo Hextor $VERSION
 echo
 echo GTK+ interface ........ : $gtkfe
 echo Text interface ........ : $textfe

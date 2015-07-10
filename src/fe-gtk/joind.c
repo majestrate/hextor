@@ -31,8 +31,8 @@
 #include <unistd.h>
 #endif
 
-#include "../common/hexchat.h"
-#include "../common/hexchatc.h"
+#include "../common/hextor.h"
+#include "../common/hextorc.h"
 #include "../common/server.h"
 #include "../common/servlist.h"
 #include "../common/fe.h"
@@ -248,7 +248,7 @@ joind_show_dialog (server *serv)
 	if (serv->network)
 		if (g_ascii_strcasecmp(((ircnet*)serv->network)->name, "freenode") == 0)
 		{
-			gtk_entry_set_text (GTK_ENTRY (entry1), "#hexchat");
+			gtk_entry_set_text (GTK_ENTRY (entry1), "#hextor");
 		}
 
 	gtk_widget_grab_focus (okbutton1);

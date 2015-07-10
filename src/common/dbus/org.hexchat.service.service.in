@@ -1,3 +1,0 @@
-[D-BUS Service]
-Name=org.hexchat.service
-Exec=@bindir@/hexchat

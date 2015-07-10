@@ -14,11 +14,11 @@
   <plist>${project}/Info.plist</plist>
 
   <main-binary>
-    ${prefix}/bin/hexchat
+    ${prefix}/bin/hextor
   </main-binary>
 
   <binary>
-    ${prefix}/lib/hexchat/plugins/*.so
+    ${prefix}/lib/hextor/plugins/*.so
   </binary>
 
   <binary>
@@ -53,7 +53,7 @@
   <translations name="gtk20">
     ${prefix}/share/locale
   </translations>
-  <translations name="hexchat">
+  <translations name="hextor">
     ${prefix}/share/locale
   </translations>
 
@@ -62,7 +62,7 @@
   </data>
 
   <data dest="${bundle}/Contents/Resources">
-    ${project}/hexchat.icns
+    ${project}/hextor.icns
   </data>
 
 </app-bundle>

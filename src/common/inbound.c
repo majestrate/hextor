@@ -33,7 +33,7 @@
 #define WANTDNS
 #include "inet.h"
 
-#include "hexchat.h"
+#include "hextor.h"
 #include "util.h"
 #include "ignore.h"
 #include "fe.h"
@@ -45,7 +45,7 @@
 #include "servlist.h"
 #include "text.h"
 #include "ctcp.h"
-#include "hexchatc.h"
+#include "hextorc.h"
 #include "chanopt.h"
 
 

@@ -1,19 +1,30 @@
-# HexChat [![Build Status](http://img.shields.io/travis/hexchat/hexchat.svg?style=flat)](https://travis-ci.org/hexchat/hexchat) [![Build Status](http://img.shields.io/jenkins/s/http/nekomimi.cloudapp.net:8080/hexchat.svg?style=flat)](http://nekomimi.cloudapp.net:8080/job/hexchat/)
+# Hextor
 
-HexChat is an IRC client for Windows and UNIX-like operating systems.  
-See [IRCHelp.org](http://irchelp.org) for information about IRC in general.  
-For more information on HexChat please read our [documentation](https://hexchat.readthedocs.org/en/latest/index.html):
-- [Downloads](http://hexchat.github.io/downloads.html)
-- [FAQ](https://hexchat.readthedocs.org/en/latest/faq.html)
-- [Changelog](https://hexchat.readthedocs.org/en/latest/changelog.html)
-- [Python API](https://hexchat.readthedocs.org/en/latest/script_python.html)
-- [Perl API](https://hexchat.readthedocs.org/en/latest/script_perl.html)
+Hextor is an IRC client for operational-security-conscious people.
+
+If you don't know what IRC is, you should probably NOT use this software, it will most likely end up frustrating you more than anything else. See [IRCHelp.org](http://irchelp.org) for information about other IRC software and IRC in general.
+
+If you don't know what Tor is, you really really shouldn't use this software until you understand why Tor is such a hot-topic these days. See [Tor-Project.org](https://tor-project.org) for information about Tor.
+
+# Why Hextor?
+
+- Supports Tor Hidden Service IRC services.
+- Disables all logging facilities.
+- Care is taken to reduce (if not eliminate) information leakage.
+- (More info/FAQs needed.)
+
+# Supporters and Contributors
+
+Hextor project supporters and generally awesome humans:
+- Andrew Paolucci
+- Private Supporter
 
 ---
 
 <sub>
 X-Chat ("xchat") Copyright (c) 1998-2010 By Peter Zelezny.  
 HexChat ("hexchat") Copyright (c) 2009-2014 By Berke Viktor.
+Hextor ("hextor") Copyright (c) 2015 By Kevin C. Krinke.
 </sub>
 
 <sub>
