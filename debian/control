@@ -1,9 +1,9 @@
-Source: hexchat
+Source: hextor
 Section: net
 Priority: optional
 Maintainer: Jesse Rhodes <drubo@drubo.net>
-Vcs-Browser: http://anonscm.debian.org/cgit/collab-maint/hexchat.git
-Vcs-git: git://anonscm.debian.org/collab-maint/hexchat.git
+Vcs-Browser: http://anonscm.debian.org/cgit/collab-maint/hextor.git
+Vcs-git: git://anonscm.debian.org/collab-maint/hextor.git
 Build-Depends:
  debhelper (>= 9.0.0),
  dh-autoreconf,
@@ -21,28 +21,28 @@ Build-Depends:
  libtool,
  python-dev
 Standards-Version: 3.9.5
-Homepage: http://hexchat.github.io/
+Homepage: http://hextor.github.io/
 
-Package: hexchat
+Package: hextor
 Architecture: any
 Provides: irc
-Depends: ${misc:Depends}, hexchat-common (= ${source:Version}), ${shlibs:Depends}
+Depends: ${misc:Depends}, hextor-common (= ${source:Version}), ${shlibs:Depends}
 Recommends: gvfs-bin
 Suggests: unifont
 Description: IRC client for X based on X-Chat 2
- HexChat is a graphical IRC client with a GTK+ GUI. Features include Python
+ Hextor is a graphical IRC client with a GTK+ GUI. Features include Python
  (2 and 3) and Perl scripting support, a plugin API, multiple server/channel
  windows, spell checking, multiple authentication methods including SASL,
  and customizable notifications. For more information on IRC,
  see http://irchelp.org/.
 
-Package: hexchat-common
+Package: hextor-common
 Architecture: all
 Provides: irc
 Depends: ${misc:Depends}
-Recommends: hexchat
-Description: Common files for HexChat
+Recommends: hextor
+Description: Common files for Hextor
  This package includes documentation, headers, and locale files for the
- Debian HexChat packages that are common for all architectures. Hexchat is a
+ Debian Hextor packages that are common for all architectures. Hextor is a
  popular and featureful IRC client with a GTK+ GUI. For more information on
  IRC, see http://irchelp.org/.
