@@ -13,7 +13,6 @@ override_dh_auto_configure:
 
 override_dh_auto_build:
 	convert -resize 32x32 data/icons/hextor.png debian/hextor.xpm
-	gzip -c9 debian/changelog.txt > debian/changelog.gz
 	dh_auto_build
 
 override_dh_auto_clean:
