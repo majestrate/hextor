@@ -1,3 +1,3 @@
-?package(hexchat):needs="X11" section="Applications/Network/Communication"\
-  title="HexChat" command="/usr/bin/hexchat" hints="IRC"\
-  icon="/usr/share/pixmaps/hexchat.xpm"
+?package(hextor):needs="X11" section="Applications/Network/Communication"\
+  title="Hextor" command="/usr/bin/hextor" hints="IRC"\
+  icon="/usr/share/pixmaps/hextor.xpm"
