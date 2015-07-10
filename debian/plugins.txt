@@ -61,7 +61,7 @@ feature ON or OFF. Every Hextor plugin must define an
 			 }
 			 /* word[1] is the nickname, as in the Settings->Text Events window in Hextor */
 
-			 return HEXCHAT_EAT_NONE;        /* don't eat this event, Hextor needs to see it! */
+			 return HEXTOR_EAT_NONE;        /* don't eat this event, Hextor needs to see it! */
 	 }
 
 	 static int
@@ -78,7 +78,7 @@ feature ON or OFF. Every Hextor plugin must define an
 					 hexchat_print (ph, "AutoOping now disabled!\n");
 			 }
 
-			 return HEXCHAT_EAT_ALL;     /* eat this command so Hextor and other plugins can't process it */
+			 return HEXTOR_EAT_ALL;     /* eat this command so Hextor and other plugins can't process it */
 	 }
 
 	 void
@@ -100,8 +100,8 @@ feature ON or OFF. Every Hextor plugin must define an
 			 *plugin_desc = PDESC;
 			 *plugin_version = PVERSION;
 
-			 hexchat_hook_command (ph, "AutoOpToggle", HEXCHAT_PRI_NORM, autooptoggle_cb, "Usage: AUTOOPTOGGLE, Turns OFF/ON Auto Oping", 0);
-			 hexchat_hook_print (ph, "Join", HEXCHAT_PRI_NORM, join_cb, 0);
+			 hexchat_hook_command (ph, "AutoOpToggle", HEXTOR_PRI_NORM, autooptoggle_cb, "Usage: AUTOOPTOGGLE, Turns OFF/ON Auto Oping", 0);
+			 hexchat_hook_print (ph, "Join", HEXTOR_PRI_NORM, join_cb, 0);
 
 			 hexchat_print (ph, "AutoOpPlugin loaded successfully!\n");
 
@@ -506,7 +506,7 @@ this example, someone will CTCP you the message "SHOWFILE <filename>".
 					 get_file_name (nick, word[2]);
 			 }
 
-			 return HEXCHAT_EAT_HEXCHAT;
+			 return HEXTOR_EAT_HEXTOR;
 	 }
 
 	 static void
@@ -569,21 +569,21 @@ Types and Constants
 		  hexchat_event_attrs
 
 
-.. var:: HEXCHAT_PRI_HIGHEST
-		 HEXCHAT_PRI_HIGH
-		 HEXCHAT_PRI_NORM
-		 HEXCHAT_PRI_LOW
-		 HEXCHAT_PRI_LOWEST
+.. var:: HEXTOR_PRI_HIGHEST
+		 HEXTOR_PRI_HIGH
+		 HEXTOR_PRI_NORM
+		 HEXTOR_PRI_LOW
+		 HEXTOR_PRI_LOWEST
 
-.. var:: HEXCHAT_EAT_NONE
-		 HEXCHAT_EAT_XCHAT
-		 HEXCHAT_EAT_PLUGIN
-		 HEXCHAT_EAT_ALL
+.. var:: HEXTOR_EAT_NONE
+		 HEXTOR_EAT_XCHAT
+		 HEXTOR_EAT_PLUGIN
+		 HEXTOR_EAT_ALL
 
-.. var:: HEXCHAT_FD_READ
-		 HEXCHAT_FD_WRITE
-		 HEXCHAT_FD_EXCEPTION
-		 HEXCHAT_FD_NOTSOCKET
+.. var:: HEXTOR_FD_READ
+		 HEXTOR_FD_WRITE
+		 HEXTOR_FD_EXCEPTION
+		 HEXTOR_FD_NOTSOCKET
 
 
 Functions
@@ -917,7 +917,7 @@ Hook Functions
 
 	:param ph: Plugin handle (as given to `hexchat_plugin_init`).
 	:param name: Name of the command (without the forward slash).
-	:param pri: Priority of this command. Use :data:`HEXCHAT_PRI_NORM`.
+	:param pri: Priority of this command. Use :data:`HEXTOR_PRI_NORM`.
 	:param callb: Callback function. This will be called when the user executes the given command name.
 	:param help_text: String of text to display when the user executes :command:`/HELP` for this command. May be NULL if you're lazy.
 	:param userdata: Pointer passed to the callback function.
@@ -934,14 +934,14 @@ Hook Functions
 			 if (word_eol[2][0] == 0)
 			 {
 					 hexchat_printf (ph, "Second arg must be the message!\n");
-					 return HEXCHAT_EAT_ALL;
+					 return HEXTOR_EAT_ALL;
 			 }
 
 			 hexchat_commandf (ph, "NOTICE @%s :%s", hexchat_get_info (ph, "channel"), word_eol[2]);
-			 return HEXCHAT_EAT_ALL;
+			 return HEXTOR_EAT_ALL;
 		 }
 
-		 hexchat_hook_command (ph, "ONOTICE", HEXCHAT_PRI_NORM, onotice_cb, "Usage: ONOTICE <message> Sends a notice to all ops", NULL);
+		 hexchat_hook_command (ph, "ONOTICE", HEXTOR_PRI_NORM, onotice_cb, "Usage: ONOTICE <message> Sends a notice to all ops", NULL);
 
 
 .. function:: hexchat_hook* hexchat_hook_fd (hexchat_plugin *ph, int fd, int flags, \
@@ -953,7 +953,7 @@ Hook Functions
 
 	:param ph: Plugin handle (as given to *hexchat\_plugin\_init ()*).
 	:param fd: The file descriptor or socket.
-	:param flags: One or more of `HEXCHAT_FD_\* constants <plugins.html#types-and-constants>`_ tells Hextor that the
+	:param flags: One or more of `HEXTOR_FD_\* constants <plugins.html#types-and-constants>`_ tells Hextor that the
 		provided *fd* is not a socket, but an "MSVCRT.DLL" pipe.
 	:param callb: Callback function. This will be called when the socket is
 		available for reading/writing or exception (depending on your chosen *flags*)
@@ -997,7 +997,7 @@ Hook Functions
 
 	:param ph: Plugin handle (as given to `hexchat_plugin_init`).
 	:param name: Name of the print event (as in *Text Events* window).
-	:param pri: Priority of this command. Use :data:`HEXCHAT_PRI_NORM`.
+	:param pri: Priority of this command. Use :data:`HEXTOR_PRI_NORM`.
 	:param callb: Callback function. This will be called when this event name is printed.
 	:param userdata: Pointer passed to the callback function.
 
@@ -1011,10 +1011,10 @@ Hook Functions
 		 youpart_cb (char *word[], void *userdata)
 		 {
 			 hexchat_printf (ph, "You have left channel %s\n", word[3]);
-			 return HEXCHAT_EAT_HEXCHAT;     /* dont let Hextor do its normal printing */
+			 return HEXTOR_EAT_HEXTOR;     /* dont let Hextor do its normal printing */
 		 }
 
-		 hexchat_hook_print (ph, "You Part", HEXCHAT_PRI_NORM, youpart_cb, NULL);
+		 hexchat_hook_print (ph, "You Part", HEXTOR_PRI_NORM, youpart_cb, NULL);
 
 .. function:: hexchat_hook* hexchat_hook_print_attrs (hexchat_plugin *ph, const char *name, int pri, \
 													  int (*callb) (char *word[], hexchat_event_attrs *attrs, void *user_data), \
@@ -1026,7 +1026,7 @@ Hook Functions
 
 	:param ph: Plugin handle (as given to `hexchat_plugin_init`).
 	:param name: Name of the print event (as in *Text Events* window).
-	:param pri: Priority of this command. Use :data:`HEXCHAT_PRI_NORM`.
+	:param pri: Priority of this command. Use :data:`HEXTOR_PRI_NORM`.
 	:param callb: Callback function. This will be called when this event name is printed.
 	:param userdata: Pointer passed to the callback function.
 
@@ -1046,7 +1046,7 @@ Hook Functions
 
 	:param ph: Plugin handle (as given to `hexchat_plugin_init`).
 	:param name: Name of the server event.
-	:param pri: Priority of this command. Use :data:`HEXCHAT_PRI_NORM`.
+	:param pri: Priority of this command. Use :data:`HEXTOR_PRI_NORM`.
 	:param callb: Callback function. This will be called when this event is received from the server.
 	:param userdata: Pointer passed to the callback function.
 
@@ -1060,10 +1060,10 @@ Hook Functions
 		kick_cb (char *word[], char *word_eol[], void *userdata)
 		{
 			hexchat_printf (ph, "%s was kicked from %s (reason=%s)\n", word[4], word[3], word_eol[5]);
-			return HEXCHAT_EAT_NONE;        /* don't eat this event, let other plugins and Hextor see it too */
+			return HEXTOR_EAT_NONE;        /* don't eat this event, let other plugins and Hextor see it too */
 		}
 
-		hexchat_hook_server (ph, "KICK", HEXCHAT_PRI_NORM, kick_cb, NULL);
+		hexchat_hook_server (ph, "KICK", HEXTOR_PRI_NORM, kick_cb, NULL);
 
 
 .. function:: hexchat_hook* hexchat_hook_server_attrs (hexchat_plugin *ph, const char *name, int pri, \
@@ -1078,7 +1078,7 @@ Hook Functions
 
 	:param ph: Plugin handle (as given to `hexchat_plugin_init`).
 	:param name: Name of the server event.
-	:param pri: Priority of this command. Use :data:`HEXCHAT_PRI_NORM`.
+	:param pri: Priority of this command. Use :data:`HEXTOR_PRI_NORM`.
 	:param callb: Callback function. This will be called when this event is received from the server.
 	:param userdata: Pointer passed to the callback function.
 
@@ -1114,7 +1114,7 @@ Hook Functions
 					 hexchat_print (ph, "Timeout removed!\n");
 			 }
 
-			 return HEXCHAT_EAT_ALL;
+			 return HEXTOR_EAT_ALL;
 		 }
 
 		 static int
@@ -1125,7 +1125,7 @@ Hook Functions
 		 }
 
 		 myhook = hexchat_hook_timer (ph, 5000, timeout_cb, NULL);
-		 hexchat_hook_command (ph, "STOP", HEXCHAT_PRI_NORM, stop_cb, NULL, NULL);
+		 hexchat_hook_command (ph, "STOP", HEXTOR_PRI_NORM, stop_cb, NULL, NULL);
 
 .. function:: void* hexchat_unhook (hexchat_plugin *ph, hexchat_hook *hook)
 
@@ -1270,7 +1270,7 @@ Plugin Preferences
 					 hexchat_printf (ph, "Invalid input!\n");
 			 }
 
-			 return HEXCHAT_EAT_HEXCHAT;
+			 return HEXTOR_EAT_HEXTOR;
 		 }
 
 	You only need such complex checks if you're saving user input, which can
