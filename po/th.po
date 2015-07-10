@@ -7,53 +7,53 @@
 # Suttiwit Sukpinit <ormie.suttiwit@gmail.com>, 2012
 msgid ""
 msgstr ""
-"Project-Id-Version: HexChat\n"
-"Report-Msgid-Bugs-To: www.hexchat.org\n"
+"Project-Id-Version: Hextor\n"
+"Report-Msgid-Bugs-To: www.hextor.org\n"
 "POT-Creation-Date: 2014-05-14 13:20-0400\n"
 "PO-Revision-Date: 2014-05-14 17:20+0000\n"
 "Last-Translator: TingPing <tingping@tingping.se>\n"
-"Language-Team: Thai (http://www.transifex.com/projects/p/hexchat/language/th/)\n"
+"Language-Team: Thai (http://www.transifex.com/projects/p/hextor/language/th/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: th\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ../data/misc/hexchat.appdata.xml.in.h:1
+#: ../data/misc/hextor.appdata.xml.in.h:1
 msgid ""
-"HexChat is an easy to use yet extensible IRC Client. It allows you to "
+"Hextor is an easy to use yet extensible IRC Client. It allows you to "
 "securely join multiple networks and talk to users privately or in channels "
 "using a customizable interface. You can even transfer files."
 msgstr ""
 
-#: ../data/misc/hexchat.appdata.xml.in.h:2
+#: ../data/misc/hextor.appdata.xml.in.h:2
 msgid ""
-"HexChat supports features such as: DCC, SASL, proxies, spellcheck, alerts, "
+"Hextor supports features such as: DCC, SASL, proxies, spellcheck, alerts, "
 "logging, custom themes, and Python/Perl scripts."
 msgstr ""
 
-#: ../data/misc/hexchat.desktop.in.h:1
-msgid "HexChat"
+#: ../data/misc/hextor.desktop.in.h:1
+msgid "Hextor"
 msgstr ""
 
-#: ../data/misc/hexchat.desktop.in.h:2
+#: ../data/misc/hextor.desktop.in.h:2
 msgid "IRC Client"
 msgstr ""
 
-#: ../data/misc/hexchat.desktop.in.h:3
+#: ../data/misc/hextor.desktop.in.h:3
 msgid "Chat with other people online"
 msgstr ""
 
-#: ../data/misc/hexchat.desktop.in.h:4
+#: ../data/misc/hextor.desktop.in.h:4
 msgid "IM;Chat;"
 msgstr ""
 
-#: ../data/misc/hexchat.desktop.in.h:5
+#: ../data/misc/hextor.desktop.in.h:5
 msgid "Open Safe Mode"
 msgstr ""
 
 #: ../data/misc/htm.desktop.in.h:1
-msgid "HexChat Theme Manager"
+msgid "Hextor Theme Manager"
 msgstr ""
 
 #. 0 means unlimited
@@ -119,144 +119,144 @@ msgstr "%s ได้เสนอ \"%s\". คุณต้องการยอม
 msgid "No active DCCs\n"
 msgstr "ไม่มี DCCs ที่ทำงานอยู่\n"
 
-#: ../src/common/hexchat.c:867
+#: ../src/common/hextor.c:867
 msgid "_Open Dialog Window"
 msgstr "เปิดการสนทนาส่วนตัว"
 
-#: ../src/common/hexchat.c:868
+#: ../src/common/hextor.c:868
 msgid "_Send a File"
 msgstr "ส่งไฟล์"
 
-#: ../src/common/hexchat.c:869
+#: ../src/common/hextor.c:869
 msgid "_User Info (WhoIs)"
 msgstr "ข้อมูลของคนนี้"
 
-#: ../src/common/hexchat.c:870
+#: ../src/common/hextor.c:870
 msgid "_Add to Friends List"
 msgstr "เพิ่มเป็นเพื่อน"
 
-#: ../src/common/hexchat.c:871
+#: ../src/common/hextor.c:871
 msgid "_Ignore"
 msgstr ""
 
-#: ../src/common/hexchat.c:872
+#: ../src/common/hextor.c:872
 msgid "O_perator Actions"
 msgstr "คำสั่งสำหรับ Operator"
 
-#: ../src/common/hexchat.c:874
+#: ../src/common/hextor.c:874
 msgid "Give Ops"
 msgstr "ให้ Ops"
 
-#: ../src/common/hexchat.c:875
+#: ../src/common/hextor.c:875
 msgid "Take Ops"
 msgstr "รับ Ops"
 
-#: ../src/common/hexchat.c:876
+#: ../src/common/hextor.c:876
 msgid "Give Voice"
 msgstr "ให้การประกาศ"
 
-#: ../src/common/hexchat.c:877
+#: ../src/common/hextor.c:877
 msgid "Take Voice"
 msgstr "รับการประกาศ"
 
-#: ../src/common/hexchat.c:879
+#: ../src/common/hextor.c:879
 msgid "Kick/Ban"
 msgstr "เตะ/แบน"
 
-#: ../src/common/hexchat.c:880 ../src/common/hexchat.c:917
+#: ../src/common/hextor.c:880 ../src/common/hextor.c:917
 msgid "Kick"
 msgstr "เตะ"
 
-#: ../src/common/hexchat.c:881 ../src/common/hexchat.c:882
-#: ../src/common/hexchat.c:883 ../src/common/hexchat.c:884
-#: ../src/common/hexchat.c:885 ../src/common/hexchat.c:916
+#: ../src/common/hextor.c:881 ../src/common/hextor.c:882
+#: ../src/common/hextor.c:883 ../src/common/hextor.c:884
+#: ../src/common/hextor.c:885 ../src/common/hextor.c:916
 #: ../src/fe-gtk/banlist.c:50
 msgid "Ban"
 msgstr "แบน"
 
-#: ../src/common/hexchat.c:886 ../src/common/hexchat.c:887
-#: ../src/common/hexchat.c:888 ../src/common/hexchat.c:889
+#: ../src/common/hextor.c:886 ../src/common/hextor.c:887
+#: ../src/common/hextor.c:888 ../src/common/hextor.c:889
 msgid "KickBan"
 msgstr "เตะแบน"
 
-#: ../src/common/hexchat.c:899
+#: ../src/common/hextor.c:899
 msgid "Leave Channel"
 msgstr "ออกจากแชนแนล"
 
-#: ../src/common/hexchat.c:900
+#: ../src/common/hextor.c:900
 msgid "Join Channel..."
 msgstr "เข้าใช้แชนแนล..."
 
-#: ../src/common/hexchat.c:901 ../src/fe-gtk/menu.c:1410
+#: ../src/common/hextor.c:901 ../src/fe-gtk/menu.c:1410
 msgid "Enter Channel to Join:"
 msgstr "ป้อนแชนแนลที่จะเข้าร่วม"
 
-#: ../src/common/hexchat.c:902
+#: ../src/common/hextor.c:902
 msgid "Server Links"
 msgstr "การเชื่อมต่อเซิร์ฟเวอร์"
 
-#: ../src/common/hexchat.c:903
+#: ../src/common/hextor.c:903
 msgid "Ping Server"
 msgstr "Ping เซิร์ฟเวอร์"
 
-#: ../src/common/hexchat.c:904
+#: ../src/common/hextor.c:904
 msgid "Hide Version"
 msgstr "ซ่อนเวอร์ชั่น"
 
-#: ../src/common/hexchat.c:914
+#: ../src/common/hextor.c:914
 msgid "Op"
 msgstr "Op"
 
-#: ../src/common/hexchat.c:915
+#: ../src/common/hextor.c:915
 msgid "DeOp"
 msgstr "DeOp"
 
-#: ../src/common/hexchat.c:918
+#: ../src/common/hextor.c:918
 msgid "bye"
 msgstr "ลาก่อน"
 
-#: ../src/common/hexchat.c:919
+#: ../src/common/hextor.c:919
 #, c-format
 msgid "Enter reason to kick %s:"
 msgstr "ป้อนเหตุผลที่จะเตะ %s:"
 
-#: ../src/common/hexchat.c:920
+#: ../src/common/hextor.c:920
 msgid "Sendfile"
 msgstr "ส่งไฟล์"
 
-#: ../src/common/hexchat.c:921
+#: ../src/common/hextor.c:921
 msgid "Dialog"
 msgstr "หน้าต่างสนทนา"
 
-#: ../src/common/hexchat.c:930
+#: ../src/common/hextor.c:930
 msgid "WhoIs"
 msgstr "WhoIs"
 
-#: ../src/common/hexchat.c:931
+#: ../src/common/hextor.c:931
 msgid "Send"
 msgstr "ส่ง"
 
-#: ../src/common/hexchat.c:932
+#: ../src/common/hextor.c:932
 msgid "Chat"
 msgstr "คุยเล่น"
 
-#: ../src/common/hexchat.c:933 ../src/fe-gtk/banlist.c:852
+#: ../src/common/hextor.c:933 ../src/fe-gtk/banlist.c:852
 #: ../src/fe-gtk/dccgui.c:884 ../src/fe-gtk/ignoregui.c:385
 #: ../src/fe-gtk/urlgrab.c:212
 msgid "Clear"
 msgstr "ล้าง"
 
-#: ../src/common/hexchat.c:934
+#: ../src/common/hextor.c:934
 msgid "Ping"
 msgstr "Ping"
 
-#: ../src/common/hexchat.c:1130
+#: ../src/common/hextor.c:1130
 #, c-format
 msgid ""
 "You do not have write access to %s. Nothing from this session can be saved."
 msgstr ""
 
-#: ../src/common/hexchat.c:1139
+#: ../src/common/hextor.c:1139
 msgid ""
 "* Running IRC as root is stupid! You should\n"
 "  create a User Account and use that to login.\n"
@@ -506,7 +506,7 @@ msgid "EXECWRITE, sends data to the processes stdin"
 msgstr "EXECWRITE, ส่งข้อมูลไปยังทางป้อนข้อมูลมาตรฐานของโพรเซส"
 
 #: ../src/common/outbound.c:3961
-msgid "EXPORTCONF, exports HexChat settings"
+msgid "EXPORTCONF, exports Hextor settings"
 msgstr ""
 
 #: ../src/common/outbound.c:3964
@@ -681,7 +681,7 @@ msgstr "RECONNECT [<โฮสต์>] [<พอร์ต>] [<รหัสผ่�
 
 #: ../src/common/outbound.c:4051
 msgid ""
-"RECV <text>, send raw data to HexChat, as if it was received from the IRC "
+"RECV <text>, send raw data to Hextor, as if it was received from the IRC "
 "server"
 msgstr ""
 
@@ -823,7 +823,7 @@ msgid "Unknown Command. Try /help\n"
 msgstr "คำสั่งที่ไม่รู้จัก. ลอง /help\n"
 
 #: ../src/common/plugin.c:412 ../src/common/plugin.c:448
-msgid "No hexchat_plugin_init symbol; is this really a HexChat plugin?"
+msgid "No hextor_plugin_init symbol; is this really a Hextor plugin?"
 msgstr ""
 
 #: ../src/common/server.c:644
@@ -3405,7 +3405,7 @@ msgid "Execute command:"
 msgstr "กระทำคำสั่ง:"
 
 #: ../src/fe-gtk/fe-gtk.c:88
-msgid "Open URL or execute command in an existing HexChat"
+msgid "Open URL or execute command in an existing Hextor"
 msgstr ""
 
 #: ../src/fe-gtk/fe-gtk.c:90
@@ -3684,8 +3684,8 @@ msgid ""
 msgstr "เซิร์ฟเวอร์นี้ยังคงมี %d แชนแนลหรือการสนทนาที่ถูกเชื่อมโยงด้วย. ต้องการปิดทั้งหมด?"
 
 #: ../src/fe-gtk/maingui.c:1203
-msgid "Quit HexChat?"
-msgstr "คุณต้องการออกจาก HexChat หรือไม่?"
+msgid "Quit Hextor?"
+msgstr "คุณต้องการออกจาก Hextor หรือไม่?"
 
 #: ../src/fe-gtk/maingui.c:1223
 msgid "Don't ask next time."
@@ -4010,7 +4010,7 @@ msgid ""
 "%m  =  machine info\n"
 "%n  =  your nick\n"
 "%t  =  time/date\n"
-"%v  =  HexChat version\n"
+"%v  =  Hextor version\n"
 "%2  =  word 2\n"
 "%3  =  word 3\n"
 "&2  =  word 2 to the end of line\n"
@@ -4078,7 +4078,7 @@ msgid ""
 "\n"
 "Putting a ! in front of the command\n"
 "indicates it should be sent to a\n"
-"shell instead of HexChat"
+"shell instead of Hextor"
 msgstr ""
 
 #: ../src/fe-gtk/menu.c:1527
@@ -4114,7 +4114,7 @@ msgid ": CTCP Replies"
 msgstr ": การตอบรับ CTCP"
 
 #: ../src/fe-gtk/menu.c:1743
-msgid "He_xChat"
+msgid "He_xtor"
 msgstr ""
 
 #: ../src/fe-gtk/menu.c:1744

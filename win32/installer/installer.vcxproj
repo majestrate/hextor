@@ -21,9 +21,9 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  <Import Project="..\hexchat.props" />
+  <Import Project="..\hextor.props" />
   <PropertyGroup>
-    <OutDir>$(HexChatRel)</OutDir>
+    <OutDir>$(HextorRel)</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
     <ClCompile>
@@ -37,8 +37,8 @@
       <Command>
       <![CDATA[
 SET SOLUTIONDIR=$(SolutionDir)..\
-powershell -File "$(SolutionDir)..\win32\version-template.ps1" "$(SolutionDir)..\win32\installer\hexchat.iss.tt" "$(HexChatBin)hexchat.iss"
-$(IsccPath) /dPROJECTDIR="$(ProjectDir)" /dAPPARCH="$(Platform)" "$(HexChatBin)hexchat.iss"
+powershell -File "$(SolutionDir)..\win32\version-template.ps1" "$(SolutionDir)..\win32\installer\hextor.iss.tt" "$(HextorBin)hextor.iss"
+$(IsccPath) /dPROJECTDIR="$(ProjectDir)" /dAPPARCH="$(Platform)" "$(HextorBin)hextor.iss"
       ]]>
       </Command>
     </PreBuildEvent>
@@ -46,7 +46,7 @@ $(IsccPath) /dPROJECTDIR="$(ProjectDir)" /dAPPARCH="$(Platform)" "$(HexChatBin)h
   <ItemGroup>
     <None Include="wizardimage.bmp" />
     <None Include="wizardsmallimage.bmp" />
-    <None Include="hexchat.iss" />
+    <None Include="hextor.iss" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

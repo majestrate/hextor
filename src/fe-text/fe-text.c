@@ -35,8 +35,8 @@
 #include <sys/types.h>
 #include <ctype.h>
 #include <glib-object.h>
-#include "../common/hexchat.h"
-#include "../common/hexchatc.h"
+#include "../common/hextor.h"
+#include "../common/hextorc.h"
 #include "../common/cfgfiles.h"
 #include "../common/outbound.h"
 #include "../common/util.h"
@@ -95,7 +95,7 @@ fe_new_window (struct session *sess, int focus)
 
 	g_snprintf (buf, sizeof (buf),
 				"\n"
-				" \017HexChat-Text \00310"PACKAGE_VERSION"\n"
+				" \017Hextor-Text \00310"PACKAGE_VERSION"\n"
 				" \017Running on \00310%s\n",
 				get_sys_str (1));
 	fe_print_text (sess, buf, 0, FALSE);
@@ -513,7 +513,7 @@ fe_args (int argc, char *argv[])
 		}
 		g_free (exe);
 #else
-		printf ("%s\n", HEXCHATLIBDIR);
+		printf ("%s\n", HEXTORLIBDIR);
 #endif
 		return 0;
 	}
@@ -830,7 +830,7 @@ fe_ctrl_gui (session *sess, fe_gui_action action, int arg)
 	/* only one action type handled for now, but could add more */
 	switch (action)
 	{
-	/* gui focus is really the only case hexchat-text needs to wory about */
+	/* gui focus is really the only case hextor-text needs to wory about */
 	case FE_GUI_FOCUS:
 		current_sess = sess;
 		current_tab = sess;

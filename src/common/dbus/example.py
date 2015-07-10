@@ -1,6 +1,6 @@
 #! /usr/bin/python
 
-# HexChat
+# Hextor
 # Copyright (C) 1998-2010 Peter Zelezny.
 # Copyright (C) 2009-2013 Berke Viktor.
 #
@@ -22,26 +22,26 @@
 import dbus
 
 bus = dbus.SessionBus()
-proxy = bus.get_object('org.hexchat.service', '/org/hexchat/Remote')
-remote = dbus.Interface(proxy, 'org.hexchat.connection')
+proxy = bus.get_object('org.hextor.service', '/org/hextor/Remote')
+remote = dbus.Interface(proxy, 'org.hextor.connection')
 path = remote.Connect ("example.py",
 		       "Python example",
 		       "Example of a D-Bus client written in python",
 		       "1.0")
-proxy = bus.get_object('org.hexchat.service', path)
-hexchat = dbus.Interface(proxy, 'org.hexchat.plugin')
+proxy = bus.get_object('org.hextor.service', path)
+hextor = dbus.Interface(proxy, 'org.hextor.plugin')
 
-channels = hexchat.ListGet ("channels")
-while hexchat.ListNext (channels):
-	name = hexchat.ListStr (channels, "channel")
+channels = hextor.ListGet ("channels")
+while hextor.ListNext (channels):
+	name = hextor.ListStr (channels, "channel")
 	print("------- " + name + " -------")
-	hexchat.SetContext (hexchat.ListInt (channels, "context"))
-	hexchat.EmitPrint ("Channel Message", ["John", "Hi there", "@"])
-	users = hexchat.ListGet ("users")
-	while hexchat.ListNext (users):
-		print("Nick: " + hexchat.ListStr (users, "nick"))
-	hexchat.ListFree (users)
-hexchat.ListFree (channels)
+	hextor.SetContext (hextor.ListInt (channels, "context"))
+	hextor.EmitPrint ("Channel Message", ["John", "Hi there", "@"])
+	users = hextor.ListGet ("users")
+	while hextor.ListNext (users):
+		print("Nick: " + hextor.ListStr (users, "nick"))
+	hextor.ListFree (users)
+hextor.ListFree (channels)
 
-print(hexchat.Strip ("\00312Blue\003 \002Bold!\002", -1, 1|2))
+print(hextor.Strip ("\00312Blue\003 \002Bold!\002", -1, 1|2))
 

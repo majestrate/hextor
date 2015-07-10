@@ -1,4 +1,4 @@
-/* HexChat
+/* Hextor
  * Copyright (C) 1998-2010 Peter Zelezny.
  * Copyright (C) 2009-2013 Berke Viktor.
  *
@@ -19,8 +19,8 @@
 
 #include "proto-irc.h"
 
-#ifndef HEXCHAT_INBOUND_H
-#define HEXCHAT_INBOUND_H
+#ifndef HEXTOR_INBOUND_H
+#define HEXTOR_INBOUND_H
 
 void inbound_next_nick (session *sess, char *nick, int error,
 								const message_tags_data *tags_data);

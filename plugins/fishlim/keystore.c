@@ -30,14 +30,14 @@
 #include "irc.h"
 #include "fish.h"
 #include "keystore.h"
-#include "plugin_hexchat.h"
+#include "plugin_hextor.h"
 
 
 static char *keystore_password = NULL;
 
 
 /**
- * Opens the key store file: ~/.config/hexchat/addon_fishlim.conf
+ * Opens the key store file: ~/.config/hextor/addon_fishlim.conf
  */
 static GKeyFile *getConfigFile() {
     gchar *filename = get_config_filename();

@@ -24,10 +24,10 @@
 #include <stdlib.h>
 #include "../marshal.c"
 
-#define DBUS_SERVICE "org.hexchat.service"
-#define DBUS_REMOTE "/org/hexchat/Remote"
-#define DBUS_REMOTE_CONNECTION_INTERFACE "org.hexchat.connection"
-#define DBUS_REMOTE_PLUGIN_INTERFACE "org.hexchat.plugin"
+#define DBUS_SERVICE "org.hextor.service"
+#define DBUS_REMOTE "/org/hextor/Remote"
+#define DBUS_REMOTE_CONNECTION_INTERFACE "org.hextor.connection"
+#define DBUS_REMOTE_PLUGIN_INTERFACE "org.hextor.plugin"
 
 guint command_id;
 guint server_id;
@@ -73,7 +73,7 @@ test_command_cb (DBusGProxy *proxy,
 					G_TYPE_INVALID, G_TYPE_INVALID)) {
 			write_error ("Failed to complete unhook", &error);
 		}
-		/* Now if you write "/test blah" again in the HexChat window
+		/* Now if you write "/test blah" again in the Hextor window
 		 * you'll get a "Unknown command" error message */
 		g_print ("test command received: %s\n", word_eol[1]);
 		if (!dbus_g_proxy_call (proxy, "Print",
@@ -159,7 +159,7 @@ main (int argc, char **argv)
 	g_print ("Server hook id=%d\n", server_id);
 
 	dbus_g_object_register_marshaller (
-		_hexchat_marshal_VOID__POINTER_POINTER_UINT_UINT,
+		_hextor_marshal_VOID__POINTER_POINTER_UINT_UINT,
 		G_TYPE_NONE,
 		G_TYPE_STRV, G_TYPE_STRV, G_TYPE_UINT, G_TYPE_UINT,
 		G_TYPE_INVALID);
@@ -195,7 +195,7 @@ main (int argc, char **argv)
 				     G_CALLBACK (unload_cb),
 				     NULL, NULL);
 
-	/* Now you can write on the HexChat windows: "/test arg1 arg2 ..." */
+	/* Now you can write on the Hextor windows: "/test arg1 arg2 ..." */
 	mainloop = g_main_loop_new (NULL, FALSE);
 	g_main_loop_run (mainloop);
 

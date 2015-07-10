@@ -1,4 +1,4 @@
-/* HexChat
+/* Hextor
  * Copyright (C) 1998-2010 Peter Zelezny.
  * Copyright (C) 2009-2013 Berke Viktor.
  *
@@ -20,8 +20,8 @@
 #include <time.h>
 #include "textenums.h"
 
-#ifndef HEXCHAT_TEXT_H
-#define HEXCHAT_TEXT_H
+#ifndef HEXTOR_TEXT_H
+#define HEXTOR_TEXT_H
 
 /* timestamp is non-zero if we are using server-time */
 #define EMIT_SIGNAL_TIMESTAMP(i, sess, a, b, c, d, e, timestamp) \

@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# HexChat
+# Hextor
 # Copyright (C) 1998-2010 Peter Zelezny.
 # Copyright (C) 2009-2013 Berke Viktor.
 #
@@ -23,29 +23,29 @@ from gi.repository import Gio
 
 bus = Gio.bus_get_sync(Gio.BusType.SESSION, None)
 connection = Gio.DBusProxy.new_sync(bus, Gio.DBusProxyFlags.NONE, None,
-  						'org.hexchat.service', '/org/hexchat/Remote', 'org.hexchat.connection', None)
+  						'org.hextor.service', '/org/hextor/Remote', 'org.hextor.connection', None)
 path = connection.Connect('(ssss)', 
 					'example.py',
 					'Python example', 
 					'Example of a D-Bus client written in python', 
 					'1.0')		
-hexchat = Gio.DBusProxy.new_sync(bus, Gio.DBusProxyFlags.NONE, None,
-								'org.hexchat.service', path, 'org.hexchat.plugin', None)
+hextor = Gio.DBusProxy.new_sync(bus, Gio.DBusProxyFlags.NONE, None,
+								'org.hextor.service', path, 'org.hextor.plugin', None)
          
 # Note the type before every arguement, this must be done.
 # Type requirements are listed in our docs and characters are listed in the dbus docs.
 # s = string, u = uint, i = int, etc.
 
-channels = hexchat.ListGet ('(s)', "channels")
-while hexchat.ListNext ('(u)', channels):
-	name = hexchat.ListStr ('(us)', channels, "channel")
+channels = hextor.ListGet ('(s)', "channels")
+while hextor.ListNext ('(u)', channels):
+	name = hextor.ListStr ('(us)', channels, "channel")
 	print("------- " + name + " -------")
-	hexchat.SetContext ('(u)', hexchat.ListInt ('(us)', channels, "context"))
-	hexchat.EmitPrint ('(sas)', "Channel Message", ["John", "Hi there", "@"])
-	users = hexchat.ListGet ('(s)', "users")
-	while hexchat.ListNext ('(u)', users):
-		print("Nick: " + hexchat.ListStr ('(us)', users, "nick"))
-	hexchat.ListFree ('(u)', users)
-hexchat.ListFree ('(u)', channels)
+	hextor.SetContext ('(u)', hextor.ListInt ('(us)', channels, "context"))
+	hextor.EmitPrint ('(sas)', "Channel Message", ["John", "Hi there", "@"])
+	users = hextor.ListGet ('(s)', "users")
+	while hextor.ListNext ('(u)', users):
+		print("Nick: " + hextor.ListStr ('(us)', users, "nick"))
+	hextor.ListFree ('(u)', users)
+hextor.ListFree ('(u)', channels)
 
-print(hexchat.Strip ('(sii)', "\00312Blue\003 \002Bold!\002", -1, 1|2))
+print(hextor.Strip ('(sii)', "\00312Blue\003 \002Bold!\002", -1, 1|2))

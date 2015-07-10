@@ -1,4 +1,4 @@
-package HexChat::List::Network::AutoJoin;
+package Hextor::List::Network::AutoJoin;
 use strict;
 use warnings;
 

@@ -5,10 +5,10 @@
 #define HAVE_ISO_CODES
 #define ISO_CODES_PREFIX ".\\"
 #define ISO_CODES_LOCALEDIR LOCALEDIR
-#define PACKAGE_NAME "hexchat"
+#define PACKAGE_NAME "hextor"
 #define PACKAGE_VERSION "<#= [string]::Join('.', $versionParts) #>"
-#define HEXCHATLIBDIR ".\\plugins"
-#define HEXCHATSHAREDIR "."
+#define HEXTORLIBDIR ".\\plugins"
+#define HEXTORSHAREDIR "."
 #define OLD_PERL
-#define GETTEXT_PACKAGE "hexchat"
-#define PACKAGE_TARNAME "hexchat-<#= [string]::Join('.', $versionParts) #>"
+#define GETTEXT_PACKAGE "hextor"
+#define PACKAGE_TARNAME "hextor-<#= [string]::Join('.', $versionParts) #>"

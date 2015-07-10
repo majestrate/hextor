@@ -1,4 +1,4 @@
-/* HexChat
+/* Hextor
  * Copyright (c) 2011-2012 Berke Viktor.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,11 +23,11 @@
 #include <windows.h>
 #include <time.h>
 
-#include "hexchat-plugin.h"
+#include "hextor-plugin.h"
 
-static hexchat_plugin *ph;   /* plugin handle */
+static hextor_plugin *ph;   /* plugin handle */
 static char name[] = "Exec";
-static char desc[] = "Execute commands inside HexChat";
+static char desc[] = "Execute commands inside Hextor";
 static char version[] = "1.2";
 
 static int
@@ -100,12 +100,12 @@ run_command (char *word[], char *word_eol[], void *userdata)
 						token = strtok_s (buffer, "\n", &context);
 						while (token != NULL)
 						{
-							hexchat_commandf (ph, "SAY %s", token);
+							hextor_commandf (ph, "SAY %s", token);
 							token = strtok_s (NULL, "\n", &context);
 						}
 					}
 					else
-						hexchat_printf (ph, "%s", buffer);
+						hextor_printf (ph, "%s", buffer);
 				}
 			}
 			else
@@ -118,11 +118,11 @@ run_command (char *word[], char *word_eol[], void *userdata)
 
 		/* display a newline to separate things */
 		if (!announce)
-			hexchat_printf (ph, "\n");
+			hextor_printf (ph, "\n");
 
 		if (timeElapsed >= 10)
 		{
-			hexchat_printf (ph, "Command took too much time to run, execution aborted.\n");
+			hextor_printf (ph, "Command took too much time to run, execution aborted.\n");
 		}
 
 		CloseHandle (readPipe);
@@ -131,14 +131,14 @@ run_command (char *word[], char *word_eol[], void *userdata)
 	}
 	else
 	{
-		hexchat_command (ph, "help exec");
+		hextor_command (ph, "help exec");
 	}
 
-	return HEXCHAT_EAT_HEXCHAT;
+	return HEXTOR_EAT_HEXTOR;
 }
 
 int
-hexchat_plugin_init (hexchat_plugin *plugin_handle, char **plugin_name, char **plugin_desc, char **plugin_version, char *arg)
+hextor_plugin_init (hextor_plugin *plugin_handle, char **plugin_name, char **plugin_desc, char **plugin_version, char *arg)
 {
 	ph = plugin_handle;
 
@@ -146,15 +146,15 @@ hexchat_plugin_init (hexchat_plugin *plugin_handle, char **plugin_name, char **p
 	*plugin_desc = desc;
 	*plugin_version = version;
 
-	hexchat_hook_command (ph, "EXEC", HEXCHAT_PRI_NORM, run_command, "Usage: /EXEC [-O] - execute commands inside HexChat", 0);
-	hexchat_printf (ph, "%s plugin loaded\n", name);
+	hextor_hook_command (ph, "EXEC", HEXTOR_PRI_NORM, run_command, "Usage: /EXEC [-O] - execute commands inside Hextor", 0);
+	hextor_printf (ph, "%s plugin loaded\n", name);
 
 	return 1;       /* return 1 for success */
 }
 
 int
-hexchat_plugin_deinit (void)
+hextor_plugin_deinit (void)
 {
-	hexchat_printf (ph, "%s plugin unloaded\n", name);
+	hextor_printf (ph, "%s plugin unloaded\n", name);
 	return 1;
 }

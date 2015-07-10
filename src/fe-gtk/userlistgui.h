@@ -1,4 +1,4 @@
-/* HexChat
+/* Hextor
  * Copyright (C) 1998-2010 Peter Zelezny.
  * Copyright (C) 2009-2013 Berke Viktor.
  *
@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
  */
 
-#ifndef HEXCHAT_USERLISTGUI_H
-#define HEXCHAT_USERLISTGUI_H
+#ifndef HEXTOR_USERLISTGUI_H
+#define HEXTOR_USERLISTGUI_H
 
 void userlist_set_value (GtkWidget *treeview, gfloat val);
 gfloat userlist_get_value (GtkWidget *treeview);

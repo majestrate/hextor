@@ -33,8 +33,8 @@
 #define GLIB_DISABLE_DEPRECATION_WARNINGS
 #include "fe-gtk.h"
 
-#include "../common/hexchat.h"
-#include "../common/hexchatc.h"
+#include "../common/hextor.h"
+#include "../common/hextorc.h"
 #include "../common/cfgfiles.h"
 #include "../common/fe.h"
 #include "../common/userlist.h"
@@ -847,11 +847,11 @@ key_save_kbs (void)
 	GSList *list = keybind_list;
 	struct key_binding *kb;
 
-	fd = hexchat_open_file ("keybindings.conf", O_CREAT | O_TRUNC | O_WRONLY,
+	fd = hextor_open_file ("keybindings.conf", O_CREAT | O_TRUNC | O_WRONLY,
 									 0x180, XOF_DOMODE);
 	if (fd < 0)
 		return 1;
-	write (fd, buf, g_snprintf (buf, 510, "# HexChat key bindings config file\n\n"));
+	write (fd, buf, g_snprintf (buf, 510, "# Hextor key bindings config file\n\n"));
 
 	while (list)
 	{
@@ -944,7 +944,7 @@ key_load_kbs (void)
 	GdkModifierType mod = 0;
 	off_t size;
 
-	fd = hexchat_open_file ("keybindings.conf", O_RDONLY, 0, 0);
+	fd = hextor_open_file ("keybindings.conf", O_RDONLY, 0, 0);
 	if (fd < 0)
 	{
 		ibuf = g_strdup (default_kb_cfg);

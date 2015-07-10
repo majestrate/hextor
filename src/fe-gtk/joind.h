@@ -1,4 +1,4 @@
-/* HexChat
+/* Hextor
  * Copyright (C) 1998-2010 Peter Zelezny.
  * Copyright (C) 2009-2013 Berke Viktor.
  *
@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
  */
 
-#ifndef HEXCHAT_JOIND_H
-#define HEXCHAT_JOIND_H
+#ifndef HEXTOR_JOIND_H
+#define HEXTOR_JOIND_H
 
 void joind_open (server *serv);
 void joind_close (server *serv);

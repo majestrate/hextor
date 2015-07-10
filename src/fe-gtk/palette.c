@@ -31,7 +31,7 @@
 #include "fe-gtk.h"
 #include "palette.h"
 
-#include "../common/hexchat.h"
+#include "../common/hextor.h"
 #include "../common/util.h"
 #include "../common/cfgfiles.h"
 #include "../common/typedef.h"
@@ -112,7 +112,7 @@ palette_load (void)
 	char *cfg;
 	guint16 red, green, blue;
 
-	fh = hexchat_open_file ("colors.conf", O_RDONLY, 0, 0);
+	fh = hextor_open_file ("colors.conf", O_RDONLY, 0, 0);
 	if (fh != -1)
 	{
 		fstat (fh, &st);
@@ -149,7 +149,7 @@ palette_save (void)
 	int i, j, fh;
 	char prefname[256];
 
-	fh = hexchat_open_file ("colors.conf", O_TRUNC | O_WRONLY | O_CREAT, 0600, XOF_DOMODE);
+	fh = hextor_open_file ("colors.conf", O_TRUNC | O_WRONLY | O_CREAT, 0600, XOF_DOMODE);
 	if (fh != -1)
 	{
 		/* mIRC colors 0-31 are here */

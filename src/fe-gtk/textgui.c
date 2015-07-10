@@ -26,8 +26,8 @@
 
 #include "fe-gtk.h"
 
-#include "../common/hexchat.h"
-#include "../common/hexchatc.h"
+#include "../common/hextor.h"
+#include "../common/hextorc.h"
 #include "../common/cfgfiles.h"
 #include "../common/outbound.h"
 #include "../common/fe.h"

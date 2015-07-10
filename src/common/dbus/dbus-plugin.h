@@ -1,4 +1,4 @@
-/* dbus-plugin.c - hexchat plugin for remote access using DBUS
+/* dbus-plugin.c - hextor plugin for remote access using DBUS
  * Copyright (C) 2006 Claessens Xavier
  *
  * This program is free software; you can redistribute it and/or modify
@@ -19,10 +19,10 @@
  * xclaesse@gmail.com
  */
 
-#ifndef HEXCHAT_DBUS_PLUGIN_H
-#define HEXCHAT_DBUS_PLUGIN_H
+#ifndef HEXTOR_DBUS_PLUGIN_H
+#define HEXTOR_DBUS_PLUGIN_H
 
-int	dbus_plugin_init	(hexchat_plugin *plugin_handle,
+int	dbus_plugin_init	(hextor_plugin *plugin_handle,
 				 char **plugin_name,
 				 char **plugin_desc,
 				 char **plugin_version,

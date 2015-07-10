@@ -1,4 +1,4 @@
-libdir = $(hexchatlibdir)
+libdir = $(hextorlibdir)
 
 lib_LTLIBRARIES = python.la
 python_la_SOURCES = python.c

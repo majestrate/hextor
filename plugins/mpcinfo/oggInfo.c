@@ -55,7 +55,7 @@ struct tagInfo getOggHeader(char *file){
 	info.artist=NULL;
 	f = fopen(file,"rb");
 	if (f==NULL){
-       hexchat_print(ph,"file not found while trying to read ogg header");
+       hextor_print(ph,"file not found while trying to read ogg header");
        //if (DEBUG==1) putlog("file not found while trying to read ogg header");
        return info;
     }

@@ -38,18 +38,18 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-#include "hexchat.h"
+#include "hextor.h"
 #include "plugin.h"
 #include "ignore.h"
 #include "util.h"
 #include "fe.h"
-#include "cfgfiles.h"			  /* hexchat_fopen_file() */
+#include "cfgfiles.h"			  /* hextor_fopen_file() */
 #include "network.h"				/* net_ip() */
 #include "modes.h"
 #include "notify.h"
 #include "inbound.h"
 #include "text.h"
-#include "hexchatc.h"
+#include "hextorc.h"
 #include "servlist.h"
 #include "server.h"
 #include "tree.h"
@@ -85,7 +85,7 @@ random_line (char *file_name)
 	if (!file_name[0])
 		goto nofile;
 
-	fh = hexchat_fopen_file (file_name, "r", 0);
+	fh = hextor_fopen_file (file_name, "r", 0);
 	if (!fh)
 	{
 	 nofile:
@@ -1858,7 +1858,7 @@ cmd_exec (struct session *sess, char *tbuf, char *word[], char *word_eol[])
 static int
 cmd_exportconf (struct session *sess, char *tbuf, char *word[], char *word_eol[])
 {
-	/* this is pretty much the same as in hexchat_exit() */
+	/* this is pretty much the same as in hextor_exit() */
 	save_config ();
 	if (prefs.save_pevents)
 	{
@@ -2408,7 +2408,7 @@ cmd_kickban (struct session *sess, char *tbuf, char *word[], char *word_eol[])
 static int
 cmd_killall (struct session *sess, char *tbuf, char *word[], char *word_eol[])
 {
-	hexchat_exit();
+	hextor_exit();
 	return 2;
 }
 
@@ -2493,7 +2493,7 @@ load_perform_file (session *sess, char *file)
 	char *nl;
 	FILE *fp;
 
-	fp = hexchat_fopen_file (file, "r", 0);		/* load files from config dir */
+	fp = hextor_fopen_file (file, "r", 0);		/* load files from config dir */
 	if (!fp)
 		return FALSE;
 
@@ -3487,7 +3487,7 @@ cmd_tray (struct session *sess, char *tbuf, char *word[], char *word_eol[])
 
 	if (!word[3][0])
 	{
-		fe_tray_set_file (NULL);	/* default HexChat icon */
+		fe_tray_set_file (NULL);	/* default Hextor icon */
 		return TRUE;
 	}
 
@@ -3905,7 +3905,7 @@ const struct commands xc_cmds[] = {
 #endif
 #endif
 #if 0
-	{"EXPORTCONF", cmd_exportconf, 0, 0, 1, N_("EXPORTCONF, exports HexChat settings")},
+	{"EXPORTCONF", cmd_exportconf, 0, 0, 1, N_("EXPORTCONF, exports Hextor settings")},
 #endif
 	{"FLUSHQ", cmd_flushq, 0, 0, 1,
 	 N_("FLUSHQ, flushes the current server's send queue")},
@@ -3955,7 +3955,7 @@ const struct commands xc_cmds[] = {
 	{"ME", cmd_me, 0, 0, 1,
 	 N_("ME <action>, sends the action to the current channel (actions are written in the 3rd person, like /me jumps)")},
 	{"MENU", cmd_menu, 0, 0, 1, "MENU [-eX] [-i<ICONFILE>] [-k<mod>,<key>] [-m] [-pX] [-r<X,group>] [-tX] {ADD|DEL} <path> [command] [unselect command]\n"
-										 "       See http://hexchat.readthedocs.org/en/latest/plugins.html#controlling-the-gui for more details."},
+										 "       See http://hextor.readthedocs.org/en/latest/plugins.html#controlling-the-gui for more details."},
 	{"MKICK", cmd_mkick, 1, 1, 1,
 	 N_("MKICK, Mass kicks everyone except you in the current channel (needs chanop)")},
 	{"MODE", cmd_mode, 1, 0, 1, 0},
@@ -3995,7 +3995,7 @@ const struct commands xc_cmds[] = {
 	{"RECONNECT", cmd_reconnect, 0, 0, 1,
 	 N_("RECONNECT [<host>] [<port>] [<password>], Can be called just as /RECONNECT to reconnect to the current server or with /RECONNECT ALL to reconnect to all the open servers")},
 #endif
-	{"RECV", cmd_recv, 1, 0, 1, N_("RECV <text>, send raw data to HexChat, as if it was received from the IRC server")},
+	{"RECV", cmd_recv, 1, 0, 1, N_("RECV <text>, send raw data to Hextor, as if it was received from the IRC server")},
 	{"RELOAD", cmd_reload, 0, 0, 1, N_("RELOAD <name>, reloads a plugin or script")},
 	{"SAY", cmd_say, 0, 0, 1,
 	 N_("SAY <text>, sends the text to the object in the current window")},

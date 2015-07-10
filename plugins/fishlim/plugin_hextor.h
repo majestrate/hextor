@@ -22,8 +22,8 @@
 
 */
 
-#ifndef PLUGIN_HEXCHAT_H
-#define PLUGIN_HEXCHAT_H
+#ifndef PLUGIN_HEXTOR_H
+#define PLUGIN_HEXTOR_H
 
 gchar *get_config_filename();
 int irc_nick_cmp (const char *, const char *);

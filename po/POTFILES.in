@@ -1,10 +1,10 @@
-data/misc/hexchat.appdata.xml.in
-data/misc/hexchat.desktop.in
+data/misc/hextor.appdata.xml.in
+data/misc/hextor.desktop.in
 data/misc/htm.desktop.in
 src/common/cfgfiles.c
 src/common/chanopt.c
 src/common/dcc.c
-src/common/hexchat.c
+src/common/hextor.c
 src/common/ignore.c
 src/common/inbound.c
 src/common/notify.c

@@ -24,7 +24,7 @@
 
 #include "fe-gtk.h"
 
-#include "../common/hexchat.h"
+#include "../common/hextor.h"
 #include "../common/notify.h"
 #include "../common/cfgfiles.h"
 #include "../common/fe.h"

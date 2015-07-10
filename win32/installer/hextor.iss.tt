@@ -1,30 +1,30 @@
-#define APPNAM "HexChat"
+#define APPNAM "Hextor"
 #define APPVER "<#= [string]::Join('.', $versionParts) #>"
 ; These are defined by our installer project at build time
 ;#define APPARCH "x64"
-;#define PROJECTDIR "C:\...\hexchat\win32\installer\"
+;#define PROJECTDIR "C:\...\hextor\win32\installer\"
 
 ;http://mitrich.net23.net/?/inno-download-plugin.html
 #include <idp.iss>
 
 [Setup]
-AppName=HexChat
+AppName=Hextor
 AppVersion={#APPVER}
-AppVerName=HexChat {#APPVER}
-AppPublisher=HexChat
-AppPublisherURL=http://hexchat.github.io
+AppVerName=Hextor {#APPVER}
+AppPublisher=Hextor
+AppPublisherURL=http://hextor.github.io
 AppCopyright=Copyright (C) 1998-2010 Peter Zelezny
-AppSupportURL=https://github.com/hexchat/hexchat/issues
-AppUpdatesURL=http://hexchat.github.io/downloads.html
-LicenseFile=share\doc\hexchat\COPYING
-UninstallDisplayIcon={app}\hexchat.exe
-UninstallDisplayName=HexChat
+AppSupportURL=https://github.com/hextor/hextor/issues
+AppUpdatesURL=http://hextor.github.io/downloads.html
+LicenseFile=share\doc\hextor\COPYING
+UninstallDisplayIcon={app}\hextor.exe
+UninstallDisplayName=Hextor
 #if APPARCH == "x64"
-DefaultDirName={pf64}\HexChat
+DefaultDirName={pf64}\Hextor
 #else
-DefaultDirName={pf32}\HexChat
+DefaultDirName={pf32}\Hextor
 #endif
-DefaultGroupName=HexChat
+DefaultGroupName=Hextor
 DisableProgramGroupPage=yes
 SolidCompression=yes
 Compression=lzma2/ultra64
@@ -49,7 +49,7 @@ ArchitecturesAllowed=x86 x64
 MinVersion=6.1
 WizardImageFile={#PROJECTDIR}wizardimage.bmp
 WizardSmallImageFile={#PROJECTDIR}wizardsmallimage.bmp
-SetupIconFile={#PROJECTDIR}..\..\data\icons\hexchat.ico
+SetupIconFile={#PROJECTDIR}..\..\data\icons\hextor.ico
 
 [Types]
 Name: "normal"; Description: "Normal Installation"
@@ -57,9 +57,9 @@ Name: "minimal"; Description: "Minimal Installation"
 Name: "custom"; Description: "Custom Installation"; Flags: iscustom
 
 [Components]
-Name: "libs"; Description: "HexChat"; Types: normal minimal custom; Flags: fixed
-Name: "xctext"; Description: "HexChat-Text"; Types: custom; Flags: disablenouninstallwarning
-Name: "xtm"; Description: "HexChat Theme Manager"; Types: normal custom; Flags: disablenouninstallwarning
+Name: "libs"; Description: "Hextor"; Types: normal minimal custom; Flags: fixed
+Name: "xctext"; Description: "Hextor-Text"; Types: custom; Flags: disablenouninstallwarning
+Name: "xtm"; Description: "Hextor Theme Manager"; Types: normal custom; Flags: disablenouninstallwarning
 Name: "translations"; Description: "Translations"; Types: normal custom; Flags: disablenouninstallwarning
 Name: "spell"; Description: "Spelling Dictionaries"; Types: custom; Flags: disablenouninstallwarning
 Name: "plugins"; Description: "Plugins"; Types: custom; Flags: disablenouninstallwarning
@@ -84,20 +84,20 @@ Name: portable; Description: "Yes"; GroupDescription: "Portable Mode: Stores con
 Root: HKCR; Subkey: "irc"; ValueType: none; ValueName: ""; ValueData: ""; Flags: deletekey uninsdeletekey; Tasks: not portable
 Root: HKCR; Subkey: "irc"; ValueType: string; ValueName: ""; ValueData: "URL:IRC Protocol"; Flags: uninsdeletevalue; Tasks: not portable
 Root: HKCR; Subkey: "irc"; ValueType: string; ValueName: "URL Protocol"; ValueData: ""; Flags: uninsdeletevalue; Tasks: not portable
-Root: HKCR; Subkey: "irc\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\hexchat.exe,0"; Flags: uninsdeletevalue; Tasks: not portable
+Root: HKCR; Subkey: "irc\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\hextor.exe,0"; Flags: uninsdeletevalue; Tasks: not portable
 Root: HKCR; Subkey: "irc\shell"; ValueType: string; ValueName: ""; ValueData: "open"; Flags: uninsdeletevalue; Tasks: not portable
-Root: HKCR; Subkey: "irc\shell\open\command"; ValueType: string; ValueName: ""; ValueData: "{app}\hexchat.exe --url=""%1"""; Flags: uninsdeletevalue; Tasks: not portable
+Root: HKCR; Subkey: "irc\shell\open\command"; ValueType: string; ValueName: ""; ValueData: "{app}\hextor.exe --url=""%1"""; Flags: uninsdeletevalue; Tasks: not portable
 
 Root: HKCR; Subkey: ".hct"; ValueType: none; ValueName: ""; ValueData: ""; Flags: deletekey uninsdeletekey; Components:xtm; Tasks: not portable
-Root: HKCR; Subkey: ".hct"; ValueType: string; ValueName: ""; ValueData: "HexChat Theme File"; Flags: uninsdeletevalue; Components:xtm; Tasks: not portable
-Root: HKCR; Subkey: ".hct"; ValueType: string; ValueName: "HexChat Theme File"; ValueData: ""; Flags: uninsdeletevalue; Components:xtm; Tasks: not portable
+Root: HKCR; Subkey: ".hct"; ValueType: string; ValueName: ""; ValueData: "Hextor Theme File"; Flags: uninsdeletevalue; Components:xtm; Tasks: not portable
+Root: HKCR; Subkey: ".hct"; ValueType: string; ValueName: "Hextor Theme File"; ValueData: ""; Flags: uninsdeletevalue; Components:xtm; Tasks: not portable
 Root: HKCR; Subkey: ".hct\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\thememan.exe,0"; Flags: uninsdeletevalue; Components:xtm; Tasks: not portable
 Root: HKCR; Subkey: ".hct\shell"; ValueType: string; ValueName: ""; ValueData: "open"; Flags: uninsdeletevalue; Components:xtm; Tasks: not portable
 Root: HKCR; Subkey: ".hct\shell\open\command"; ValueType: string; ValueName: ""; ValueData: "{app}\thememan.exe ""%1"""; Flags: uninsdeletevalue; Components:xtm; Tasks: not portable
 
 [Run]
-Filename: "{app}\hexchat.exe"; Description: "Run HexChat after closing the Wizard"; Flags: nowait postinstall skipifsilent
-Filename: "http://docs.hexchat.org/en/latest/changelog.html"; Description: "See what's changed"; Flags: shellexec runasoriginaluser postinstall skipifsilent unchecked
+Filename: "{app}\hextor.exe"; Description: "Run Hextor after closing the Wizard"; Flags: nowait postinstall skipifsilent
+Filename: "http://docs.hextor.org/en/latest/changelog.html"; Description: "See what's changed"; Flags: shellexec runasoriginaluser postinstall skipifsilent unchecked
 Filename: "{tmp}\vcredist.exe"; Parameters: "/install /quiet /norestart"; StatusMsg: "Installing Visual C++ Redistributable"; Flags: skipifdoesntexist; Tasks: not portable
 Filename: "{tmp}\dotnet4.exe"; Parameters: "/q /norestart"; StatusMsg: "Installing .NET"; Components: xtm; Flags: skipifdoesntexist; Tasks: not portable
 Filename: "{tmp}\perl.msi"; StatusMsg: "Installing Perl"; Components: langs\perl; Flags: shellexec skipifdoesntexist; Tasks: not portable
@@ -171,19 +171,19 @@ Source: "plugins\hcpython2.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion;
 Source: "plugins\hcpython3.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion; Components: langs\python\python3
 Source: "plugins\hcperl.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion; Components: langs\perl
 
-Source: "hexchat.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: libs
-Source: "hexchat-text.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: xctext
+Source: "hextor.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: libs
+Source: "hextor-text.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: xctext
 Source: "thememan.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: xtm
 
 [Icons]
-Name: "{group}\HexChat"; Filename: "{app}\hexchat.exe"; AppUserModelID: "HexChat.Desktop.Notify"; Tasks: not portable
-Name: "{group}\HexChat Safe Mode"; Filename: "{app}\hexchat.exe"; Parameters: "--no-auto --no-plugins"; Tasks: not portable
-Name: "{group}\HexChat ChangeLog"; Filename: "{app}\changelog.url"; IconFilename: "{sys}\shell32.dll"; IconIndex: 165; Tasks: not portable
-Name: "{group}\HexChat ReadMe"; Filename: "{app}\readme.url"; IconFilename: "{sys}\shell32.dll"; IconIndex: 23; Tasks: not portable
-Name: "{group}\HexChat Config Folder"; Filename: "%APPDATA%\HexChat\"; Tasks: not portable
-Name: "{group}\HexChat-Text"; Filename: "{app}\hexchat-text.exe"; Components: xctext; Tasks: not portable
-Name: "{group}\HexChat Theme Manager"; Filename: "{app}\thememan.exe"; Components: xtm; Tasks: not portable
-Name: "{group}\Uninstall HexChat"; Filename: "{uninstallexe}"; Tasks: not portable
+Name: "{group}\Hextor"; Filename: "{app}\hextor.exe"; AppUserModelID: "Hextor.Desktop.Notify"; Tasks: not portable
+Name: "{group}\Hextor Safe Mode"; Filename: "{app}\hextor.exe"; Parameters: "--no-auto --no-plugins"; Tasks: not portable
+Name: "{group}\Hextor ChangeLog"; Filename: "{app}\changelog.url"; IconFilename: "{sys}\shell32.dll"; IconIndex: 165; Tasks: not portable
+Name: "{group}\Hextor ReadMe"; Filename: "{app}\readme.url"; IconFilename: "{sys}\shell32.dll"; IconIndex: 23; Tasks: not portable
+Name: "{group}\Hextor Config Folder"; Filename: "%APPDATA%\Hextor\"; Tasks: not portable
+Name: "{group}\Hextor-Text"; Filename: "{app}\hextor-text.exe"; Components: xctext; Tasks: not portable
+Name: "{group}\Hextor Theme Manager"; Filename: "{app}\thememan.exe"; Components: xtm; Tasks: not portable
+Name: "{group}\Uninstall Hextor"; Filename: "{uninstallexe}"; Tasks: not portable
 
 [Messages]
 BeveledLabel= {#APPNAM}
@@ -268,18 +268,18 @@ begin
 	begin
 
 #if APPARCH == "x64"
-		REDIST := 'https://dl.hexchat.net/misc/vcredist_2013_x64.exe';
-		PERL := 'https://dl.hexchat.net/misc/perl/Perl%205.20.0%20x64.msi';
+		REDIST := 'https://dl.hextor.net/misc/vcredist_2013_x64.exe';
+		PERL := 'https://dl.hextor.net/misc/perl/Perl%205.20.0%20x64.msi';
 		PY2 := 'http://python.org/ftp/python/2.7.8/python-2.7.8.amd64.msi';
 		PY3 := 'http://python.org/ftp/python/3.4.1/python-3.4.1.amd64.msi';
 #else
-		REDIST := 'https://dl.hexchat.net/misc/vcredist_2013_x86.exe';
-		PERL := 'https://dl.hexchat.net/misc/perl/Perl%205.20.0%20x86.msi';
+		REDIST := 'https://dl.hextor.net/misc/vcredist_2013_x86.exe';
+		PERL := 'https://dl.hextor.net/misc/perl/Perl%205.20.0%20x86.msi';
 		PY2 := 'http://python.org/ftp/python/2.7.8/python-2.7.8.msi';
 		PY3 := 'http://python.org/ftp/python/3.4.1/python-3.4.1.msi';
 #endif
-		DOTNET := 'https://dl.hexchat.net/misc/dotnet_40.exe';
-		SPELL := 'https://dl.hexchat.net/hexchat/HexChat%20Spelling%20Dictionaries%20r2.exe';
+		DOTNET := 'https://dl.hextor.net/misc/dotnet_40.exe';
+		SPELL := 'https://dl.hextor.net/hextor/Hextor%20Spelling%20Dictionaries%20r2.exe';
 
 		if not CheckVCInstall() then
 			idpAddFile(REDIST, ExpandConstant('{tmp}\vcredist.exe'));
@@ -313,9 +313,9 @@ begin
 	if (CurPageID = wpSelectTasks) then
 		if (WizardForm.TasksList.Checked[1] = True) then
 #if APPARCH == "x64"
-			if (WizardDirValue() = ExpandConstant('{pf64}\HexChat')) then
+			if (WizardDirValue() = ExpandConstant('{pf64}\Hextor')) then
 #else
-			if (WizardDirValue() = ExpandConstant('{pf32}\HexChat')) then
+			if (WizardDirValue() = ExpandConstant('{pf32}\Hextor')) then
 #endif
 			begin
 				WizardForm.TasksList.Checked[1] := False
@@ -334,15 +334,15 @@ var
 	sUnInstallString: String;
 begin
 #if APPARCH == "x64"
-	sUnInstPath := ExpandConstant('Software\Microsoft\Windows\CurrentVersion\Uninstall\HexChat (x64)_is1');
+	sUnInstPath := ExpandConstant('Software\Microsoft\Windows\CurrentVersion\Uninstall\Hextor (x64)_is1');
 #else
-	sUnInstPath := ExpandConstant('Software\Microsoft\Windows\CurrentVersion\Uninstall\HexChat (x86)_is1');
+	sUnInstPath := ExpandConstant('Software\Microsoft\Windows\CurrentVersion\Uninstall\Hextor (x86)_is1');
 #endif
 	sUnInstallString := '';
 	if not RegQueryStringValue(HKLM, sUnInstPath, 'UninstallString', sUnInstallString) then
 		RegQueryStringValue(HKCU, sUnInstPath, 'UninstallString', sUnInstallString);
 	if not (sUnInstallString <> '') then
-		sUnInstPath := ExpandConstant('Software\Microsoft\Windows\CurrentVersion\Uninstall\HexChat_is1');
+		sUnInstPath := ExpandConstant('Software\Microsoft\Windows\CurrentVersion\Uninstall\Hextor_is1');
 				if not RegQueryStringValue(HKLM32, sUnInstPath, 'UninstallString', sUnInstallString) then
 					if not RegQueryStringValue(HKCU32, sUnInstPath, 'UninstallString', sUnInstallString) then
 						if IsWin64 then

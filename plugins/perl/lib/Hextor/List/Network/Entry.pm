@@ -1,4 +1,4 @@
-package HexChat::List::Network::Entry;
+package Hextor::List::Network::Entry;
 use strict;
 use warnings;
 
@@ -26,7 +26,7 @@ sub parse {
 
 		# the order of the channels need to be maintained
 		# list of { channel => .., key => ... }
-		autojoins         => HexChat::List::Network::AutoJoin->new( '' ),
+		autojoins         => Hextor::List::Network::AutoJoin->new( '' ),
 		connect_commands   => [],
 		flags             => {},
 		selected          => undef,
@@ -39,7 +39,7 @@ sub parse {
 	my @fields = split /\n/, $data;
 	chomp @fields;
 
-	$entry->{ autojoins } = HexChat::List::Network::AutoJoin->new();
+	$entry->{ autojoins } = Hextor::List::Network::AutoJoin->new();
 
 	for my $field ( @fields ) {
 	SWITCH: for ( $field ) {

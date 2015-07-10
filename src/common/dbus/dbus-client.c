@@ -1,4 +1,4 @@
-/* dbus-client.c - HexChat command-line options for D-Bus
+/* dbus-client.c - Hextor command-line options for D-Bus
  * Copyright (C) 2006 Claessens Xavier
  *
  * This program is free software; you can redistribute it and/or modify
@@ -24,12 +24,12 @@
 #define GLIB_DISABLE_DEPRECATION_WARNINGS
 #include <dbus/dbus-glib.h>
 #include "dbus-client.h"
-#include "hexchat.h"
-#include "hexchatc.h"
+#include "hextor.h"
+#include "hextorc.h"
 
-#define DBUS_SERVICE "org.hexchat.service"
-#define DBUS_REMOTE "/org/hexchat/Remote"
-#define DBUS_REMOTE_INTERFACE "org.hexchat.plugin"
+#define DBUS_SERVICE "org.hextor.service"
+#define DBUS_REMOTE "/org/hextor/Remote"
+#define DBUS_REMOTE_INTERFACE "org.hextor.plugin"
 
 static void
 write_error (char *message,
@@ -43,7 +43,7 @@ write_error (char *message,
 }
 
 void
-hexchat_remote (void)
+hextor_remote (void)
 /* TODO: dbus_g_connection_unref (connection) are commented because it makes
  * dbus to crash. Fixed in dbus >=0.70 ?!?
  * https://launchpad.net/distros/ubuntu/+source/dbus/+bug/54375
@@ -52,7 +52,7 @@ hexchat_remote (void)
 	DBusGConnection *connection;
 	DBusGProxy *dbus = NULL;
 	DBusGProxy *remote_object = NULL;
-	gboolean hexchat_running;
+	gboolean hextor_running;
 	GError *error = NULL;
 	char *command = NULL;
 	int i;
@@ -77,7 +77,7 @@ hexchat_remote (void)
 		return;
 	}
 
-	/* Checks if HexChat is already running */
+	/* Checks if Hextor is already running */
 	dbus = dbus_g_proxy_new_for_name (connection,
 					  DBUS_SERVICE_DBUS,
 					  DBUS_PATH_DBUS,
@@ -85,14 +85,14 @@ hexchat_remote (void)
 	if (!dbus_g_proxy_call (dbus, "NameHasOwner", &error,
 				G_TYPE_STRING, DBUS_SERVICE,
 				G_TYPE_INVALID,
-				G_TYPE_BOOLEAN, &hexchat_running,
+				G_TYPE_BOOLEAN, &hextor_running,
 				G_TYPE_INVALID)) {
 		write_error (_("Failed to complete NameHasOwner"), &error);
-		hexchat_running = FALSE;
+		hextor_running = FALSE;
 	}
 	g_object_unref (dbus);
 
-	if (!hexchat_running) {
+	if (!hextor_running) {
 		/* dbus_g_connection_unref (connection); */
 		return;
 	}

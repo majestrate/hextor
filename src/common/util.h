@@ -1,4 +1,4 @@
-/* HexChat
+/* Hextor
  * Copyright (C) 1998-2010 Peter Zelezny.
  * Copyright (C) 2009-2013 Berke Viktor.
  *
@@ -30,8 +30,8 @@
  *        --+ Dagmar d'Surreal
  */
 
-#ifndef HEXCHAT_UTIL_H
-#define HEXCHAT_UTIL_H
+#ifndef HEXTOR_UTIL_H
+#define HEXTOR_UTIL_H
 
 #define rfc_tolower(c) (rfc_tolowertab[(unsigned char)(c)])
 

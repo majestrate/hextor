@@ -29,12 +29,12 @@
 #include <unistd.h>
 #endif
 
-#include "../common/hexchat.h"
+#include "../common/hextor.h"
 #include "../common/fe.h"
 #include "../common/util.h"
 #include "../common/text.h"
 #include "../common/cfgfiles.h"
-#include "../common/hexchatc.h"
+#include "../common/hextorc.h"
 #include "../common/plugin.h"
 #include "../common/server.h"
 #include "../common/url.h"
@@ -86,7 +86,7 @@ static const GOptionEntry gopt_entries[] =
  {"url",	 0,  G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_STRING, &arg_url, N_("Open an irc://server:port/channel?key URL"), "URL"},
  {"command",	'c', 0, G_OPTION_ARG_STRING,	&arg_command, N_("Execute command:"), "COMMAND"},
 #ifdef USE_DBUS
- {"existing",	'e', 0, G_OPTION_ARG_NONE,	&arg_existing, N_("Open URL or execute command in an existing HexChat"), NULL},
+ {"existing",	'e', 0, G_OPTION_ARG_NONE,	&arg_existing, N_("Open URL or execute command in an existing Hextor"), NULL},
 #endif
  {"minimize",	 0,  0, G_OPTION_ARG_INT,	&arg_minimize, N_("Begin minimized. Level 0=Normal 1=Iconified 2=Tray"), N_("level")},
  {"version",	'v', 0, G_OPTION_ARG_NONE,	&arg_show_version, N_("Show version information"), NULL},
@@ -106,7 +106,7 @@ create_msg_dialog (gchar *title, gchar *message)
 /* On Win32 we automatically have the icon. If we try to load it explicitly, it will look ugly for some reason. */
 #ifndef WIN32
 	pixmaps_init ();
-	gtk_window_set_icon (GTK_WINDOW (dialog), pix_hexchat);
+	gtk_window_set_icon (GTK_WINDOW (dialog), pix_hextor);
 #endif
 
 	gtk_dialog_run (GTK_DIALOG (dialog));
@@ -252,7 +252,7 @@ const char cursor_color_rc[] =
 	"{"
 		"GtkEntry::cursor-color=\"#%02x%02x%02x\""
 	"}"
-	"widget \"*.hexchat-inputbox\" style : application \"xc-ib-st\"";
+	"widget \"*.hextor-inputbox\" style : application \"xc-ib-st\"";
 
 GtkStyle *
 create_input_style (GtkStyle *style)
@@ -295,7 +295,7 @@ fe_init (void)
 	pixmaps_init ();
 
 #ifdef HAVE_GTK_MAC
-	gtkosx_application_set_dock_icon_pixbuf (osx_app, pix_hexchat);
+	gtkosx_application_set_dock_icon_pixbuf (osx_app, pix_hextor);
 #endif
 	channelwin_pix = pixmap_load_from_file (prefs.hex_text_background);
 	input_style = create_input_style (gtk_style_new ());
@@ -305,7 +305,7 @@ fe_init (void)
 static void
 gtkosx_application_terminate (GtkosxApplication *app, gpointer userdata)
 {
-	hexchat_exit();
+	hextor_exit();
 }
 #endif
 
@@ -361,7 +361,7 @@ log_handler (const gchar   *log_domain,
 {
 	session *sess;
 
-	/* if (getenv ("HEXCHAT_WARNING_IGNORE")) this gets ignored sometimes, so simply just disable all warnings */
+	/* if (getenv ("HEXTOR_WARNING_IGNORE")) this gets ignored sometimes, so simply just disable all warnings */
 		return;
 
 	sess = find_dialog (serv_list->data, "(warnings)");
@@ -369,7 +369,7 @@ log_handler (const gchar   *log_domain,
 		sess = new_ircwindow (serv_list->data, "(warnings)", SESS_DIALOG, 0);
 
 	PrintTextf (sess, "%s\t%s\n", log_domain, message);
-	if (getenv ("HEXCHAT_WARNING_ABORT"))
+	if (getenv ("HEXTOR_WARNING_ABORT"))
 		abort ();
 }
 
@@ -668,9 +668,9 @@ fe_beep (session *sess)
 	{
 		ca_context_create (&ca_con);
 		ca_context_change_props (ca_con,
-										CA_PROP_APPLICATION_ID, "hexchat",
+										CA_PROP_APPLICATION_ID, "hextor",
 										CA_PROP_APPLICATION_NAME, DISPLAY_NAME,
-										CA_PROP_APPLICATION_ICON_NAME, "hexchat", NULL);
+										CA_PROP_APPLICATION_ICON_NAME, "hextor", NULL);
 	}
 
 	if (ca_context_play (ca_con, 0, CA_PROP_EVENT_ID, "message-new-instant", NULL) != 0)
@@ -1020,7 +1020,7 @@ osx_show_uri (const char *url)
         open = g_find_program_in_path ("open");
         cmd = g_strjoin (" ", open, encoded_url, NULL);
 
-        hexchat_exec (cmd);
+        hextor_exec (cmd);
 
         g_free (encoded_url);
         g_free (cmd);

@@ -1,4 +1,4 @@
-/* HexChat
+/* Hextor
  * Copyright (C) 1998-2010 Peter Zelezny.
  * Copyright (C) 2009-2013 Berke Viktor.
  *
@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
  */
 
-#ifndef HEXCHAT_MENU_H
-#define HEXCHAT_MENU_H
+#ifndef HEXTOR_MENU_H
+#define HEXTOR_MENU_H
 
 GtkWidget *menu_create_main (void *accel_group, int bar, int away, int toplevel, GtkWidget **menu_widgets);
 void menu_urlmenu (GdkEventButton * event, char *url);
@@ -62,9 +62,9 @@ void menu_set_fullscreen (session_gui *gui, int fullscreen);
 #define MENU_ID_JOIN 11
 #define MENU_ID_USERMENU 12
 #define MENU_ID_FULLSCREEN 13
-#define MENU_ID_HEXCHAT 14
+#define MENU_ID_HEXTOR 14
 
-#if (MENU_ID_NUM < MENU_ID_HEXCHAT)
+#if (MENU_ID_NUM < MENU_ID_HEXTOR)
 #error MENU_ID_NUM is set wrong
 #endif
 

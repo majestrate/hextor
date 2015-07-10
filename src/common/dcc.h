@@ -1,4 +1,4 @@
-/* HexChat
+/* Hextor
  * Copyright (C) 1998-2010 Peter Zelezny.
  * Copyright (C) 2009-2013 Berke Viktor.
  *
@@ -22,8 +22,8 @@
 #include <time.h>						/* for time_t */
 #include "proto-irc.h"
 
-#ifndef HEXCHAT_DCC_H
-#define HEXCHAT_DCC_H
+#ifndef HEXTOR_DCC_H
+#define HEXTOR_DCC_H
 
 #define STAT_QUEUED 0
 #define STAT_ACTIVE 1

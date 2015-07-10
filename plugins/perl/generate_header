@@ -25,13 +25,13 @@ sub toc {
 }
 
 for my $files (
-	[ "hexchat.pm.h",         # output file
-		"lib/HexChat.pm",      # input files
+	[ "hextor.pm.h",         # output file
+		"lib/Hextor.pm",      # input files
 		"lib/Xchat.pm",
-		"lib/HexChat/Embed.pm",
-		"lib/HexChat/List/Network.pm",
-		"lib/HexChat/List/Network/Entry.pm",
-		"lib/HexChat/List/Network/AutoJoin.pm",
+		"lib/Hextor/Embed.pm",
+		"lib/Hextor/List/Network.pm",
+		"lib/Hextor/List/Network/Entry.pm",
+		"lib/Hextor/List/Network/AutoJoin.pm",
 	],
 	[ "irc.pm.h",   # output file
 		"lib/IRC.pm" # input file

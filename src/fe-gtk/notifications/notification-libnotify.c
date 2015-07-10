@@ -1,4 +1,4 @@
-/* HexChat
+/* Hextor
  * Copyright (C) 2015 Patrick Griffis.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -30,8 +30,8 @@ notification_backend_show (const char *title, const char *text)
 	if (strip_markup)
 		text = g_markup_escape_text (text, -1);
 
-	notification = notify_notification_new (title, text, "hexchat");
-	notify_notification_set_hint (notification, "desktop-entry", g_variant_new_string ("hexchat"));
+	notification = notify_notification_new (title, text, "hextor");
+	notify_notification_set_hint (notification, "desktop-entry", g_variant_new_string ("hextor"));
 
 	notify_notification_show (notification, NULL);
 
