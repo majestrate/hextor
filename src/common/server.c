@@ -1367,7 +1367,9 @@ server_child (server * serv)
         if (strncmp(onion_check_ptr,".onion",6)==0)
         { // we are tor
             proxy_type = 3;
-            proxy_port = 9050;
+      proxy_port = prefs.hex_net_tor_port;
+      if (proxy_port == 0)
+        proxy_port = 9050; // default to 9050
             proxy_host = g_strdup("127.0.0.1");
         }
     }

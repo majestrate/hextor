@@ -272,6 +272,7 @@ struct hextorprefs
     int hex_net_proxy_port;
     int hex_net_proxy_type;                         /* 0=disabled, 1=wingate 2=socks4, 3=socks5, 4=http */
     int hex_net_proxy_use;                          /* 0=all 1=IRC_ONLY 2=DCC_ONLY */
+  int hex_net_tor_port;
     int hex_net_reconnect_delay;
     int hex_notify_timeout;
     int hex_text_max_indent;

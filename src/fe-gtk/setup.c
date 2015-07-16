@@ -655,6 +655,9 @@ static const setting network_settings[] =
     {ST_ENTRY,      N_("Username:"), P_OFFSETNL(hex_net_proxy_user), 0, 0, sizeof prefs.hex_net_proxy_user},
     {ST_ENTRY,      N_("Password:"), P_OFFSETNL(hex_net_proxy_pass), 0, GINT_TO_POINTER(1), sizeof prefs.hex_net_proxy_pass},
 
+  {ST_HEADER,	N_("The Onion Router"), 0, 0, 0, 0},
+  {ST_NUMBER,	N_("TOR Port:"), P_OFFINTNL(hex_net_tor_port), N_("Defaults to 9050 when set to zero (0)."), 0, 65535},
+
     {ST_END, 0, 0, 0, 0, 0}
 };
 
