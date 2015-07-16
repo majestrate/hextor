@@ -28,7 +28,7 @@ unsigned int nick_access (server *serv, char *nick, int *modechars);
 int mode_access (server *serv, char mode, char *prefix);
 void inbound_005 (server *serv, char *word[], const message_tags_data *tags_data);
 void handle_mode (server *serv, char *word[], char *word_eol[], char *nick,
-						int numeric_324, const message_tags_data *tags_data);
+                  int numeric_324, const message_tags_data *tags_data);
 void send_channel_modes (session *sess, char *tbuf, char *word[], int start, int end, char sign, char mode, int modes_per_line);
 
 #endif

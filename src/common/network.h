@@ -23,9 +23,9 @@
 typedef struct netstore_
 {
 #ifdef NETWORK_PRIVATE
-	struct addrinfo *ip6_hostent;
+    struct addrinfo *ip6_hostent;
 #else
-	int _dummy;	/* some compilers don't like empty structs */
+    int _dummy;     /* some compilers don't like empty structs */
 #endif
 } netstore;
 

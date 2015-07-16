@@ -1,9 +1,9 @@
 dnl Process this file with autoconf to produce a configure script.
 
-AC_INIT([Hextor],[2.11.0])
+AC_INIT([Hextor],[0.5])
 
 AC_PREREQ([2.64])
-AC_COPYRIGHT([Copyright (C) 1998-2010 Peter Zelezny])
+AC_COPYRIGHT([Copyright (C) 1998-2010 Peter Zelezny, Copyright (c) 2009-2014 Berke Viktor, Copyright (c) 2015 Kevin C. Krinke])
 
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_SRCDIR([configure.ac])

@@ -24,98 +24,98 @@
 void
 history_add (struct history *his, char *text)
 {
-	g_free (his->lines[his->realpos]);
-	his->lines[his->realpos] = g_strdup (text);
-	his->realpos++;
-	if (his->realpos == HISTORY_SIZE)
-		his->realpos = 0;
-	his->pos = his->realpos;
+    g_free (his->lines[his->realpos]);
+    his->lines[his->realpos] = g_strdup (text);
+    his->realpos++;
+    if (his->realpos == HISTORY_SIZE)
+        his->realpos = 0;
+    his->pos = his->realpos;
 }
 
 void
 history_free (struct history *his)
 {
-	int i;
-	for (i = 0; i < HISTORY_SIZE; i++)
-	{
-		if (his->lines[i])
-		{
-			g_free (his->lines[i]);
-			his->lines[i] = 0;
-		}
-	}
+    int i;
+    for (i = 0; i < HISTORY_SIZE; i++)
+    {
+        if (his->lines[i])
+        {
+            g_free (his->lines[i]);
+            his->lines[i] = 0;
+        }
+    }
 }
 
 char *
 history_down (struct history *his)
 {
-	int next;
+    int next;
 
-	if (his->pos == his->realpos)	/* allow down only after up */
-		return NULL;
-	if (his->realpos == 0)
-	{
-		if (his->pos == HISTORY_SIZE - 1)
-		{
-			his->pos = 0;
-			return "";
-		}
-	} else
-	{
-		if (his->pos == his->realpos - 1)
-		{
-			his->pos++;
-			return "";
-		}
-	}
+    if (his->pos == his->realpos)   /* allow down only after up */
+        return NULL;
+    if (his->realpos == 0)
+    {
+        if (his->pos == HISTORY_SIZE - 1)
+        {
+            his->pos = 0;
+            return "";
+        }
+    } else
+    {
+        if (his->pos == his->realpos - 1)
+        {
+            his->pos++;
+            return "";
+        }
+    }
 
-	next = 0;
-	if (his->pos < HISTORY_SIZE - 1)
-		next = his->pos + 1;
+    next = 0;
+    if (his->pos < HISTORY_SIZE - 1)
+        next = his->pos + 1;
 
-	if (his->lines[next])
-	{
-		his->pos = next;
-		return his->lines[his->pos];
-	}
+    if (his->lines[next])
+    {
+        his->pos = next;
+        return his->lines[his->pos];
+    }
 
-	return NULL;
+    return NULL;
 }
 
 char *
 history_up (struct history *his, char *current_text)
 {
-	int next;
+    int next;
 
-	if (his->realpos == HISTORY_SIZE - 1)
-	{
-		if (his->pos == 0)
-			return NULL;
-	} else
-	{
-		if (his->pos == his->realpos + 1)
-			return NULL;
-	}
+    if (his->realpos == HISTORY_SIZE - 1)
+    {
+        if (his->pos == 0)
+            return NULL;
+    } else
+    {
+        if (his->pos == his->realpos + 1)
+            return NULL;
+    }
 
-	next = HISTORY_SIZE - 1;
-	if (his->pos != 0)
-		next = his->pos - 1;
+    next = HISTORY_SIZE - 1;
+    if (his->pos != 0)
+        next = his->pos - 1;
 
-	if (his->lines[next])
-	{
-		if
-		(
-			current_text[0] && strcmp(current_text, his->lines[next]) &&
-			(!his->lines[his->pos] || strcmp(current_text, his->lines[his->pos])) &&
-			(!his->lines[his->realpos] || strcmp(current_text, his->lines[his->pos]))
-		)
-		{
-			history_add (his, current_text);
-		}
-		
-		his->pos = next;
-		return his->lines[his->pos];
-	}
+    if (his->lines[next])
+    {
+        if
+            (
+                current_text[0] && strcmp(current_text, his->lines[next]) &&
+                (!his->lines[his->pos] || strcmp(current_text, his->lines[his->pos])) &&
+                (!his->lines[his->realpos] || strcmp(current_text, his->lines[his->pos]))
+                )
+        {
+            history_add (his, current_text);
+        }
 
-	return NULL;
+        his->pos = next;
+        return his->lines[his->pos];
+    }
+
+    return NULL;
 }

@@ -29,10 +29,10 @@ void gtkutil_file_req (const char *title, void *callback, void *userdata, char *
 void gtkutil_destroy (GtkWidget * igad, GtkWidget * dgad);
 void gtkutil_destroy_on_esc (GtkWidget *win);
 GtkWidget *gtkutil_button (GtkWidget *box, char *stock, char *tip, void *callback,
-				 void *userdata, char *labeltext);
+                           void *userdata, char *labeltext);
 void gtkutil_label_new (char *text, GtkWidget * box);
 GtkWidget *gtkutil_entry_new (int max, GtkWidget * box, void *callback,
-										gpointer userdata);
+                              gpointer userdata);
 void show_and_unfocus (GtkWidget * wid);
 void gtkutil_set_icon (GtkWidget *win);
 GtkWidget *gtkutil_window_new (char *title, char *role, int width, int height, int flags);

@@ -22,69 +22,69 @@
 
 typedef struct ircserver
 {
-	char *hostname;
+    char *hostname;
 } ircserver;
 
 typedef struct commandentry
 {
-	char *command;
+    char *command;
 } commandentry;
 
 typedef struct favchannel
 {
-	char *name;
-	char *key;
+    char *name;
+    char *key;
 } favchannel;
 
 typedef struct ircnet
 {
-	char *name;
-	char *nick;
-	char *nick2;
-	char *user;
-	char *real;
-	char *pass;
-	int logintype;
-	char *encoding;
-	GSList *servlist;
-	GSList *commandlist;
-	GSList *favchanlist;
-	int selected;
-	guint32 flags;
+    char *name;
+    char *nick;
+    char *nick2;
+    char *user;
+    char *real;
+    char *pass;
+    int logintype;
+    char *encoding;
+    GSList *servlist;
+    GSList *commandlist;
+    GSList *favchanlist;
+    int selected;
+    guint32 flags;
 } ircnet;
 
 extern GSList *network_list;
 
-#define FLAG_CYCLE				1
-#define FLAG_USE_GLOBAL			2
-#define FLAG_USE_SSL			4
-#define FLAG_AUTO_CONNECT		8
-#define FLAG_USE_PROXY			16
-#define FLAG_ALLOW_INVALID		32
-#define FLAG_FAVORITE			64
-#define FLAG_COUNT				7
+#define FLAG_CYCLE                              1
+#define FLAG_USE_GLOBAL                 2
+#define FLAG_USE_SSL                    4
+#define FLAG_AUTO_CONNECT               8
+#define FLAG_USE_PROXY                  16
+#define FLAG_ALLOW_INVALID              32
+#define FLAG_FAVORITE                   64
+#define FLAG_COUNT                              7
 
 /* Login methods. Use server password by default - if we had a NickServ password, it'd be set to 2 already by servlist_load() */
-#define LOGIN_DEFAULT_REAL		LOGIN_PASS		/* this is to set the default login method for unknown servers */
-#define LOGIN_DEFAULT			0				/* this is for the login type dropdown, doesn't serve any other purpose */
-#define LOGIN_MSG_NICKSERV		1
-#define LOGIN_NICKSERV			2
+#define LOGIN_DEFAULT_REAL              LOGIN_PASS              /* this is to set the default login method for unknown servers */
+#define LOGIN_DEFAULT                   0                               /* this is for the login type dropdown, doesn't serve any other purpose */
+#define LOGIN_MSG_NICKSERV              1
+#define LOGIN_NICKSERV                  2
 #if 0
-#define LOGIN_NS				3
-#define LOGIN_MSG_NS			4
-#define LOGIN_AUTH				5
+#define LOGIN_NS                                3
+#define LOGIN_MSG_NS                    4
+#define LOGIN_AUTH                              5
 #endif
-#define LOGIN_SASL				6
-#define LOGIN_PASS				7
-#define LOGIN_CHALLENGEAUTH		8
-#define LOGIN_CUSTOM			9
-#define LOGIN_SASLEXTERNAL		10
+#define LOGIN_SASL                              6
+#define LOGIN_PASS                              7
+#define LOGIN_CHALLENGEAUTH             8
+#define LOGIN_CUSTOM                    9
+#define LOGIN_SASLEXTERNAL              10
 
-#define CHALLENGEAUTH_ALGO		"HMAC-SHA-256"
-#define CHALLENGEAUTH_NICK		"Q@CServe.quakenet.org"
+#define CHALLENGEAUTH_ALGO              "HMAC-SHA-256"
+#define CHALLENGEAUTH_NICK              "Q@CServe.quakenet.org"
 
 /* DEFAULT_CHARSET is already defined in wingdi.h */
-#define IRC_DEFAULT_CHARSET		"UTF-8 (Unicode)"
+#define IRC_DEFAULT_CHARSET             "UTF-8 (Unicode)"
 
 void servlist_init (void);
 int servlist_save (void);
@@ -122,7 +122,7 @@ GSList *servlist_favchan_listadd (GSList *chanlist, char *channel, char *key);
 gboolean joinlist_is_in_list (server *serv, char *channel);
 
 /* FIXME
-void joinlist_split (char *autojoin, GSList **channels, GSList **keys);
-void joinlist_free (GSList *channels, GSList *keys);
+   void joinlist_split (char *autojoin, GSList **channels, GSList **keys);
+   void joinlist_free (GSList *channels, GSList *keys);
 */
 #endif

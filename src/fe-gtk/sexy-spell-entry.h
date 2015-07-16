@@ -34,32 +34,32 @@ typedef struct _SexySpellEntryPriv  SexySpellEntryPriv;
 #define SEXY_SPELL_ERROR                 (sexy_spell_error_quark())
 
 typedef enum {
-	SEXY_SPELL_ERROR_BACKEND,
+    SEXY_SPELL_ERROR_BACKEND,
 } SexySpellError;
 
 struct _SexySpellEntry
 {
-	GtkEntry parent_object;
+    GtkEntry parent_object;
 
-	SexySpellEntryPriv *priv;
+    SexySpellEntryPriv *priv;
 
-	void (*gtk_reserved1)(void);
-	void (*gtk_reserved2)(void);
-	void (*gtk_reserved3)(void);
-	void (*gtk_reserved4)(void);
+    void (*gtk_reserved1)(void);
+    void (*gtk_reserved2)(void);
+    void (*gtk_reserved3)(void);
+    void (*gtk_reserved4)(void);
 };
 
 struct _SexySpellEntryClass
 {
-	GtkEntryClass parent_class;
+    GtkEntryClass parent_class;
 
-	/* Signals */
-	gboolean (*word_check)(SexySpellEntry *entry, const gchar *word);
+    /* Signals */
+    gboolean (*word_check)(SexySpellEntry *entry, const gchar *word);
 
-	void (*gtk_reserved1)(void);
-	void (*gtk_reserved2)(void);
-	void (*gtk_reserved3)(void);
-	void (*gtk_reserved4)(void);
+    void (*gtk_reserved1)(void);
+    void (*gtk_reserved2)(void);
+    void (*gtk_reserved3)(void);
+    void (*gtk_reserved4)(void);
 };
 
 G_BEGIN_DECLS

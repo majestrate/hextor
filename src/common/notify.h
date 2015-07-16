@@ -24,19 +24,19 @@
 
 struct notify
 {
-	char *name;
-	char *networks;	/* network names, comma sep */
-	GSList *server_list;
+    char *name;
+    char *networks; /* network names, comma sep */
+    GSList *server_list;
 };
 
 struct notify_per_server
 {
-	struct server *server;
-	struct notify *notify;
-	time_t laston;
-	time_t lastseen;
-	time_t lastoff;
-	unsigned int ison:1;
+    struct server *server;
+    struct notify *notify;
+    time_t laston;
+    time_t lastseen;
+    time_t lastoff;
+    unsigned int ison:1;
 };
 
 extern GSList *notify_list;
@@ -44,14 +44,14 @@ extern int notify_tag;
 
 /* the WATCH stuff */
 void notify_set_online (server * serv, char *nick,
-								const message_tags_data *tags_data);
+                        const message_tags_data *tags_data);
 void notify_set_offline (server * serv, char *nick, int quiet,
-								 const message_tags_data *tags_data);
+                         const message_tags_data *tags_data);
 /* the MONITOR stuff */
 void notify_set_online_list (server * serv, char *users,
-								const message_tags_data *tags_data);
+                             const message_tags_data *tags_data);
 void notify_set_offline_list (server * serv, char *users, int quiet,
-								 const message_tags_data *tags_data);
+                              const message_tags_data *tags_data);
 void notify_send_watches (server * serv);
 
 /* the general stuff */
@@ -66,8 +66,8 @@ int notify_isnotify (session *sess, char *name);
 struct notify_per_server *notify_find_server_entry (struct notify *notify, struct server *serv);
 
 /* the old ISON stuff - remove me? */
-void notify_markonline (server *serv, char *word[], 
-								const message_tags_data *tags_data);
+void notify_markonline (server *serv, char *word[],
+                        const message_tags_data *tags_data);
 int notify_checklist (void);
 
 #endif

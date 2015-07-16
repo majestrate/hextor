@@ -36,40 +36,40 @@ void banlist_opengui (session *sess);
 #endif
 
 typedef enum banlist_modes_e {
-	MODE_BAN,
-	MODE_EXEMPT,
-	MODE_INVITE,
-	MODE_QUIET,
-	MODE_CT
+    MODE_BAN,
+    MODE_EXEMPT,
+    MODE_INVITE,
+    MODE_QUIET,
+    MODE_CT
 } banlist_modes;
 
 typedef struct banlist_info_s {
-	session *sess;
-	int capable;	/* MODE bitmask */
-	int readable;	/* subset of capable if not op */
-	int writeable;	/* subset of capable if op */
-	int checked;	/* subset of (op? writeable: readable) */
-	int pending;	/* subset of checked */
-	int current;	/* index of currently processing mode */
-	int line_ct;	/* count of presented lines */
-	int select_ct;	/* count of selected lines */
-	GtkWidget *window;
-	GtkWidget *treeview;
-	GtkWidget *checkboxes[MODE_CT];
-	GtkWidget *but_remove;
-	GtkWidget *but_crop;
-	GtkWidget *but_clear;
-	GtkWidget *but_refresh;
+    session *sess;
+    int capable;    /* MODE bitmask */
+    int readable;   /* subset of capable if not op */
+    int writeable;  /* subset of capable if op */
+    int checked;    /* subset of (op? writeable: readable) */
+    int pending;    /* subset of checked */
+    int current;    /* index of currently processing mode */
+    int line_ct;    /* count of presented lines */
+    int select_ct;  /* count of selected lines */
+    GtkWidget *window;
+    GtkWidget *treeview;
+    GtkWidget *checkboxes[MODE_CT];
+    GtkWidget *but_remove;
+    GtkWidget *but_crop;
+    GtkWidget *but_clear;
+    GtkWidget *but_refresh;
 } banlist_info;
 
 typedef struct mode_info_s {
-	char *name;		/* Checkbox name, e.g. "Bans" */
-	char *type;		/* Type for type column, e.g. "Ban" */
-	char letter;	/* /mode-command letter, e.g. 'b' for MODE_BAN */
-	int code;		/* rfc RPL_foo code, e.g. 367 for RPL_BANLIST */
-	int endcode;	/* rfc RPL_ENDOFfoo code, e.g. 368 for RPL_ENDOFBANLIST */
-	int bit;			/* Mask bit, e.g., 1<<MODE_BAN  */
-	void (*tester)(banlist_info *, int);	/* Function returns true to set bit into checkable */
+    char *name;             /* Checkbox name, e.g. "Bans" */
+    char *type;             /* Type for type column, e.g. "Ban" */
+    char letter;    /* /mode-command letter, e.g. 'b' for MODE_BAN */
+    int code;               /* rfc RPL_foo code, e.g. 367 for RPL_BANLIST */
+    int endcode;    /* rfc RPL_ENDOFfoo code, e.g. 368 for RPL_ENDOFBANLIST */
+    int bit;                        /* Mask bit, e.g., 1<<MODE_BAN  */
+    void (*tester)(banlist_info *, int);    /* Function returns true to set bit into checkable */
 } mode_info;
 
 #endif /* HEXTOR_BANLIST_H */

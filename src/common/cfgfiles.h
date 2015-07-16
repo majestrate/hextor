@@ -54,11 +54,11 @@ FILE *hextor_fopen_file (const char *file, const char *mode, int xof_flags);
 #define XOF_DOMODE 1
 #define XOF_FULLPATH 2
 
-#define STRUCT_OFFSET_STR(type,field) \
-( (unsigned int) (((char *) (&(((type *) NULL)->field)))- ((char *) NULL)) )
+#define STRUCT_OFFSET_STR(type,field)                                   \
+    ( (unsigned int) (((char *) (&(((type *) NULL)->field)))- ((char *) NULL)) )
 
-#define STRUCT_OFFSET_INT(type,field) \
-( (unsigned int) (((int *) (&(((type *) NULL)->field)))- ((int *) NULL)) )
+#define STRUCT_OFFSET_INT(type,field)                                   \
+    ( (unsigned int) (((int *) (&(((type *) NULL)->field)))- ((int *) NULL)) )
 
 #define P_OFFSET(field) STRUCT_OFFSET_STR(struct hextorprefs, field),sizeof(prefs.field)
 #define P_OFFSETNL(field) STRUCT_OFFSET_STR(struct hextorprefs, field)
@@ -67,10 +67,10 @@ FILE *hextor_fopen_file (const char *file, const char *mode, int xof_flags);
 
 struct prefs
 {
-	char *name;
-	unsigned short offset;
-	unsigned short len;
-	unsigned short type;
+    char *name;
+    unsigned short offset;
+    unsigned short len;
+    unsigned short type;
 };
 
 #define TYPE_STR 0

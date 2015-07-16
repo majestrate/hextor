@@ -23,7 +23,7 @@
 extern struct hextorprefs prefs;
 
 extern int hextor_is_quitting;
-extern gint arg_skip_plugins;	/* command-line args */
+extern gint arg_skip_plugins;   /* command-line args */
 extern gint arg_dont_autoconnect;
 extern char *arg_url;
 extern char **arg_urls;

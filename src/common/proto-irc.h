@@ -23,18 +23,18 @@
 #ifndef HEXTOR_PROTO_H
 #define HEXTOR_PROTO_H
 
-#define MESSAGE_TAGS_DATA_INIT			\
-	{									\
-		(time_t)0, /* timestamp */		\
-	}
+#define MESSAGE_TAGS_DATA_INIT                  \
+    {                                           \
+        (time_t)0, /* timestamp */              \
+    }
 
 /* Message tag information that might be passed along with a server message
  *
  * See http://ircv3.atheme.org/specification/capability-negotiation-3.1
  */
-typedef struct 
+typedef struct
 {
-	time_t timestamp;
+    time_t timestamp;
 } message_tags_data;
 
 void proto_fill_her_up (server *serv);
