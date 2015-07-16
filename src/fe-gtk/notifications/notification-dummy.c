@@ -24,7 +24,7 @@ notification_backend_show (const char *title, const char *text)
 int
 notification_backend_init (void)
 {
-	return 0;
+    return 0;
 }
 
 void
@@ -35,5 +35,5 @@ notification_backend_deinit (void)
 int
 notification_backend_supported (void)
 {
-	return 0;
+    return 0;
 }

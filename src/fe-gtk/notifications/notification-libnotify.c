@@ -25,48 +25,48 @@ static gboolean strip_markup = FALSE;
 void
 notification_backend_show (const char *title, const char *text)
 {
-	NotifyNotification *notification;
+    NotifyNotification *notification;
 
-	if (strip_markup)
-		text = g_markup_escape_text (text, -1);
+    if (strip_markup)
+        text = g_markup_escape_text (text, -1);
 
-	notification = notify_notification_new (title, text, "hextor");
-	notify_notification_set_hint (notification, "desktop-entry", g_variant_new_string ("hextor"));
+    notification = notify_notification_new (title, text, "hextor");
+    notify_notification_set_hint (notification, "desktop-entry", g_variant_new_string ("hextor"));
 
-	notify_notification_show (notification, NULL);
+    notify_notification_show (notification, NULL);
 
-	g_object_unref (notification);
-	if (strip_markup)
-		g_free ((char*)text);
+    g_object_unref (notification);
+    if (strip_markup)
+        g_free ((char*)text);
 }
 
 int
 notification_backend_init (void)
 {
-	GList* server_caps;
+    GList* server_caps;
 
-	if (!NOTIFY_CHECK_VERSION (0, 7, 0))
-		return 0;
+    if (!NOTIFY_CHECK_VERSION (0, 7, 0))
+        return 0;
 
-	if (!notify_init (PACKAGE_NAME))
-		return 0;
+    if (!notify_init (PACKAGE_NAME))
+        return 0;
 
-	server_caps = notify_get_server_caps ();
-	if (g_list_find_custom (server_caps, "body-markup", (GCompareFunc)g_strcmp0))
-		strip_markup = TRUE;
-	g_list_free_full (server_caps, g_free);
+    server_caps = notify_get_server_caps ();
+    if (g_list_find_custom (server_caps, "body-markup", (GCompareFunc)g_strcmp0))
+        strip_markup = TRUE;
+    g_list_free_full (server_caps, g_free);
 
-	return 1;
+    return 1;
 }
 
 void
 notification_backend_deinit (void)
 {
-	notify_uninit ();
+    notify_uninit ();
 }
 
 int
 notification_backend_supported (void)
 {
-	return notify_is_initted ();
+    return notify_is_initted ();
 }
