@@ -60,23 +60,23 @@ typedef struct session hextor_context;
 /* crafted to be an even 32 bytes */
 struct _hextor_hook
 {
-	hextor_plugin *pl;	/* the plugin to which it belongs */
-	char *name;			/* "xdcc" */
-	void *callback;	/* pointer to xdcc_callback */
-	char *help_text;	/* help_text for commands only */
-	void *userdata;	/* passed to the callback */
-	int tag;				/* for timers & FDs only */
-	int type;			/* HOOK_* */
-	int pri;	/* fd */	/* priority / fd for HOOK_FD only */
+    hextor_plugin *pl;      /* the plugin to which it belongs */
+    char *name;                     /* "xdcc" */
+    void *callback; /* pointer to xdcc_callback */
+    char *help_text;        /* help_text for commands only */
+    void *userdata; /* passed to the callback */
+    int tag;                                /* for timers & FDs only */
+    int type;                       /* HOOK_* */
+    int pri;        /* fd */        /* priority / fd for HOOK_FD only */
 };
 
 struct _hextor_list
 {
-	int type;			/* LIST_* */
-	GSList *pos;		/* current pos */
-	GSList *next;		/* next pos */
-	GSList *head;		/* for LIST_USERS only */
-	struct notify_per_server *notifyps;	/* notify_per_server * */
+    int type;                       /* LIST_* */
+    GSList *pos;            /* current pos */
+    GSList *next;           /* next pos */
+    GSList *head;           /* for LIST_USERS only */
+    struct notify_per_server *notifyps;     /* notify_per_server * */
 };
 
 typedef int (hextor_cmd_cb) (char *word[], char *word_eol[], void *user_data);
@@ -91,11 +91,11 @@ typedef int (hextor_deinit_func) (hextor_plugin *);
 
 enum
 {
-	LIST_CHANNELS,
-	LIST_DCC,
-	LIST_IGNORE,
-	LIST_NOTIFY,
-	LIST_USERS
+    LIST_CHANNELS,
+    LIST_DCC,
+    LIST_IGNORE,
+    LIST_NOTIFY,
+    LIST_USERS
 };
 
 /* We use binary flags here because it makes it possible for plugin_hook_find()
@@ -105,20 +105,20 @@ enum
  */
 enum
 {
-	HOOK_COMMAND      = 1 << 0, /* /command */
-	HOOK_SERVER       = 1 << 1, /* PRIVMSG, NOTICE, numerics */
-	HOOK_SERVER_ATTRS = 1 << 2, /* same as above, with attributes */
-	HOOK_PRINT        = 1 << 3, /* All print events */
-	HOOK_PRINT_ATTRS  = 1 << 4, /* same as above, with attributes */
-	HOOK_TIMER        = 1 << 5, /* timeouts */
-	HOOK_FD           = 1 << 6, /* sockets & fds */
-	HOOK_DELETED      = 1 << 7  /* marked for deletion */
+    HOOK_COMMAND      = 1 << 0, /* /command */
+    HOOK_SERVER       = 1 << 1, /* PRIVMSG, NOTICE, numerics */
+    HOOK_SERVER_ATTRS = 1 << 2, /* same as above, with attributes */
+    HOOK_PRINT        = 1 << 3, /* All print events */
+    HOOK_PRINT_ATTRS  = 1 << 4, /* same as above, with attributes */
+    HOOK_TIMER        = 1 << 5, /* timeouts */
+    HOOK_FD           = 1 << 6, /* sockets & fds */
+    HOOK_DELETED      = 1 << 7  /* marked for deletion */
 };
 
-GSList *plugin_list = NULL;	/* export for plugingui.c */
+GSList *plugin_list = NULL;     /* export for plugingui.c */
 static GSList *hook_list = NULL;
 
-extern const struct prefs vars[];	/* cfgfiles.c */
+extern const struct prefs vars[];       /* cfgfiles.c */
 
 
 /* unload a plugin and remove it from our linked list */
@@ -126,103 +126,103 @@ extern const struct prefs vars[];	/* cfgfiles.c */
 static int
 plugin_free (hextor_plugin *pl, int do_deinit, int allow_refuse)
 {
-	GSList *list, *next;
-	hextor_hook *hook;
-	hextor_deinit_func *deinit_func;
+    GSList *list, *next;
+    hextor_hook *hook;
+    hextor_deinit_func *deinit_func;
 
-	/* fake plugin added by hextor_plugingui_add() */
-	if (pl->fake)
-		goto xit;
+    /* fake plugin added by hextor_plugingui_add() */
+    if (pl->fake)
+        goto xit;
 
-	/* run the plugin's deinit routine, if any */
-	if (do_deinit && pl->deinit_callback != NULL)
-	{
-		deinit_func = pl->deinit_callback;
-		if (!deinit_func (pl) && allow_refuse)
-			return FALSE;
-	}
+    /* run the plugin's deinit routine, if any */
+    if (do_deinit && pl->deinit_callback != NULL)
+    {
+        deinit_func = pl->deinit_callback;
+        if (!deinit_func (pl) && allow_refuse)
+            return FALSE;
+    }
 
-	/* remove all of this plugin's hooks */
-	list = hook_list;
-	while (list)
-	{
-		hook = list->data;
-		next = list->next;
-		if (hook->pl == pl)
-			hextor_unhook (NULL, hook);
-		list = next;
-	}
+    /* remove all of this plugin's hooks */
+    list = hook_list;
+    while (list)
+    {
+        hook = list->data;
+        next = list->next;
+        if (hook->pl == pl)
+            hextor_unhook (NULL, hook);
+        list = next;
+    }
 
 #ifdef USE_PLUGIN
-	if (pl->handle)
-		g_module_close (pl->handle);
+    if (pl->handle)
+        g_module_close (pl->handle);
 #endif
 
 xit:
-	if (pl->free_strings)
-	{
-		g_free (pl->name);
-		g_free (pl->desc);
-		g_free (pl->version);
-	}
-	g_free ((char *)pl->filename);
-	g_free (pl);
+    if (pl->free_strings)
+    {
+        g_free (pl->name);
+        g_free (pl->desc);
+        g_free (pl->version);
+    }
+    g_free ((char *)pl->filename);
+    g_free (pl);
 
-	plugin_list = g_slist_remove (plugin_list, pl);
+    plugin_list = g_slist_remove (plugin_list, pl);
 
 #ifdef USE_PLUGIN
-	fe_pluginlist_update ();
+    fe_pluginlist_update ();
 #endif
 
-	return TRUE;
+    return TRUE;
 }
 
 static hextor_plugin *
 plugin_list_add (hextor_context *ctx, char *filename, const char *name,
-					  const char *desc, const char *version, void *handle,
-					  void *deinit_func, int fake, int free_strings)
+                 const char *desc, const char *version, void *handle,
+                 void *deinit_func, int fake, int free_strings)
 {
-	hextor_plugin *pl;
+    hextor_plugin *pl;
 
-	pl = g_new (hextor_plugin, 1);
-	pl->handle = handle;
-	pl->filename = filename;
-	pl->context = ctx;
-	pl->name = (char *)name;
-	pl->desc = (char *)desc;
-	pl->version = (char *)version;
-	pl->deinit_callback = deinit_func;
-	pl->fake = fake;
-	pl->free_strings = free_strings;	/* free() name,desc,version? */
+    pl = g_new (hextor_plugin, 1);
+    pl->handle = handle;
+    pl->filename = filename;
+    pl->context = ctx;
+    pl->name = (char *)name;
+    pl->desc = (char *)desc;
+    pl->version = (char *)version;
+    pl->deinit_callback = deinit_func;
+    pl->fake = fake;
+    pl->free_strings = free_strings;        /* free() name,desc,version? */
 
-	plugin_list = g_slist_prepend (plugin_list, pl);
+    plugin_list = g_slist_prepend (plugin_list, pl);
 
-	return pl;
+    return pl;
 }
 
 static void *
 hextor_dummy (hextor_plugin *ph)
 {
-	return NULL;
+    return NULL;
 }
 
 #ifdef WIN32
 static int
 hextor_read_fd (hextor_plugin *ph, GIOChannel *source, char *buf, int *len)
 {
-	GError *error = NULL;
+    GError *error = NULL;
 
-	g_io_channel_set_buffered (source, FALSE);
-	g_io_channel_set_encoding (source, NULL, &error);
+    g_io_channel_set_buffered (source, FALSE);
+    g_io_channel_set_encoding (source, NULL, &error);
 
-	if (g_io_channel_read_chars (source, buf, *len, (gsize*)len, &error) == G_IO_STATUS_NORMAL)
-	{
-		return 0;
-	}
-	else
-	{
-		return -1;
-	}
+    if (g_io_channel_read_chars (source, buf, *len, (gsize*)len, &error) == G_IO_STATUS_NORMAL)
+    {
+        return 0;
+    }
+    else
+    {
+        return -1;
+    }
 }
 #endif
 
@@ -230,76 +230,76 @@ hextor_read_fd (hextor_plugin *ph, GIOChannel *source, char *buf, int *len)
 
 void
 plugin_add (session *sess, char *filename, void *handle, void *init_func,
-				void *deinit_func, char *arg, int fake)
+            void *deinit_func, char *arg, int fake)
 {
-	hextor_plugin *pl;
-	char *file;
+    hextor_plugin *pl;
+    char *file;
 
-	file = g_strdup (filename);
+    file = g_strdup (filename);
 
-	pl = plugin_list_add (sess, file, file, NULL, NULL, handle, deinit_func,
-								 fake, FALSE);
+    pl = plugin_list_add (sess, file, file, NULL, NULL, handle, deinit_func,
+                          fake, FALSE);
 
-	if (!fake)
-	{
-		/* win32 uses these because it doesn't have --export-dynamic! */
-		pl->hextor_hook_command = hextor_hook_command;
-		pl->hextor_hook_server = hextor_hook_server;
-		pl->hextor_hook_print = hextor_hook_print;
-		pl->hextor_hook_timer = hextor_hook_timer;
-		pl->hextor_hook_fd = hextor_hook_fd;
-		pl->hextor_unhook = hextor_unhook;
-		pl->hextor_print = hextor_print;
-		pl->hextor_printf = hextor_printf;
-		pl->hextor_command = hextor_command;
-		pl->hextor_commandf = hextor_commandf;
-		pl->hextor_nickcmp = hextor_nickcmp;
-		pl->hextor_set_context = hextor_set_context;
-		pl->hextor_find_context = hextor_find_context;
-		pl->hextor_get_context = hextor_get_context;
-		pl->hextor_get_info = hextor_get_info;
-		pl->hextor_get_prefs = hextor_get_prefs;
-		pl->hextor_list_get = hextor_list_get;
-		pl->hextor_list_free = hextor_list_free;
-		pl->hextor_list_fields = hextor_list_fields;
-		pl->hextor_list_str = hextor_list_str;
-		pl->hextor_list_next = hextor_list_next;
-		pl->hextor_list_int = hextor_list_int;
-		pl->hextor_plugingui_add = hextor_plugingui_add;
-		pl->hextor_plugingui_remove = hextor_plugingui_remove;
-		pl->hextor_emit_print = hextor_emit_print;
+    if (!fake)
+    {
+        /* win32 uses these because it doesn't have --export-dynamic! */
+        pl->hextor_hook_command = hextor_hook_command;
+        pl->hextor_hook_server = hextor_hook_server;
+        pl->hextor_hook_print = hextor_hook_print;
+        pl->hextor_hook_timer = hextor_hook_timer;
+        pl->hextor_hook_fd = hextor_hook_fd;
+        pl->hextor_unhook = hextor_unhook;
+        pl->hextor_print = hextor_print;
+        pl->hextor_printf = hextor_printf;
+        pl->hextor_command = hextor_command;
+        pl->hextor_commandf = hextor_commandf;
+        pl->hextor_nickcmp = hextor_nickcmp;
+        pl->hextor_set_context = hextor_set_context;
+        pl->hextor_find_context = hextor_find_context;
+        pl->hextor_get_context = hextor_get_context;
+        pl->hextor_get_info = hextor_get_info;
+        pl->hextor_get_prefs = hextor_get_prefs;
+        pl->hextor_list_get = hextor_list_get;
+        pl->hextor_list_free = hextor_list_free;
+        pl->hextor_list_fields = hextor_list_fields;
+        pl->hextor_list_str = hextor_list_str;
+        pl->hextor_list_next = hextor_list_next;
+        pl->hextor_list_int = hextor_list_int;
+        pl->hextor_plugingui_add = hextor_plugingui_add;
+        pl->hextor_plugingui_remove = hextor_plugingui_remove;
+        pl->hextor_emit_print = hextor_emit_print;
 #ifdef WIN32
-		pl->hextor_read_fd = (void *) hextor_read_fd;
+        pl->hextor_read_fd = (void *) hextor_read_fd;
 #else
-		pl->hextor_read_fd = hextor_dummy;
+        pl->hextor_read_fd = hextor_dummy;
 #endif
-		pl->hextor_list_time = hextor_list_time;
-		pl->hextor_gettext = hextor_gettext;
-		pl->hextor_send_modes = hextor_send_modes;
-		pl->hextor_strip = hextor_strip;
-		pl->hextor_free = hextor_free;
-		pl->hextor_pluginpref_set_str = hextor_pluginpref_set_str;
-		pl->hextor_pluginpref_get_str = hextor_pluginpref_get_str;
-		pl->hextor_pluginpref_set_int = hextor_pluginpref_set_int;
-		pl->hextor_pluginpref_get_int = hextor_pluginpref_get_int;
-		pl->hextor_pluginpref_delete = hextor_pluginpref_delete;
-		pl->hextor_pluginpref_list = hextor_pluginpref_list;
-		pl->hextor_hook_server_attrs = hextor_hook_server_attrs;
-		pl->hextor_hook_print_attrs = hextor_hook_print_attrs;
-		pl->hextor_emit_print_attrs = hextor_emit_print_attrs;
-		pl->hextor_event_attrs_create = hextor_event_attrs_create;
-		pl->hextor_event_attrs_free = hextor_event_attrs_free;
+        pl->hextor_list_time = hextor_list_time;
+        pl->hextor_gettext = hextor_gettext;
+        pl->hextor_send_modes = hextor_send_modes;
+        pl->hextor_strip = hextor_strip;
+        pl->hextor_free = hextor_free;
+        pl->hextor_pluginpref_set_str = hextor_pluginpref_set_str;
+        pl->hextor_pluginpref_get_str = hextor_pluginpref_get_str;
+        pl->hextor_pluginpref_set_int = hextor_pluginpref_set_int;
+        pl->hextor_pluginpref_get_int = hextor_pluginpref_get_int;
+        pl->hextor_pluginpref_delete = hextor_pluginpref_delete;
+        pl->hextor_pluginpref_list = hextor_pluginpref_list;
+        pl->hextor_hook_server_attrs = hextor_hook_server_attrs;
+        pl->hextor_hook_print_attrs = hextor_hook_print_attrs;
+        pl->hextor_emit_print_attrs = hextor_emit_print_attrs;
+        pl->hextor_event_attrs_create = hextor_event_attrs_create;
+        pl->hextor_event_attrs_free = hextor_event_attrs_free;
 
-		/* run hextor_plugin_init, if it returns 0, close the plugin */
-		if (((hextor_init_func *)init_func) (pl, &pl->name, &pl->desc, &pl->version, arg) == 0)
-		{
-			plugin_free (pl, FALSE, FALSE);
-			return;
-		}
-	}
+        /* run hextor_plugin_init, if it returns 0, close the plugin */
+        if (((hextor_init_func *)init_func) (pl, &pl->name, &pl->desc, &pl->version, arg) == 0)
+        {
+            plugin_free (pl, FALSE, FALSE);
+            return;
+        }
+    }
 
 #ifdef USE_PLUGIN
-	fe_pluginlist_update ();
+    fe_pluginlist_update ();
 #endif
 }
 
@@ -308,30 +308,30 @@ plugin_add (session *sess, char *filename, void *handle, void *init_func,
 int
 plugin_kill (char *name, int by_filename)
 {
-	GSList *list;
-	hextor_plugin *pl;
+    GSList *list;
+    hextor_plugin *pl;
 
-	list = plugin_list;
-	while (list)
-	{
-		pl = list->data;
-		/* static-plugins (plugin-timer.c) have a NULL filename */
-		if ((by_filename && pl->filename && g_ascii_strcasecmp (name, pl->filename) == 0) ||
-			 (by_filename && pl->filename && g_ascii_strcasecmp (name, file_part (pl->filename)) == 0) ||
-			(!by_filename && g_ascii_strcasecmp (name, pl->name) == 0))
-		{
-			/* statically linked plugins have a NULL filename */
-			if (pl->filename != NULL && !pl->fake)
-			{
-				if (plugin_free (pl, TRUE, TRUE))
-					return 1;
-				return 2;
-			}
-		}
-		list = list->next;
-	}
+    list = plugin_list;
+    while (list)
+    {
+        pl = list->data;
+        /* static-plugins (plugin-timer.c) have a NULL filename */
+        if ((by_filename && pl->filename && g_ascii_strcasecmp (name, pl->filename) == 0) ||
+            (by_filename && pl->filename && g_ascii_strcasecmp (name, file_part (pl->filename)) == 0) ||
+            (!by_filename && g_ascii_strcasecmp (name, pl->name) == 0))
+        {
+            /* statically linked plugins have a NULL filename */
+            if (pl->filename != NULL && !pl->fake)
+            {
+                if (plugin_free (pl, TRUE, TRUE))
+                    return 1;
+                return 2;
+            }
+        }
+        list = list->next;
+    }
 
-	return 0;
+    return 0;
 }
 
 /* kill all running plugins (at shutdown) */
@@ -339,18 +339,18 @@ plugin_kill (char *name, int by_filename)
 void
 plugin_kill_all (void)
 {
-	GSList *list, *next;
-	hextor_plugin *pl;
+    GSList *list, *next;
+    hextor_plugin *pl;
 
-	list = plugin_list;
-	while (list)
-	{
-		pl = list->data;
-		next = list->next;
-		if (!pl->fake)
-			plugin_free (list->data, TRUE, FALSE);
-		list = next;
-	}
+    list = plugin_list;
+    while (list)
+    {
+        pl = list->data;
+        next = list->next;
+        if (!pl->fake)
+            plugin_free (list->data, TRUE, FALSE);
+        list = next;
+    }
 }
 
 #ifdef USE_PLUGIN
@@ -358,28 +358,28 @@ plugin_kill_all (void)
 GModule *
 module_load (char *filename)
 {
-	void *handle;
-	char *filepart;
-	char *pluginpath;
+    void *handle;
+    char *filepart;
+    char *pluginpath;
 
-	/* get the filename without path */
-	filepart = file_part (filename);
+    /* get the filename without path */
+    filepart = file_part (filename);
 
-	/* load the plugin */
-	if (!g_ascii_strcasecmp (filepart, filename))
-	{
-		/* no path specified, it's just the filename, try to load from config dir */
-		pluginpath = g_build_filename (get_xdir (), "addons", filename, NULL);
-		handle = g_module_open (pluginpath, 0);
-		g_free (pluginpath);
-	}
-	else
-	{
-		/* try to load with absolute path */
-		handle = g_module_open (filename, 0);
-	}
+    /* load the plugin */
+    if (!g_ascii_strcasecmp (filepart, filename))
+    {
+        /* no path specified, it's just the filename, try to load from config dir */
+        pluginpath = g_build_filename (get_xdir (), "addons", filename, NULL);
+        handle = g_module_open (pluginpath, 0);
+        g_free (pluginpath);
+    }
+    else
+    {
+        /* try to load with absolute path */
+        handle = g_module_open (filename, 0);
+    }
 
-	return handle;
+    return handle;
 }
 
 /* load a plugin from a filename. Returns: NULL-success or an error string */
@@ -387,28 +387,28 @@ module_load (char *filename)
 char *
 plugin_load (session *sess, char *filename, char *arg)
 {
-	GModule *handle = module_load (filename);
-	hextor_init_func *init_func;
-	hextor_deinit_func *deinit_func;
+    GModule *handle = module_load (filename);
+    hextor_init_func *init_func;
+    hextor_deinit_func *deinit_func;
 
-	if (handle == NULL)
-		return (char *)g_module_error ();
+    if (handle == NULL)
+        return (char *)g_module_error ();
 
-	/* find the init routine hextor_plugin_init */
-	if (!g_module_symbol (handle, "hextor_plugin_init", (gpointer *)&init_func))
-	{
-		g_module_close (handle);
-		return _("No hextor_plugin_init symbol; is this really a Hextor plugin?");
-	}
+    /* find the init routine hextor_plugin_init */
+    if (!g_module_symbol (handle, "hextor_plugin_init", (gpointer *)&init_func))
+    {
+        g_module_close (handle);
+        return _("No hextor_plugin_init symbol; is this really a Hextor plugin?");
+    }
 
-	/* find the plugin's deinit routine, if any */
-	if (!g_module_symbol (handle, "hextor_plugin_deinit", (gpointer *)&deinit_func))
-		deinit_func = NULL;
+    /* find the plugin's deinit routine, if any */
+    if (!g_module_symbol (handle, "hextor_plugin_deinit", (gpointer *)&deinit_func))
+        deinit_func = NULL;
 
-	/* add it to our linked list */
-	plugin_add (sess, filename, handle, init_func, deinit_func, arg, FALSE);
+    /* add it to our linked list */
+    plugin_add (sess, filename, handle, init_func, deinit_func, arg, FALSE);
 
-	return NULL;
+    return NULL;
 }
 
 static session *ps;
@@ -416,97 +416,97 @@ static session *ps;
 static void
 plugin_auto_load_cb (char *filename)
 {
-	char *pMsg;
+    char *pMsg;
 
-	pMsg = plugin_load (ps, filename, NULL);
-	if (pMsg)
-	{
-		PrintTextf (ps, "AutoLoad failed for: %s\n", filename);
-		PrintText (ps, pMsg);
-	}
+    pMsg = plugin_load (ps, filename, NULL);
+    if (pMsg)
+    {
+        PrintTextf (ps, "AutoLoad failed for: %s\n", filename);
+        PrintText (ps, pMsg);
+    }
 }
 
 static char *
 plugin_get_libdir ()
 {
-	const char *libdir;
+    const char *libdir;
 
-	libdir = g_getenv ("HEXTOR_LIBDIR");
-	if (libdir && *libdir)
-		return (char*)libdir;
-	else
-		return HEXTORLIBDIR;
+    libdir = g_getenv ("HEXTOR_LIBDIR");
+    if (libdir && *libdir)
+        return (char*)libdir;
+    else
+        return HEXTORLIBDIR;
 }
 
 void
 plugin_auto_load (session *sess)
 {
-	char *lib_dir; 
-	char *sub_dir;
-	ps = sess;
+    char *lib_dir;
+    char *sub_dir;
+    ps = sess;
 
-	lib_dir = plugin_get_libdir ();
-	sub_dir = g_build_filename (get_xdir (), "addons", NULL);
+    lib_dir = plugin_get_libdir ();
+    sub_dir = g_build_filename (get_xdir (), "addons", NULL);
 
 #ifdef WIN32
-	/* a long list of bundled plugins that should be loaded automatically,
-	 * user plugins should go to <config>, leave Program Files alone! */
-	for_files (lib_dir, "hcchecksum.dll", plugin_auto_load_cb);
-	for_files (lib_dir, "hcdoat.dll", plugin_auto_load_cb);
-	for_files (lib_dir, "hcexec.dll", plugin_auto_load_cb);
-	for_files (lib_dir, "hcfishlim.dll", plugin_auto_load_cb);
-	for_files (lib_dir, "hcmpcinfo.dll", plugin_auto_load_cb);
-	for_files (lib_dir, "hcperl.dll", plugin_auto_load_cb);
-	for_files (lib_dir, "hcpython2.dll", plugin_auto_load_cb);
-	for_files (lib_dir, "hcpython3.dll", plugin_auto_load_cb);
-	for_files (lib_dir, "hcupd.dll", plugin_auto_load_cb);
-	for_files (lib_dir, "hcwinamp.dll", plugin_auto_load_cb);
-	for_files (lib_dir, "hcsysinfo.dll", plugin_auto_load_cb);
+    /* a long list of bundled plugins that should be loaded automatically,
+     * user plugins should go to <config>, leave Program Files alone! */
+    for_files (lib_dir, "hcchecksum.dll", plugin_auto_load_cb);
+    for_files (lib_dir, "hcdoat.dll", plugin_auto_load_cb);
+    for_files (lib_dir, "hcexec.dll", plugin_auto_load_cb);
+    for_files (lib_dir, "hcfishlim.dll", plugin_auto_load_cb);
+    for_files (lib_dir, "hcmpcinfo.dll", plugin_auto_load_cb);
+    for_files (lib_dir, "hcperl.dll", plugin_auto_load_cb);
+    for_files (lib_dir, "hcpython2.dll", plugin_auto_load_cb);
+    for_files (lib_dir, "hcpython3.dll", plugin_auto_load_cb);
+    for_files (lib_dir, "hcupd.dll", plugin_auto_load_cb);
+    for_files (lib_dir, "hcwinamp.dll", plugin_auto_load_cb);
+    for_files (lib_dir, "hcsysinfo.dll", plugin_auto_load_cb);
 #else
-	for_files (lib_dir, "*."G_MODULE_SUFFIX, plugin_auto_load_cb);
+    for_files (lib_dir, "*."G_MODULE_SUFFIX, plugin_auto_load_cb);
 #endif
 
-	for_files (sub_dir, "*."G_MODULE_SUFFIX, plugin_auto_load_cb);
+    for_files (sub_dir, "*."G_MODULE_SUFFIX, plugin_auto_load_cb);
 
-	g_free (sub_dir);
+    g_free (sub_dir);
 }
 
 int
 plugin_reload (session *sess, char *name, int by_filename)
 {
-	GSList *list;
-	char *filename;
-	char *ret;
-	hextor_plugin *pl;
+    GSList *list;
+    char *filename;
+    char *ret;
+    hextor_plugin *pl;
 
-	list = plugin_list;
-	while (list)
-	{
-		pl = list->data;
-		/* static-plugins (plugin-timer.c) have a NULL filename */
-		if ((by_filename && pl->filename && g_ascii_strcasecmp (name, pl->filename) == 0) ||
-			 (by_filename && pl->filename && g_ascii_strcasecmp (name, file_part (pl->filename)) == 0) ||
-			(!by_filename && g_ascii_strcasecmp (name, pl->name) == 0))
-		{
-			/* statically linked plugins have a NULL filename */
-			if (pl->filename != NULL && !pl->fake)
-			{
-				filename = g_strdup (pl->filename);
-				plugin_free (pl, TRUE, FALSE);
-				ret = plugin_load (sess, filename, NULL);
-				g_free (filename);
-				if (ret == NULL)
-					return 1;
-				else
-					return 0;
-			}
-			else
-				return 2;
-		}
-		list = list->next;
-	}
+    list = plugin_list;
+    while (list)
+    {
+        pl = list->data;
+        /* static-plugins (plugin-timer.c) have a NULL filename */
+        if ((by_filename && pl->filename && g_ascii_strcasecmp (name, pl->filename) == 0) ||
+            (by_filename && pl->filename && g_ascii_strcasecmp (name, file_part (pl->filename)) == 0) ||
+            (!by_filename && g_ascii_strcasecmp (name, pl->name) == 0))
+        {
+            /* statically linked plugins have a NULL filename */
+            if (pl->filename != NULL && !pl->fake)
+            {
+                filename = g_strdup (pl->filename);
+                plugin_free (pl, TRUE, FALSE);
+                ret = plugin_load (sess, filename, NULL);
+                g_free (filename);
+                if (ret == NULL)
+                    return 1;
+                else
+                    return 0;
+            }
+            else
+                return 2;
+        }
+        list = list->next;
+    }
 
-	return 0;
+    return 0;
 }
 
 #endif
@@ -514,96 +514,96 @@ plugin_reload (session *sess, char *name, int by_filename)
 static GSList *
 plugin_hook_find (GSList *list, int type, char *name)
 {
-	hextor_hook *hook;
+    hextor_hook *hook;
 
-	while (list)
-	{
-		hook = list->data;
-		if (hook && (hook->type & type))
-		{
-			if (g_ascii_strcasecmp (hook->name, name) == 0)
-				return list;
+    while (list)
+    {
+        hook = list->data;
+        if (hook && (hook->type & type))
+        {
+            if (g_ascii_strcasecmp (hook->name, name) == 0)
+                return list;
 
-			if ((type & HOOK_SERVER)
-				&& g_ascii_strcasecmp (hook->name, "RAW LINE") == 0)
-					return list;
-		}
-		list = list->next;
-	}
+            if ((type & HOOK_SERVER)
+                && g_ascii_strcasecmp (hook->name, "RAW LINE") == 0)
+                return list;
+        }
+        list = list->next;
+    }
 
-	return NULL;
+    return NULL;
 }
 
 /* check for plugin hooks and run them */
 
 static int
 plugin_hook_run (session *sess, char *name, char *word[], char *word_eol[],
-				 hextor_event_attrs *attrs, int type)
+                 hextor_event_attrs *attrs, int type)
 {
-	GSList *list, *next;
-	hextor_hook *hook;
-	int ret, eat = 0;
+    GSList *list, *next;
+    hextor_hook *hook;
+    int ret, eat = 0;
 
-	list = hook_list;
-	while (1)
-	{
-		list = plugin_hook_find (list, type, name);
-		if (!list)
-			goto xit;
+    list = hook_list;
+    while (1)
+    {
+        list = plugin_hook_find (list, type, name);
+        if (!list)
+            goto xit;
 
-		hook = list->data;
-		next = list->next;
-		hook->pl->context = sess;
+        hook = list->data;
+        next = list->next;
+        hook->pl->context = sess;
 
-		/* run the plugin's callback function */
-		switch (hook->type)
-		{
-		case HOOK_COMMAND:
-			ret = ((hextor_cmd_cb *)hook->callback) (word, word_eol, hook->userdata);
-			break;
-		case HOOK_PRINT_ATTRS:
-			ret = ((hextor_print_attrs_cb *)hook->callback) (word, attrs, hook->userdata);
-			break;
-		case HOOK_SERVER:
-			ret = ((hextor_serv_cb *)hook->callback) (word, word_eol, hook->userdata);
-			break;
-		case HOOK_SERVER_ATTRS:
-			ret = ((hextor_serv_attrs_cb *)hook->callback) (word, word_eol, attrs, hook->userdata);
-			break;
-		default: /*case HOOK_PRINT:*/
-			ret = ((hextor_print_cb *)hook->callback) (word, hook->userdata);
-			break;
-		}
+        /* run the plugin's callback function */
+        switch (hook->type)
+        {
+        case HOOK_COMMAND:
+            ret = ((hextor_cmd_cb *)hook->callback) (word, word_eol, hook->userdata);
+            break;
+        case HOOK_PRINT_ATTRS:
+            ret = ((hextor_print_attrs_cb *)hook->callback) (word, attrs, hook->userdata);
+            break;
+        case HOOK_SERVER:
+            ret = ((hextor_serv_cb *)hook->callback) (word, word_eol, hook->userdata);
+            break;
+        case HOOK_SERVER_ATTRS:
+            ret = ((hextor_serv_attrs_cb *)hook->callback) (word, word_eol, attrs, hook->userdata);
+            break;
+        default: /*case HOOK_PRINT:*/
+            ret = ((hextor_print_cb *)hook->callback) (word, hook->userdata);
+            break;
+        }
 
-		if ((ret & HEXTOR_EAT_HEXTOR) && (ret & HEXTOR_EAT_PLUGIN))
-		{
-			eat = 1;
-			goto xit;
-		}
-		if (ret & HEXTOR_EAT_PLUGIN)
-			goto xit;	/* stop running plugins */
-		if (ret & HEXTOR_EAT_HEXTOR)
-			eat = 1;	/* eventually we'll return 1, but continue running plugins */
+        if ((ret & HEXTOR_EAT_HEXTOR) && (ret & HEXTOR_EAT_PLUGIN))
+        {
+            eat = 1;
+            goto xit;
+        }
+        if (ret & HEXTOR_EAT_PLUGIN)
+            goto xit;       /* stop running plugins */
+        if (ret & HEXTOR_EAT_HEXTOR)
+            eat = 1;        /* eventually we'll return 1, but continue running plugins */
 
-		list = next;
-	}
+        list = next;
+    }
 
 xit:
-	/* really remove deleted hooks now */
-	list = hook_list;
-	while (list)
-	{
-		hook = list->data;
-		next = list->next;
-		if (!hook || hook->type == HOOK_DELETED)
-		{
-			hook_list = g_slist_remove (hook_list, hook);
-			g_free (hook);
-		}
-		list = next;
-	}
+    /* really remove deleted hooks now */
+    list = hook_list;
+    while (list)
+    {
+        hook = list->data;
+        next = list->next;
+        if (!hook || hook->type == HOOK_DELETED)
+        {
+            hook_list = g_slist_remove (hook_list, hook);
+            g_free (hook);
+        }
+        list = next;
+    }
 
-	return eat;
+    return eat;
 }
 
 /* execute a plugged in command. Called from outbound.c */
@@ -611,33 +611,33 @@ xit:
 int
 plugin_emit_command (session *sess, char *name, char *word[], char *word_eol[])
 {
-	return plugin_hook_run (sess, name, word, word_eol, NULL, HOOK_COMMAND);
+    return plugin_hook_run (sess, name, word, word_eol, NULL, HOOK_COMMAND);
 }
 
 hextor_event_attrs *
 hextor_event_attrs_create (hextor_plugin *ph)
 {
-	return g_new0 (hextor_event_attrs, 1);
+    return g_new0 (hextor_event_attrs, 1);
 }
 
 void
 hextor_event_attrs_free (hextor_plugin *ph, hextor_event_attrs *attrs)
 {
-	g_free (attrs);
+    g_free (attrs);
 }
 
 /* got a server PRIVMSG, NOTICE, numeric etc... */
 
 int
 plugin_emit_server (session *sess, char *name, char *word[], char *word_eol[],
-					time_t server_time)
+                    time_t server_time)
 {
-	hextor_event_attrs attrs;
+    hextor_event_attrs attrs;
 
-	attrs.server_time_utc = server_time;
+    attrs.server_time_utc = server_time;
 
-	return plugin_hook_run (sess, name, word, word_eol, &attrs, 
-							HOOK_SERVER | HOOK_SERVER_ATTRS);
+    return plugin_hook_run (sess, name, word, word_eol, &attrs,
+                            HOOK_SERVER | HOOK_SERVER_ATTRS);
 }
 
 /* see if any plugins are interested in this print event */
@@ -645,82 +645,82 @@ plugin_emit_server (session *sess, char *name, char *word[], char *word_eol[],
 int
 plugin_emit_print (session *sess, char *word[], time_t server_time)
 {
-	hextor_event_attrs attrs;
+    hextor_event_attrs attrs;
 
-	attrs.server_time_utc = server_time;
+    attrs.server_time_utc = server_time;
 
-	return plugin_hook_run (sess, word[0], word, NULL, &attrs,
-							HOOK_PRINT | HOOK_PRINT_ATTRS);
+    return plugin_hook_run (sess, word[0], word, NULL, &attrs,
+                            HOOK_PRINT | HOOK_PRINT_ATTRS);
 }
 
 int
 plugin_emit_dummy_print (session *sess, char *name)
 {
-	char *word[32];
-	int i;
+    char *word[32];
+    int i;
 
-	word[0] = name;
-	for (i = 1; i < 32; i++)
-		word[i] = "\000";
+    word[0] = name;
+    for (i = 1; i < 32; i++)
+        word[i] = "\000";
 
-	return plugin_hook_run (sess, name, word, NULL, NULL, HOOK_PRINT);
+    return plugin_hook_run (sess, name, word, NULL, NULL, HOOK_PRINT);
 }
 
 int
 plugin_emit_keypress (session *sess, unsigned int state, unsigned int keyval, gunichar key)
 {
-	char *word[PDIWORDS];
-	char keyval_str[16];
-	char state_str[16];
-	char len_str[16];
-	char key_str[7];
-	int i, len;
+    char *word[PDIWORDS];
+    char keyval_str[16];
+    char state_str[16];
+    char len_str[16];
+    char key_str[7];
+    int i, len;
 
-	if (!hook_list)
-		return 0;
+    if (!hook_list)
+        return 0;
 
-	sprintf (keyval_str, "%u", keyval);
-	sprintf (state_str, "%u", state);
-	if (!key)
-		len = 0;
-	else
-		len = g_unichar_to_utf8 (key, key_str);
-	key_str[len] = '\0';
-	sprintf (len_str, "%d", len);
+    sprintf (keyval_str, "%u", keyval);
+    sprintf (state_str, "%u", state);
+    if (!key)
+        len = 0;
+    else
+        len = g_unichar_to_utf8 (key, key_str);
+    key_str[len] = '\0';
+    sprintf (len_str, "%d", len);
 
-	word[0] = "Key Press";
-	word[1] = keyval_str;
-	word[2] = state_str;
-	word[3] = key_str;
-	word[4] = len_str;
-	for (i = 5; i < PDIWORDS; i++)
-		word[i] = "\000";
+    word[0] = "Key Press";
+    word[1] = keyval_str;
+    word[2] = state_str;
+    word[3] = key_str;
+    word[4] = len_str;
+    for (i = 5; i < PDIWORDS; i++)
+        word[i] = "\000";
 
-	return plugin_hook_run (sess, word[0], word, NULL, NULL, HOOK_PRINT);
+    return plugin_hook_run (sess, word[0], word, NULL, NULL, HOOK_PRINT);
 }
 
 static int
 plugin_timeout_cb (hextor_hook *hook)
 {
-	int ret;
+    int ret;
 
-	/* timer_cb's context starts as front-most-tab */
-	hook->pl->context = current_sess;
+    /* timer_cb's context starts as front-most-tab */
+    hook->pl->context = current_sess;
 
-	/* call the plugin's timeout function */
-	ret = ((hextor_timer_cb *)hook->callback) (hook->userdata);
+    /* call the plugin's timeout function */
+    ret = ((hextor_timer_cb *)hook->callback) (hook->userdata);
 
-	/* the callback might have already unhooked it! */
-	if (!g_slist_find (hook_list, hook) || hook->type == HOOK_DELETED)
-		return 0;
+    /* the callback might have already unhooked it! */
+    if (!g_slist_find (hook_list, hook) || hook->type == HOOK_DELETED)
+        return 0;
 
-	if (ret == 0)
-	{
-		hook->tag = 0;	/* avoid fe_timeout_remove, returning 0 is enough! */
-		hextor_unhook (hook->pl, hook);
-	}
+    if (ret == 0)
+    {
+        hook->tag = 0;  /* avoid fe_timeout_remove, returning 0 is enough! */
+        hextor_unhook (hook->pl, hook);
+    }
 
-	return ret;
+    return ret;
 }
 
 /* insert a hook into hook_list according to its priority */
@@ -728,146 +728,146 @@ plugin_timeout_cb (hextor_hook *hook)
 static void
 plugin_insert_hook (hextor_hook *new_hook)
 {
-	GSList *list;
-	hextor_hook *hook;
-	int new_hook_type;
- 
-	switch (new_hook->type)
-	{
-		case HOOK_PRINT:
-		case HOOK_PRINT_ATTRS:
-			new_hook_type = HOOK_PRINT | HOOK_PRINT_ATTRS;
-			break;
-		case HOOK_SERVER:
-		case HOOK_SERVER_ATTRS:
-			new_hook_type = HOOK_SERVER | HOOK_PRINT_ATTRS;
-			break;
-		default:
-			new_hook_type = new_hook->type;
-	}
+    GSList *list;
+    hextor_hook *hook;
+    int new_hook_type;
 
-	list = hook_list;
-	while (list)
-	{
-		hook = list->data;
-		if (hook && (hook->type & new_hook_type) && hook->pri <= new_hook->pri)
-		{
-			hook_list = g_slist_insert_before (hook_list, list, new_hook);
-			return;
-		}
-		list = list->next;
-	}
+    switch (new_hook->type)
+    {
+    case HOOK_PRINT:
+    case HOOK_PRINT_ATTRS:
+        new_hook_type = HOOK_PRINT | HOOK_PRINT_ATTRS;
+        break;
+    case HOOK_SERVER:
+    case HOOK_SERVER_ATTRS:
+        new_hook_type = HOOK_SERVER | HOOK_PRINT_ATTRS;
+        break;
+    default:
+        new_hook_type = new_hook->type;
+    }
 
-	hook_list = g_slist_append (hook_list, new_hook);
+    list = hook_list;
+    while (list)
+    {
+        hook = list->data;
+        if (hook && (hook->type & new_hook_type) && hook->pri <= new_hook->pri)
+        {
+            hook_list = g_slist_insert_before (hook_list, list, new_hook);
+            return;
+        }
+        list = list->next;
+    }
+
+    hook_list = g_slist_append (hook_list, new_hook);
 }
 
 static gboolean
 plugin_fd_cb (GIOChannel *source, GIOCondition condition, hextor_hook *hook)
 {
-	int flags = 0, ret;
-	typedef int (hextor_fd_cb2) (int fd, int flags, void *user_data, GIOChannel *);
+    int flags = 0, ret;
+    typedef int (hextor_fd_cb2) (int fd, int flags, void *user_data, GIOChannel *);
 
-	if (condition & G_IO_IN)
-		flags |= HEXTOR_FD_READ;
-	if (condition & G_IO_OUT)
-		flags |= HEXTOR_FD_WRITE;
-	if (condition & G_IO_PRI)
-		flags |= HEXTOR_FD_EXCEPTION;
+    if (condition & G_IO_IN)
+        flags |= HEXTOR_FD_READ;
+    if (condition & G_IO_OUT)
+        flags |= HEXTOR_FD_WRITE;
+    if (condition & G_IO_PRI)
+        flags |= HEXTOR_FD_EXCEPTION;
 
-	ret = ((hextor_fd_cb2 *)hook->callback) (hook->pri, flags, hook->userdata, source);
+    ret = ((hextor_fd_cb2 *)hook->callback) (hook->pri, flags, hook->userdata, source);
 
-	/* the callback might have already unhooked it! */
-	if (!g_slist_find (hook_list, hook) || hook->type == HOOK_DELETED)
-		return 0;
+    /* the callback might have already unhooked it! */
+    if (!g_slist_find (hook_list, hook) || hook->type == HOOK_DELETED)
+        return 0;
 
-	if (ret == 0)
-	{
-		hook->tag = 0; /* avoid fe_input_remove, returning 0 is enough! */
-		hextor_unhook (hook->pl, hook);
-	}
+    if (ret == 0)
+    {
+        hook->tag = 0; /* avoid fe_input_remove, returning 0 is enough! */
+        hextor_unhook (hook->pl, hook);
+    }
 
-	return ret;
+    return ret;
 }
 
 /* allocate and add a hook to our list. Used for all 4 types */
 
 static hextor_hook *
 plugin_add_hook (hextor_plugin *pl, int type, int pri, const char *name,
-					  const  char *help_text, void *callb, int timeout, void *userdata)
+                 const  char *help_text, void *callb, int timeout, void *userdata)
 {
-	hextor_hook *hook;
+    hextor_hook *hook;
 
-	hook = g_new0 (hextor_hook, 1);
-	hook->type = type;
-	hook->pri = pri;
-	hook->name = g_strdup (name);
-	hook->help_text = g_strdup (help_text);
-	hook->callback = callb;
-	hook->pl = pl;
-	hook->userdata = userdata;
+    hook = g_new0 (hextor_hook, 1);
+    hook->type = type;
+    hook->pri = pri;
+    hook->name = g_strdup (name);
+    hook->help_text = g_strdup (help_text);
+    hook->callback = callb;
+    hook->pl = pl;
+    hook->userdata = userdata;
 
-	/* insert it into the linked list */
-	plugin_insert_hook (hook);
+    /* insert it into the linked list */
+    plugin_insert_hook (hook);
 
-	if (type == HOOK_TIMER)
-		hook->tag = fe_timeout_add (timeout, plugin_timeout_cb, hook);
+    if (type == HOOK_TIMER)
+        hook->tag = fe_timeout_add (timeout, plugin_timeout_cb, hook);
 
-	return hook;
+    return hook;
 }
 
 GList *
 plugin_command_list(GList *tmp_list)
 {
-	hextor_hook *hook;
-	GSList *list = hook_list;
+    hextor_hook *hook;
+    GSList *list = hook_list;
 
-	while (list)
-	{
-		hook = list->data;
-		if (hook && hook->type == HOOK_COMMAND)
-			tmp_list = g_list_prepend(tmp_list, hook->name);
-		list = list->next;
-	}
-	return tmp_list;
+    while (list)
+    {
+        hook = list->data;
+        if (hook && hook->type == HOOK_COMMAND)
+            tmp_list = g_list_prepend(tmp_list, hook->name);
+        list = list->next;
+    }
+    return tmp_list;
 }
 
 void
 plugin_command_foreach (session *sess, void *userdata,
-			void (*cb) (session *sess, void *userdata, char *name, char *help))
+                        void (*cb) (session *sess, void *userdata, char *name, char *help))
 {
-	GSList *list;
-	hextor_hook *hook;
+    GSList *list;
+    hextor_hook *hook;
 
-	list = hook_list;
-	while (list)
-	{
-		hook = list->data;
-		if (hook && hook->type == HOOK_COMMAND && hook->name[0])
-		{
-			cb (sess, userdata, hook->name, hook->help_text);
-		}
-		list = list->next;
-	}
+    list = hook_list;
+    while (list)
+    {
+        hook = list->data;
+        if (hook && hook->type == HOOK_COMMAND && hook->name[0])
+        {
+            cb (sess, userdata, hook->name, hook->help_text);
+        }
+        list = list->next;
+    }
 }
 
 int
 plugin_show_help (session *sess, char *cmd)
 {
-	GSList *list;
-	hextor_hook *hook;
+    GSList *list;
+    hextor_hook *hook;
 
-	list = plugin_hook_find (hook_list, HOOK_COMMAND, cmd);
-	if (list)
-	{
-		hook = list->data;
-		if (hook->help_text)
-		{
-			PrintText (sess, hook->help_text);
-			return 1;
-		}
-	}
+    list = plugin_hook_find (hook_list, HOOK_COMMAND, cmd);
+    if (list)
+    {
+        hook = list->data;
+        if (hook->help_text)
+        {
+            PrintText (sess, hook->help_text);
+            return 1;
+        }
+    }
 
-	return 0;
+    return 0;
 }
 
 /* ========================================================= */
@@ -877,1124 +877,1124 @@ plugin_show_help (session *sess, char *cmd)
 void *
 hextor_unhook (hextor_plugin *ph, hextor_hook *hook)
 {
-	/* perl.c trips this */
-	if (!g_slist_find (hook_list, hook) || hook->type == HOOK_DELETED)
-		return NULL;
+    /* perl.c trips this */
+    if (!g_slist_find (hook_list, hook) || hook->type == HOOK_DELETED)
+        return NULL;
 
-	if (hook->type == HOOK_TIMER && hook->tag != 0)
-		fe_timeout_remove (hook->tag);
+    if (hook->type == HOOK_TIMER && hook->tag != 0)
+        fe_timeout_remove (hook->tag);
 
-	if (hook->type == HOOK_FD && hook->tag != 0)
-		fe_input_remove (hook->tag);
+    if (hook->type == HOOK_FD && hook->tag != 0)
+        fe_input_remove (hook->tag);
 
-	hook->type = HOOK_DELETED;	/* expunge later */
+    hook->type = HOOK_DELETED;      /* expunge later */
 
-	g_free (hook->name);	/* NULL for timers & fds */
-	g_free (hook->help_text);	/* NULL for non-commands */
+    g_free (hook->name);    /* NULL for timers & fds */
+    g_free (hook->help_text);       /* NULL for non-commands */
 
-	return hook->userdata;
+    return hook->userdata;
 }
 
 hextor_hook *
 hextor_hook_command (hextor_plugin *ph, const char *name, int pri,
-						  hextor_cmd_cb *callb, const char *help_text, void *userdata)
+                     hextor_cmd_cb *callb, const char *help_text, void *userdata)
 {
-	return plugin_add_hook (ph, HOOK_COMMAND, pri, name, help_text, callb, 0,
-									userdata);
+    return plugin_add_hook (ph, HOOK_COMMAND, pri, name, help_text, callb, 0,
+                            userdata);
 }
 
 hextor_hook *
 hextor_hook_server (hextor_plugin *ph, const char *name, int pri,
-						 hextor_serv_cb *callb, void *userdata)
+                    hextor_serv_cb *callb, void *userdata)
 {
-	return plugin_add_hook (ph, HOOK_SERVER, pri, name, 0, callb, 0, userdata);
+    return plugin_add_hook (ph, HOOK_SERVER, pri, name, 0, callb, 0, userdata);
 }
 
 hextor_hook *
 hextor_hook_server_attrs (hextor_plugin *ph, const char *name, int pri,
-						   hextor_serv_attrs_cb *callb, void *userdata)
+                          hextor_serv_attrs_cb *callb, void *userdata)
 {
-	return plugin_add_hook (ph, HOOK_SERVER_ATTRS, pri, name, 0, callb, 0,
-							userdata);
+    return plugin_add_hook (ph, HOOK_SERVER_ATTRS, pri, name, 0, callb, 0,
+                            userdata);
 }
 
 hextor_hook *
 hextor_hook_print (hextor_plugin *ph, const char *name, int pri,
-						hextor_print_cb *callb, void *userdata)
+                   hextor_print_cb *callb, void *userdata)
 {
-	return plugin_add_hook (ph, HOOK_PRINT, pri, name, 0, callb, 0, userdata);
+    return plugin_add_hook (ph, HOOK_PRINT, pri, name, 0, callb, 0, userdata);
 }
 
 hextor_hook *
 hextor_hook_print_attrs (hextor_plugin *ph, const char *name, int pri,
-						  hextor_print_attrs_cb *callb, void *userdata)
+                         hextor_print_attrs_cb *callb, void *userdata)
 {
-	return plugin_add_hook (ph, HOOK_PRINT_ATTRS, pri, name, 0, callb, 0,
-							userdata);
+    return plugin_add_hook (ph, HOOK_PRINT_ATTRS, pri, name, 0, callb, 0,
+                            userdata);
 }
 
 hextor_hook *
 hextor_hook_timer (hextor_plugin *ph, int timeout, hextor_timer_cb *callb,
-					   void *userdata)
+                   void *userdata)
 {
-	return plugin_add_hook (ph, HOOK_TIMER, 0, 0, 0, callb, timeout, userdata);
+    return plugin_add_hook (ph, HOOK_TIMER, 0, 0, 0, callb, timeout, userdata);
 }
 
 hextor_hook *
 hextor_hook_fd (hextor_plugin *ph, int fd, int flags,
-					hextor_fd_cb *callb, void *userdata)
+                hextor_fd_cb *callb, void *userdata)
 {
-	hextor_hook *hook;
+    hextor_hook *hook;
 
-	hook = plugin_add_hook (ph, HOOK_FD, 0, 0, 0, callb, 0, userdata);
-	hook->pri = fd;
-	/* plugin hook_fd flags correspond exactly to FIA_* flags (fe.h) */
-	hook->tag = fe_input_add (fd, flags, plugin_fd_cb, hook);
+    hook = plugin_add_hook (ph, HOOK_FD, 0, 0, 0, callb, 0, userdata);
+    hook->pri = fd;
+    /* plugin hook_fd flags correspond exactly to FIA_* flags (fe.h) */
+    hook->tag = fe_input_add (fd, flags, plugin_fd_cb, hook);
 
-	return hook;
+    return hook;
 }
 
 void
 hextor_print (hextor_plugin *ph, const char *text)
 {
-	if (!is_session (ph->context))
-	{
-		DEBUG(PrintTextf(0, "%s\thextor_print called without a valid context.\n", ph->name));
-		return;
-	}
+    if (!is_session (ph->context))
+    {
+        DEBUG(PrintTextf(0, "%s\thextor_print called without a valid context.\n", ph->name));
+        return;
+    }
 
-	PrintText (ph->context, (char *)text);
+    PrintText (ph->context, (char *)text);
 }
 
 void
 hextor_printf (hextor_plugin *ph, const char *format, ...)
 {
-	va_list args;
-	char *buf;
+    va_list args;
+    char *buf;
 
-	va_start (args, format);
-	buf = g_strdup_vprintf (format, args);
-	va_end (args);
+    va_start (args, format);
+    buf = g_strdup_vprintf (format, args);
+    va_end (args);
 
-	hextor_print (ph, buf);
-	g_free (buf);
+    hextor_print (ph, buf);
+    g_free (buf);
 }
 
 void
 hextor_command (hextor_plugin *ph, const char *command)
 {
-	char *command_utf8;
+    char *command_utf8;
 
-	if (!is_session (ph->context))
-	{
-		DEBUG(PrintTextf(0, "%s\thextor_command called without a valid context.\n", ph->name));
-		return;
-	}
+    if (!is_session (ph->context))
+    {
+        DEBUG(PrintTextf(0, "%s\thextor_command called without a valid context.\n", ph->name));
+        return;
+    }
 
-	/* scripts/plugins continue to send non-UTF8... *sigh* */
-	command_utf8 = text_fixup_invalid_utf8 (command, -1, NULL);
-	handle_command (ph->context, command_utf8, FALSE);
-	g_free (command_utf8);
+    /* scripts/plugins continue to send non-UTF8... *sigh* */
+    command_utf8 = text_fixup_invalid_utf8 (command, -1, NULL);
+    handle_command (ph->context, command_utf8, FALSE);
+    g_free (command_utf8);
 }
 
 void
 hextor_commandf (hextor_plugin *ph, const char *format, ...)
 {
-	va_list args;
-	char *buf;
+    va_list args;
+    char *buf;
 
-	va_start (args, format);
-	buf = g_strdup_vprintf (format, args);
-	va_end (args);
+    va_start (args, format);
+    buf = g_strdup_vprintf (format, args);
+    va_end (args);
 
-	hextor_command (ph, buf);
-	g_free (buf);
+    hextor_command (ph, buf);
+    g_free (buf);
 }
 
 int
 hextor_nickcmp (hextor_plugin *ph, const char *s1, const char *s2)
 {
-	return ((session *)ph->context)->server->p_cmp (s1, s2);
+    return ((session *)ph->context)->server->p_cmp (s1, s2);
 }
 
 hextor_context *
 hextor_get_context (hextor_plugin *ph)
 {
-	return ph->context;
+    return ph->context;
 }
 
 int
 hextor_set_context (hextor_plugin *ph, hextor_context *context)
 {
-	if (is_session (context))
-	{
-		ph->context = context;
-		return 1;
-	}
-	return 0;
+    if (is_session (context))
+    {
+        ph->context = context;
+        return 1;
+    }
+    return 0;
 }
 
 hextor_context *
 hextor_find_context (hextor_plugin *ph, const char *servname, const char *channel)
 {
-	GSList *slist, *clist, *sessions = NULL;
-	server *serv;
-	session *sess;
-	char *netname;
+    GSList *slist, *clist, *sessions = NULL;
+    server *serv;
+    session *sess;
+    char *netname;
 
-	if (servname == NULL && channel == NULL)
-		return current_sess;
+    if (servname == NULL && channel == NULL)
+        return current_sess;
 
-	slist = serv_list;
-	while (slist)
-	{
-		serv = slist->data;
-		netname = server_get_network (serv, TRUE);
+    slist = serv_list;
+    while (slist)
+    {
+        serv = slist->data;
+        netname = server_get_network (serv, TRUE);
 
-		if (servname == NULL ||
-			 rfc_casecmp (servname, serv->servername) == 0 ||
-			 g_ascii_strcasecmp (servname, serv->hostname) == 0 ||
-			 g_ascii_strcasecmp (servname, netname) == 0)
-		{
-			if (channel == NULL)
-				return serv->front_session;
+        if (servname == NULL ||
+            rfc_casecmp (servname, serv->servername) == 0 ||
+            g_ascii_strcasecmp (servname, serv->hostname) == 0 ||
+            g_ascii_strcasecmp (servname, netname) == 0)
+        {
+            if (channel == NULL)
+                return serv->front_session;
 
-			clist = sess_list;
-			while (clist)
-			{
-				sess = clist->data;
-				if (sess->server == serv)
-				{
-					if (rfc_casecmp (channel, sess->channel) == 0)
-					{
-						if (sess->server == ph->context->server)
-						{
-							g_slist_free (sessions);
-							return sess;
-						} else
-						{
-							sessions = g_slist_prepend (sessions, sess);
-						}
-					}
-				}
-				clist = clist->next;
-			}
-		}
-		slist = slist->next;
-	}
+            clist = sess_list;
+            while (clist)
+            {
+                sess = clist->data;
+                if (sess->server == serv)
+                {
+                    if (rfc_casecmp (channel, sess->channel) == 0)
+                    {
+                        if (sess->server == ph->context->server)
+                        {
+                            g_slist_free (sessions);
+                            return sess;
+                        } else
+                        {
+                            sessions = g_slist_prepend (sessions, sess);
+                        }
+                    }
+                }
+                clist = clist->next;
+            }
+        }
+        slist = slist->next;
+    }
 
-	if (sessions)
-	{
-		sessions = g_slist_reverse (sessions);
-		sess = sessions->data;
-		g_slist_free (sessions);
-		return sess;
-	}
+    if (sessions)
+    {
+        sessions = g_slist_reverse (sessions);
+        sess = sessions->data;
+        g_slist_free (sessions);
+        return sess;
+    }
 
-	return NULL;
+    return NULL;
 }
 
 const char *
 hextor_get_info (hextor_plugin *ph, const char *id)
 {
-	session *sess;
-	guint32 hash;
+    session *sess;
+    guint32 hash;
 
-	/*                 1234567890 */
-	if (!strncmp (id, "event_text", 10))
-	{
-		char *e = (char *)id + 10;
-		if (*e == ' ') e++;	/* 2.8.0 only worked without a space */
-		return text_find_format_string (e);
-	}
+    /*                 1234567890 */
+    if (!strncmp (id, "event_text", 10))
+    {
+        char *e = (char *)id + 10;
+        if (*e == ' ') e++;     /* 2.8.0 only worked without a space */
+        return text_find_format_string (e);
+    }
 
-	hash = str_hash (id);
-	/* do the session independant ones first */
-	switch (hash)
-	{
-		case 0x325acab5:	/* libdirfs */
+    hash = str_hash (id);
+    /* do the session independant ones first */
+    switch (hash)
+    {
+    case 0x325acab5:        /* libdirfs */
 #ifdef USE_PLUGIN
-			return plugin_get_libdir ();
+        return plugin_get_libdir ();
 #else
-			return NULL;
+        return NULL;
 #endif
 
-		case 0x14f51cd8: /* version */
-			return PACKAGE_VERSION;
+    case 0x14f51cd8: /* version */
+        return PACKAGE_VERSION;
 
-		case 0xdd9b1abd:	/* xchatdir */
-		case 0xe33f6c4a:	/* xchatdirfs */
-		case 0xd00d220b:	/* configdir */
-			return get_xdir ();
-	}
+    case 0xdd9b1abd:        /* xchatdir */
+    case 0xe33f6c4a:        /* xchatdirfs */
+    case 0xd00d220b:        /* configdir */
+        return get_xdir ();
+    }
 
-	sess = ph->context;
-	if (!is_session (sess))
-	{
-		DEBUG(PrintTextf(0, "%s\thextor_get_info called without a valid context.\n", ph->name));
-		return NULL;
-	}
+    sess = ph->context;
+    if (!is_session (sess))
+    {
+        DEBUG(PrintTextf(0, "%s\thextor_get_info called without a valid context.\n", ph->name));
+        return NULL;
+    }
 
-	switch (hash)
-	{
-	case 0x2de2ee: /* away */
-		if (sess->server->is_away)
-			return sess->server->last_away_reason;
-		return NULL;
+    switch (hash)
+    {
+    case 0x2de2ee: /* away */
+        if (sess->server->is_away)
+            return sess->server->last_away_reason;
+        return NULL;
 
-  	case 0x2c0b7d03: /* channel */
-		return sess->channel;
+    case 0x2c0b7d03: /* channel */
+        return sess->channel;
 
-	case 0x2c0d614c: /* charset */
-		{
-			const char *locale;
+    case 0x2c0d614c: /* charset */
+    {
+        const char *locale;
 
-			if (sess->server->encoding)
-				return sess->server->encoding;
+        if (sess->server->encoding)
+            return sess->server->encoding;
 
-			locale = NULL;
-			g_get_charset (&locale);
-			return locale;
-		}
+        locale = NULL;
+        g_get_charset (&locale);
+        return locale;
+    }
 
-	case 0x30f5a8: /* host */
-		return sess->server->hostname;
+    case 0x30f5a8: /* host */
+        return sess->server->hostname;
 
-	case 0x1c0e99c1: /* inputbox */
-		return fe_get_inputbox_contents (sess);
+    case 0x1c0e99c1: /* inputbox */
+        return fe_get_inputbox_contents (sess);
 
-	case 0x633fb30:	/* modes */
-		return sess->current_modes;
+    case 0x633fb30: /* modes */
+        return sess->current_modes;
 
-	case 0x6de15a2e:	/* network */
-		return server_get_network (sess->server, FALSE);
+    case 0x6de15a2e:        /* network */
+        return server_get_network (sess->server, FALSE);
 
-	case 0x339763: /* nick */
-		return sess->server->nick;
+    case 0x339763: /* nick */
+        return sess->server->nick;
 
-	case 0x4889ba9b: /* password */
-	case 0x438fdf9: /* nickserv */
-		if (sess->server->network)
-			return ((ircnet *)sess->server->network)->pass;
-		return NULL;
+    case 0x4889ba9b: /* password */
+    case 0x438fdf9: /* nickserv */
+        if (sess->server->network)
+            return ((ircnet *)sess->server->network)->pass;
+        return NULL;
 
-	case 0xca022f43: /* server */
-		if (!sess->server->connected)
-			return NULL;
-		return sess->server->servername;
+    case 0xca022f43: /* server */
+        if (!sess->server->connected)
+            return NULL;
+        return sess->server->servername;
 
-	case 0x696cd2f: /* topic */
-		return sess->topic;
+    case 0x696cd2f: /* topic */
+        return sess->topic;
 
-	case 0x3419f12d: /* gtkwin_ptr */
-		return fe_gui_info_ptr (sess, 1);
+    case 0x3419f12d: /* gtkwin_ptr */
+        return fe_gui_info_ptr (sess, 1);
 
-	case 0x506d600b: /* native win_ptr */
-		return fe_gui_info_ptr (sess, 0);
+    case 0x506d600b: /* native win_ptr */
+        return fe_gui_info_ptr (sess, 0);
 
-	case 0x6d3431b5: /* win_status */
-		switch (fe_gui_info (sess, 0))	/* check window status */
-		{
-		case 0: return "normal";
-		case 1: return "active";
-		case 2: return "hidden";
-		}
-		return NULL;
-	}
+    case 0x6d3431b5: /* win_status */
+        switch (fe_gui_info (sess, 0))  /* check window status */
+        {
+        case 0: return "normal";
+        case 1: return "active";
+        case 2: return "hidden";
+        }
+        return NULL;
+    }
 
-	return NULL;
+    return NULL;
 }
 
 int
 hextor_get_prefs (hextor_plugin *ph, const char *name, const char **string, int *integer)
 {
-	int i = 0;
+    int i = 0;
 
-	/* some special run-time info (not really prefs, but may aswell throw it in here) */
-	switch (str_hash (name))
-	{
-		case 0xf82136c4: /* state_cursor */
-			*integer = fe_get_inputbox_cursor (ph->context);
-			return 2;
+    /* some special run-time info (not really prefs, but may aswell throw it in here) */
+    switch (str_hash (name))
+    {
+    case 0xf82136c4: /* state_cursor */
+        *integer = fe_get_inputbox_cursor (ph->context);
+        return 2;
 
-		case 0xd1b: /* id */
-			*integer = ph->context->server->id;
-			return 2;
-	}
-	
-	do
-	{
-		if (!g_ascii_strcasecmp (name, vars[i].name))
-		{
-			switch (vars[i].type)
-			{
-			case TYPE_STR:
-				*string = ((char *) &prefs + vars[i].offset);
-				return 1;
+    case 0xd1b: /* id */
+        *integer = ph->context->server->id;
+        return 2;
+    }
 
-			case TYPE_INT:
-				*integer = *((int *) &prefs + vars[i].offset);
-				return 2;
+    do
+    {
+        if (!g_ascii_strcasecmp (name, vars[i].name))
+        {
+            switch (vars[i].type)
+            {
+            case TYPE_STR:
+                *string = ((char *) &prefs + vars[i].offset);
+                return 1;
 
-			default:
-			/*case TYPE_BOOL:*/
-				if (*((int *) &prefs + vars[i].offset))
-					*integer = 1;
-				else
-					*integer = 0;
-				return 3;
-			}
-		}
-		i++;
-	}
-	while (vars[i].name);
+            case TYPE_INT:
+                *integer = *((int *) &prefs + vars[i].offset);
+                return 2;
 
-	return 0;
+            default:
+                /*case TYPE_BOOL:*/
+                if (*((int *) &prefs + vars[i].offset))
+                    *integer = 1;
+                else
+                    *integer = 0;
+                return 3;
+            }
+        }
+        i++;
+    }
+    while (vars[i].name);
+
+    return 0;
 }
 
 hextor_list *
 hextor_list_get (hextor_plugin *ph, const char *name)
 {
-	hextor_list *list;
+    hextor_list *list;
 
-	list = g_new0 (hextor_list, 1);
+    list = g_new0 (hextor_list, 1);
 
-	switch (str_hash (name))
-	{
-	case 0x556423d0: /* channels */
-		list->type = LIST_CHANNELS;
-		list->next = sess_list;
-		break;
+    switch (str_hash (name))
+    {
+    case 0x556423d0: /* channels */
+        list->type = LIST_CHANNELS;
+        list->next = sess_list;
+        break;
 
-	case 0x183c4:	/* dcc */
-		list->type = LIST_DCC;
-		list->next = dcc_list;
-		break;
+    case 0x183c4:   /* dcc */
+        list->type = LIST_DCC;
+        list->next = dcc_list;
+        break;
 
-	case 0xb90bfdd2:	/* ignore */
-		list->type = LIST_IGNORE;
-		list->next = ignore_list;
-		break;
+    case 0xb90bfdd2:        /* ignore */
+        list->type = LIST_IGNORE;
+        list->next = ignore_list;
+        break;
 
-	case 0xc2079749:	/* notify */
-		list->type = LIST_NOTIFY;
-		list->next = notify_list;
-		list->head = (void *)ph->context;	/* reuse this pointer */
-		break;
+    case 0xc2079749:        /* notify */
+        list->type = LIST_NOTIFY;
+        list->next = notify_list;
+        list->head = (void *)ph->context;       /* reuse this pointer */
+        break;
 
-	case 0x6a68e08: /* users */
-		if (is_session (ph->context))
-		{
-			list->type = LIST_USERS;
-			list->head = list->next = userlist_flat_list (ph->context);
-			fe_userlist_set_selected (ph->context);
-			break;
-		}	/* fall through */
+    case 0x6a68e08: /* users */
+        if (is_session (ph->context))
+        {
+            list->type = LIST_USERS;
+            list->head = list->next = userlist_flat_list (ph->context);
+            fe_userlist_set_selected (ph->context);
+            break;
+        }       /* fall through */
 
-	default:
-		g_free (list);
-		return NULL;
-	}
+    default:
+        g_free (list);
+        return NULL;
+    }
 
-	return list;
+    return list;
 }
 
 void
 hextor_list_free (hextor_plugin *ph, hextor_list *xlist)
 {
-	if (xlist->type == LIST_USERS)
-		g_slist_free (xlist->head);
-	g_free (xlist);
+    if (xlist->type == LIST_USERS)
+        g_slist_free (xlist->head);
+    g_free (xlist);
 }
 
 int
 hextor_list_next (hextor_plugin *ph, hextor_list *xlist)
 {
-	if (xlist->next == NULL)
-		return 0;
+    if (xlist->next == NULL)
+        return 0;
 
-	xlist->pos = xlist->next;
-	xlist->next = xlist->pos->next;
+    xlist->pos = xlist->next;
+    xlist->next = xlist->pos->next;
 
-	/* NOTIFY LIST: Find the entry which matches the context
-		of the plugin when list_get was originally called. */
-	if (xlist->type == LIST_NOTIFY)
-	{
-		xlist->notifyps = notify_find_server_entry (xlist->pos->data,
-													((session *)xlist->head)->server);
-		if (!xlist->notifyps)
-			return 0;
-	}
+    /* NOTIFY LIST: Find the entry which matches the context
+       of the plugin when list_get was originally called. */
+    if (xlist->type == LIST_NOTIFY)
+    {
+        xlist->notifyps = notify_find_server_entry (xlist->pos->data,
+                                                    ((session *)xlist->head)->server);
+        if (!xlist->notifyps)
+            return 0;
+    }
 
-	return 1;
+    return 1;
 }
 
 const char * const *
 hextor_list_fields (hextor_plugin *ph, const char *name)
 {
-	static const char * const dcc_fields[] =
-	{
-		"iaddress32","icps",		"sdestfile","sfile",		"snick",	"iport",
-		"ipos", "iposhigh", "iresume", "iresumehigh", "isize", "isizehigh", "istatus", "itype", NULL
-	};
-	static const char * const channels_fields[] =
-	{
-		"schannel",	"schannelkey", "schantypes", "pcontext", "iflags", "iid", "ilag", "imaxmodes",
-		"snetwork", "snickmodes", "snickprefixes", "iqueue", "sserver", "itype", "iusers",
-		NULL
-	};
-	static const char * const ignore_fields[] =
-	{
-		"iflags", "smask", NULL
-	};
-	static const char * const notify_fields[] =
-	{
-		"iflags", "snetworks", "snick", "toff", "ton", "tseen", NULL
-	};
-	static const char * const users_fields[] =
-	{
-		"saccount", "iaway", "shost", "tlasttalk", "snick", "sprefix", "srealname", "iselected", NULL
-	};
-	static const char * const list_of_lists[] =
-	{
-		"channels",	"dcc", "ignore", "notify", "users", NULL
-	};
+    static const char * const dcc_fields[] =
+        {
+            "iaddress32","icps",            "sdestfile","sfile",            "snick",        "iport",
+            "ipos", "iposhigh", "iresume", "iresumehigh", "isize", "isizehigh", "istatus", "itype", NULL
+        };
+    static const char * const channels_fields[] =
+        {
+            "schannel",     "schannelkey", "schantypes", "pcontext", "iflags", "iid", "ilag", "imaxmodes",
+            "snetwork", "snickmodes", "snickprefixes", "iqueue", "sserver", "itype", "iusers",
+            NULL
+        };
+    static const char * const ignore_fields[] =
+        {
+            "iflags", "smask", NULL
+        };
+    static const char * const notify_fields[] =
+        {
+            "iflags", "snetworks", "snick", "toff", "ton", "tseen", NULL
+        };
+    static const char * const users_fields[] =
+        {
+            "saccount", "iaway", "shost", "tlasttalk", "snick", "sprefix", "srealname", "iselected", NULL
+        };
+    static const char * const list_of_lists[] =
+        {
+            "channels",     "dcc", "ignore", "notify", "users", NULL
+        };
 
-	switch (str_hash (name))
-	{
-	case 0x556423d0:	/* channels */
-		return channels_fields;
-	case 0x183c4:		/* dcc */
-		return dcc_fields;
-	case 0xb90bfdd2:	/* ignore */
-		return ignore_fields;
-	case 0xc2079749:	/* notify */
-		return notify_fields;
-	case 0x6a68e08:	/* users */
-		return users_fields;
-	case 0x6236395:	/* lists */
-		return list_of_lists;
-	}
+    switch (str_hash (name))
+    {
+    case 0x556423d0:        /* channels */
+        return channels_fields;
+    case 0x183c4:           /* dcc */
+        return dcc_fields;
+    case 0xb90bfdd2:        /* ignore */
+        return ignore_fields;
+    case 0xc2079749:        /* notify */
+        return notify_fields;
+    case 0x6a68e08: /* users */
+        return users_fields;
+    case 0x6236395: /* lists */
+        return list_of_lists;
+    }
 
-	return NULL;
+    return NULL;
 }
 
 time_t
 hextor_list_time (hextor_plugin *ph, hextor_list *xlist, const char *name)
 {
-	guint32 hash = str_hash (name);
-	gpointer data;
+    guint32 hash = str_hash (name);
+    gpointer data;
 
-	switch (xlist->type)
-	{
-	case LIST_NOTIFY:
-		if (!xlist->notifyps)
-			return (time_t) -1;
-		switch (hash)
-		{
-		case 0x1ad6f:	/* off */
-			return xlist->notifyps->lastoff;
-		case 0xddf:	/* on */
-			return xlist->notifyps->laston;
-		case 0x35ce7b:	/* seen */
-			return xlist->notifyps->lastseen;
-		}
-		break;
+    switch (xlist->type)
+    {
+    case LIST_NOTIFY:
+        if (!xlist->notifyps)
+            return (time_t) -1;
+        switch (hash)
+        {
+        case 0x1ad6f:   /* off */
+            return xlist->notifyps->lastoff;
+        case 0xddf:     /* on */
+            return xlist->notifyps->laston;
+        case 0x35ce7b:  /* seen */
+            return xlist->notifyps->lastseen;
+        }
+        break;
 
-	case LIST_USERS:
-		data = xlist->pos->data;
-		switch (hash)
-		{
-		case 0xa9118c42:	/* lasttalk */
-			return ((struct User *)data)->lasttalk;
-		}
-	}
+    case LIST_USERS:
+        data = xlist->pos->data;
+        switch (hash)
+        {
+        case 0xa9118c42:        /* lasttalk */
+            return ((struct User *)data)->lasttalk;
+        }
+    }
 
-	return (time_t) -1;
+    return (time_t) -1;
 }
 
 const char *
 hextor_list_str (hextor_plugin *ph, hextor_list *xlist, const char *name)
 {
-	guint32 hash = str_hash (name);
-	gpointer data = ph->context;
-	int type = LIST_CHANNELS;
+    guint32 hash = str_hash (name);
+    gpointer data = ph->context;
+    int type = LIST_CHANNELS;
 
-	/* a NULL xlist is a shortcut to current "channels" context */
-	if (xlist)
-	{
-		data = xlist->pos->data;
-		type = xlist->type;
-	}
+    /* a NULL xlist is a shortcut to current "channels" context */
+    if (xlist)
+    {
+        data = xlist->pos->data;
+        type = xlist->type;
+    }
 
-	switch (type)
-	{
-	case LIST_CHANNELS:
-		switch (hash)
-		{
-		case 0x2c0b7d03: /* channel */
-			return ((session *)data)->channel;
-		case 0x8cea5e7c: /* channelkey */
-			return ((session *)data)->channelkey;
-		case 0x577e0867: /* chantypes */
-			return ((session *)data)->server->chantypes;
-		case 0x38b735af: /* context */
-			return data;	/* this is a session * */
-		case 0x6de15a2e: /* network */
-			return server_get_network (((session *)data)->server, FALSE);
-		case 0x8455e723: /* nickprefixes */
-			return ((session *)data)->server->nick_prefixes;
-		case 0x829689ad: /* nickmodes */
-			return ((session *)data)->server->nick_modes;
-		case 0xca022f43: /* server */
-			return ((session *)data)->server->servername;
-		}
-		break;
+    switch (type)
+    {
+    case LIST_CHANNELS:
+        switch (hash)
+        {
+        case 0x2c0b7d03: /* channel */
+            return ((session *)data)->channel;
+        case 0x8cea5e7c: /* channelkey */
+            return ((session *)data)->channelkey;
+        case 0x577e0867: /* chantypes */
+            return ((session *)data)->server->chantypes;
+        case 0x38b735af: /* context */
+            return data;    /* this is a session * */
+        case 0x6de15a2e: /* network */
+            return server_get_network (((session *)data)->server, FALSE);
+        case 0x8455e723: /* nickprefixes */
+            return ((session *)data)->server->nick_prefixes;
+        case 0x829689ad: /* nickmodes */
+            return ((session *)data)->server->nick_modes;
+        case 0xca022f43: /* server */
+            return ((session *)data)->server->servername;
+        }
+        break;
 
-	case LIST_DCC:
-		switch (hash)
-		{
-		case 0x3d9ad31e:	/* destfile */
-			return ((struct DCC *)data)->destfile;
-		case 0x2ff57c:	/* file */
-			return ((struct DCC *)data)->file;
-		case 0x339763: /* nick */
-			return ((struct DCC *)data)->nick;
-		}
-		break;
+    case LIST_DCC:
+        switch (hash)
+        {
+        case 0x3d9ad31e:        /* destfile */
+            return ((struct DCC *)data)->destfile;
+        case 0x2ff57c:  /* file */
+            return ((struct DCC *)data)->file;
+        case 0x339763: /* nick */
+            return ((struct DCC *)data)->nick;
+        }
+        break;
 
-	case LIST_IGNORE:
-		switch (hash)
-		{
-		case 0x3306ec:	/* mask */
-			return ((struct ignore *)data)->mask;
-		}
-		break;
+    case LIST_IGNORE:
+        switch (hash)
+        {
+        case 0x3306ec:  /* mask */
+            return ((struct ignore *)data)->mask;
+        }
+        break;
 
-	case LIST_NOTIFY:
-		switch (hash)
-		{
-		case 0x4e49ec05:	/* networks */
-			return ((struct notify *)data)->networks;
-		case 0x339763: /* nick */
-			return ((struct notify *)data)->name;
-		}
-		break;
+    case LIST_NOTIFY:
+        switch (hash)
+        {
+        case 0x4e49ec05:        /* networks */
+            return ((struct notify *)data)->networks;
+        case 0x339763: /* nick */
+            return ((struct notify *)data)->name;
+        }
+        break;
 
-	case LIST_USERS:
-		switch (hash)
-		{
-		case 0xb9d38a2d: /* account */
-			return ((struct User *)data)->account;
-		case 0x339763: /* nick */
-			return ((struct User *)data)->nick;
-		case 0x30f5a8: /* host */
-			return ((struct User *)data)->hostname;
-		case 0xc594b292: /* prefix */
-			return ((struct User *)data)->prefix;
-		case 0xccc6d529: /* realname */
-			return ((struct User *)data)->realname;
-		}
-		break;
-	}
+    case LIST_USERS:
+        switch (hash)
+        {
+        case 0xb9d38a2d: /* account */
+            return ((struct User *)data)->account;
+        case 0x339763: /* nick */
+            return ((struct User *)data)->nick;
+        case 0x30f5a8: /* host */
+            return ((struct User *)data)->hostname;
+        case 0xc594b292: /* prefix */
+            return ((struct User *)data)->prefix;
+        case 0xccc6d529: /* realname */
+            return ((struct User *)data)->realname;
+        }
+        break;
+    }
 
-	return NULL;
+    return NULL;
 }
 
 int
 hextor_list_int (hextor_plugin *ph, hextor_list *xlist, const char *name)
 {
-	guint32 hash = str_hash (name);
-	gpointer data = ph->context;
-	int tmp = 0;
-	int type = LIST_CHANNELS;
+    guint32 hash = str_hash (name);
+    gpointer data = ph->context;
+    int tmp = 0;
+    int type = LIST_CHANNELS;
 
-	/* a NULL xlist is a shortcut to current "channels" context */
-	if (xlist)
-	{
-		data = xlist->pos->data;
-		type = xlist->type;
-	}
+    /* a NULL xlist is a shortcut to current "channels" context */
+    if (xlist)
+    {
+        data = xlist->pos->data;
+        type = xlist->type;
+    }
 
-	switch (type)
-	{
-	case LIST_DCC:
-		switch (hash)
-		{
-		case 0x34207553: /* address32 */
-			return ((struct DCC *)data)->addr;
-		case 0x181a6: /* cps */
-		{
-			gint64 cps = ((struct DCC *)data)->cps;
-			if (cps <= INT_MAX)
-			{
-				return (int) cps;
-			}
-			return INT_MAX;
-		}
-		case 0x349881: /* port */
-			return ((struct DCC *)data)->port;
-		case 0x1b254: /* pos */
-			return ((struct DCC *)data)->pos & 0xffffffff;
-		case 0xe8a945f6: /* poshigh */
-			return (((struct DCC *)data)->pos >> 32) & 0xffffffff;
-		case 0xc84dc82d: /* resume */
-			return ((struct DCC *)data)->resumable & 0xffffffff;
-		case 0xded4c74f: /* resumehigh */
-			return (((struct DCC *)data)->resumable >> 32) & 0xffffffff;
-		case 0x35e001: /* size */
-			return ((struct DCC *)data)->size & 0xffffffff;
-		case 0x3284d523: /* sizehigh */
-			return (((struct DCC *)data)->size >> 32) & 0xffffffff;
-		case 0xcacdcff2: /* status */
-			return ((struct DCC *)data)->dccstat;
-		case 0x368f3a: /* type */
-			return ((struct DCC *)data)->type;
-		}
-		break;
+    switch (type)
+    {
+    case LIST_DCC:
+        switch (hash)
+        {
+        case 0x34207553: /* address32 */
+            return ((struct DCC *)data)->addr;
+        case 0x181a6: /* cps */
+        {
+            gint64 cps = ((struct DCC *)data)->cps;
+            if (cps <= INT_MAX)
+            {
+                return (int) cps;
+            }
+            return INT_MAX;
+        }
+        case 0x349881: /* port */
+            return ((struct DCC *)data)->port;
+        case 0x1b254: /* pos */
+            return ((struct DCC *)data)->pos & 0xffffffff;
+        case 0xe8a945f6: /* poshigh */
+            return (((struct DCC *)data)->pos >> 32) & 0xffffffff;
+        case 0xc84dc82d: /* resume */
+            return ((struct DCC *)data)->resumable & 0xffffffff;
+        case 0xded4c74f: /* resumehigh */
+            return (((struct DCC *)data)->resumable >> 32) & 0xffffffff;
+        case 0x35e001: /* size */
+            return ((struct DCC *)data)->size & 0xffffffff;
+        case 0x3284d523: /* sizehigh */
+            return (((struct DCC *)data)->size >> 32) & 0xffffffff;
+        case 0xcacdcff2: /* status */
+            return ((struct DCC *)data)->dccstat;
+        case 0x368f3a: /* type */
+            return ((struct DCC *)data)->type;
+        }
+        break;
 
-	case LIST_IGNORE:
-		switch (hash)
-		{
-		case 0x5cfee87:	/* flags */
-			return ((struct ignore *)data)->type;
-		}
-		break;
+    case LIST_IGNORE:
+        switch (hash)
+        {
+        case 0x5cfee87: /* flags */
+            return ((struct ignore *)data)->type;
+        }
+        break;
 
-	case LIST_CHANNELS:
-		switch (hash)
-		{
-		case 0xd1b:	/* id */
-			return ((struct session *)data)->server->id;
-		case 0x5cfee87:	/* flags */
-			/* used if text_strip is unset */                    /* 16 */
-			tmp <<= 1;
-			tmp |= ((struct session *)data)->text_strip;          /* 15 */
-			tmp <<= 1;
-			/* used if text_scrollback is unset */               /* 14 */
-			tmp <<= 1;
-			tmp |= ((struct session *)data)->text_scrollback;    /* 13 */
-			tmp <<= 1;
-			/* used if text_logging is unset */                  /* 12 */
-			tmp <<= 1;
-			tmp |= ((struct session *)data)->text_logging;       /* 11 */
-			tmp <<= 1;
-			tmp |= ((struct session *)data)->alert_taskbar;      /* 10 */
-			tmp <<= 1;
-			tmp |= ((struct session *)data)->alert_tray;         /* 9 */
-			tmp <<= 1;
-			tmp |= ((struct session *)data)->alert_beep;         /* 8 */
-			tmp <<= 1;
-			/* used if text_hidejoinpart is unset */              /* 7 */
-			tmp <<= 1;
-			tmp |= ((struct session *)data)->text_hidejoinpart;   /* 6 */
-			tmp <<= 1;
-			tmp |= ((struct session *)data)->server->have_idmsg; /* 5 */
-			tmp <<= 1;
-			tmp |= ((struct session *)data)->server->have_whox;  /* 4 */
-			tmp <<= 1;
-			tmp |= ((struct session *)data)->server->end_of_motd;/* 3 */
-			tmp <<= 1;
-			tmp |= ((struct session *)data)->server->is_away;    /* 2 */
-			tmp <<= 1;
-			tmp |= ((struct session *)data)->server->connecting; /* 1 */ 
-			tmp <<= 1;
-			tmp |= ((struct session *)data)->server->connected;  /* 0 */
-			return tmp;
-		case 0x1a192: /* lag */
-			return ((struct session *)data)->server->lag;
-		case 0x1916144c: /* maxmodes */
-			return ((struct session *)data)->server->modes_per_line;
-		case 0x66f1911: /* queue */
-			return ((struct session *)data)->server->sendq_len;
-		case 0x368f3a:	/* type */
-			return ((struct session *)data)->type;
-		case 0x6a68e08: /* users */
-			return ((struct session *)data)->total;
-		}
-		break;
+    case LIST_CHANNELS:
+        switch (hash)
+        {
+        case 0xd1b:     /* id */
+            return ((struct session *)data)->server->id;
+        case 0x5cfee87: /* flags */
+                        /* used if text_strip is unset */                    /* 16 */
+            tmp <<= 1;
+            tmp |= ((struct session *)data)->text_strip;          /* 15 */
+            tmp <<= 1;
+            /* used if text_scrollback is unset */               /* 14 */
+            tmp <<= 1;
+            tmp |= ((struct session *)data)->text_scrollback;    /* 13 */
+            tmp <<= 1;
+            /* used if text_logging is unset */                  /* 12 */
+            tmp <<= 1;
+            tmp |= ((struct session *)data)->text_logging;       /* 11 */
+            tmp <<= 1;
+            tmp |= ((struct session *)data)->alert_taskbar;      /* 10 */
+            tmp <<= 1;
+            tmp |= ((struct session *)data)->alert_tray;         /* 9 */
+            tmp <<= 1;
+            tmp |= ((struct session *)data)->alert_beep;         /* 8 */
+            tmp <<= 1;
+            /* used if text_hidejoinpart is unset */              /* 7 */
+            tmp <<= 1;
+            tmp |= ((struct session *)data)->text_hidejoinpart;   /* 6 */
+            tmp <<= 1;
+            tmp |= ((struct session *)data)->server->have_idmsg; /* 5 */
+            tmp <<= 1;
+            tmp |= ((struct session *)data)->server->have_whox;  /* 4 */
+            tmp <<= 1;
+            tmp |= ((struct session *)data)->server->end_of_motd;/* 3 */
+            tmp <<= 1;
+            tmp |= ((struct session *)data)->server->is_away;    /* 2 */
+            tmp <<= 1;
+            tmp |= ((struct session *)data)->server->connecting; /* 1 */
+            tmp <<= 1;
+            tmp |= ((struct session *)data)->server->connected;  /* 0 */
+            return tmp;
+        case 0x1a192: /* lag */
+            return ((struct session *)data)->server->lag;
+        case 0x1916144c: /* maxmodes */
+            return ((struct session *)data)->server->modes_per_line;
+        case 0x66f1911: /* queue */
+            return ((struct session *)data)->server->sendq_len;
+        case 0x368f3a:  /* type */
+            return ((struct session *)data)->type;
+        case 0x6a68e08: /* users */
+            return ((struct session *)data)->total;
+        }
+        break;
 
-	case LIST_NOTIFY:
-		if (!xlist->notifyps)
-			return -1;
-		switch (hash)
-		{
-		case 0x5cfee87: /* flags */
-			return xlist->notifyps->ison;
-		}
+    case LIST_NOTIFY:
+        if (!xlist->notifyps)
+            return -1;
+        switch (hash)
+        {
+        case 0x5cfee87: /* flags */
+            return xlist->notifyps->ison;
+        }
 
-	case LIST_USERS:
-		switch (hash)
-		{
-		case 0x2de2ee:	/* away */
-			return ((struct User *)data)->away;
-		case 0x4705f29b: /* selected */
-			return ((struct User *)data)->selected;
-		}
-		break;
+    case LIST_USERS:
+        switch (hash)
+        {
+        case 0x2de2ee:  /* away */
+            return ((struct User *)data)->away;
+        case 0x4705f29b: /* selected */
+            return ((struct User *)data)->selected;
+        }
+        break;
 
-	}
+    }
 
-	return -1;
+    return -1;
 }
 
 void *
 hextor_plugingui_add (hextor_plugin *ph, const char *filename,
-							const char *name, const char *desc,
-							const char *version, char *reserved)
+                      const char *name, const char *desc,
+                      const char *version, char *reserved)
 {
 #ifdef USE_PLUGIN
-	ph = plugin_list_add (NULL, g_strdup (filename), g_strdup (name), g_strdup (desc),
-								 g_strdup (version), NULL, NULL, TRUE, TRUE);
-	fe_pluginlist_update ();
+    ph = plugin_list_add (NULL, g_strdup (filename), g_strdup (name), g_strdup (desc),
+                          g_strdup (version), NULL, NULL, TRUE, TRUE);
+    fe_pluginlist_update ();
 #endif
 
-	return ph;
+    return ph;
 }
 
 void
 hextor_plugingui_remove (hextor_plugin *ph, void *handle)
 {
 #ifdef USE_PLUGIN
-	plugin_free (handle, FALSE, FALSE);
+    plugin_free (handle, FALSE, FALSE);
 #endif
 }
 
 int
 hextor_emit_print (hextor_plugin *ph, const char *event_name, ...)
 {
-	va_list args;
-	/* currently only 4 because no events use more than 4.
-		This can be easily expanded without breaking the API. */
-	char *argv[4] = {NULL, NULL, NULL, NULL};
-	int i = 0;
+    va_list args;
+    /* currently only 4 because no events use more than 4.
+       This can be easily expanded without breaking the API. */
+    char *argv[4] = {NULL, NULL, NULL, NULL};
+    int i = 0;
 
-	va_start (args, event_name);
-	while (1)
-	{
-		argv[i] = va_arg (args, char *);
-		if (!argv[i])
-			break;
-		i++;
-		if (i >= 4)
-			break;
-	}
+    va_start (args, event_name);
+    while (1)
+    {
+        argv[i] = va_arg (args, char *);
+        if (!argv[i])
+            break;
+        i++;
+        if (i >= 4)
+            break;
+    }
 
-	i = text_emit_by_name ((char *)event_name, ph->context, (time_t) 0,
-						   argv[0], argv[1], argv[2], argv[3]);
-	va_end (args);
+    i = text_emit_by_name ((char *)event_name, ph->context, (time_t) 0,
+                           argv[0], argv[1], argv[2], argv[3]);
+    va_end (args);
 
-	return i;
+    return i;
 }
 
 int
 hextor_emit_print_attrs (hextor_plugin *ph, hextor_event_attrs *attrs,
-						  const char *event_name, ...)
+                         const char *event_name, ...)
 {
-	va_list args;
-	/* currently only 4 because no events use more than 4.
-		This can be easily expanded without breaking the API. */
-	char *argv[4] = {NULL, NULL, NULL, NULL};
-	int i = 0;
+    va_list args;
+    /* currently only 4 because no events use more than 4.
+       This can be easily expanded without breaking the API. */
+    char *argv[4] = {NULL, NULL, NULL, NULL};
+    int i = 0;
 
-	va_start (args, event_name);
-	while (1)
-	{
-		argv[i] = va_arg (args, char *);
-		if (!argv[i])
-			break;
-		i++;
-		if (i >= 4)
-			break;
-	}
+    va_start (args, event_name);
+    while (1)
+    {
+        argv[i] = va_arg (args, char *);
+        if (!argv[i])
+            break;
+        i++;
+        if (i >= 4)
+            break;
+    }
 
-	i = text_emit_by_name ((char *)event_name, ph->context, attrs->server_time_utc,
-						   argv[0], argv[1], argv[2], argv[3]);
-	va_end (args);
+    i = text_emit_by_name ((char *)event_name, ph->context, attrs->server_time_utc,
+                           argv[0], argv[1], argv[2], argv[3]);
+    va_end (args);
 
-	return i;
+    return i;
 }
 
 char *
 hextor_gettext (hextor_plugin *ph, const char *msgid)
 {
-	/* so that plugins can use Hextor's internal gettext strings. */
-	/* e.g. The EXEC plugin uses this on Windows. */
-	return _(msgid);
+    /* so that plugins can use Hextor's internal gettext strings. */
+    /* e.g. The EXEC plugin uses this on Windows. */
+    return _(msgid);
 }
 
 void
 hextor_send_modes (hextor_plugin *ph, const char **targets, int ntargets, int modes_per_line, char sign, char mode)
 {
-	char tbuf[514];	/* modes.c needs 512 + null */
+    char tbuf[514]; /* modes.c needs 512 + null */
 
-	send_channel_modes (ph->context, tbuf, (char **)targets, 0, ntargets, sign, mode, modes_per_line);
+    send_channel_modes (ph->context, tbuf, (char **)targets, 0, ntargets, sign, mode, modes_per_line);
 }
 
 char *
 hextor_strip (hextor_plugin *ph, const char *str, int len, int flags)
 {
-	return strip_color ((char *)str, len, flags);
+    return strip_color ((char *)str, len, flags);
 }
 
 void
 hextor_free (hextor_plugin *ph, void *ptr)
 {
-	g_free (ptr);
+    g_free (ptr);
 }
 
 static int
 hextor_pluginpref_set_str_real (hextor_plugin *pl, const char *var, const char *value, int mode) /* mode: 0 = delete, 1 = save */
 {
-	FILE *fpIn;
-	int fhOut;
-	int prevSetting;
-	char *confname;
-	char *confname_tmp;
-	char *escaped_value;
-	char *buffer;
-	char *buffer_tmp;
-	char line_buffer[512];		/* the same as in cfg_put_str */
-	char *line_bufp = line_buffer;
-	char *canon;
+    FILE *fpIn;
+    int fhOut;
+    int prevSetting;
+    char *confname;
+    char *confname_tmp;
+    char *escaped_value;
+    char *buffer;
+    char *buffer_tmp;
+    char line_buffer[512];          /* the same as in cfg_put_str */
+    char *line_bufp = line_buffer;
+    char *canon;
 
-	canon = g_strdup (pl->name);
-	canonalize_key (canon);
-	confname = g_strdup_printf ("addon_%s.conf", canon);
-	g_free (canon);
-	confname_tmp = g_strdup_printf ("%s.new", confname);
+    canon = g_strdup (pl->name);
+    canonalize_key (canon);
+    confname = g_strdup_printf ("addon_%s.conf", canon);
+    g_free (canon);
+    confname_tmp = g_strdup_printf ("%s.new", confname);
 
-	fhOut = hextor_open_file (confname_tmp, O_TRUNC | O_WRONLY | O_CREAT, 0600, XOF_DOMODE);
-	fpIn = hextor_fopen_file (confname, "r", 0);
+    fhOut = hextor_open_file (confname_tmp, O_TRUNC | O_WRONLY | O_CREAT, 0600, XOF_DOMODE);
+    fpIn = hextor_fopen_file (confname, "r", 0);
 
-	if (fhOut == -1)		/* unable to save, abort */
-	{
-		g_free (confname);
-		g_free (confname_tmp);
-		if (fpIn)
-			fclose (fpIn);
-		return 0;
-	}
-	else if (fpIn == NULL)	/* no previous config file, no parsing */
-	{
-		if (mode)
-		{
-			escaped_value = g_strescape (value, NULL);
-			buffer = g_strdup_printf ("%s = %s\n", var, escaped_value);
-			g_free (escaped_value);
-			write (fhOut, buffer, strlen (buffer));
-			g_free (buffer);
-			close (fhOut);
+    if (fhOut == -1)                /* unable to save, abort */
+    {
+        g_free (confname);
+        g_free (confname_tmp);
+        if (fpIn)
+            fclose (fpIn);
+        return 0;
+    }
+    else if (fpIn == NULL)  /* no previous config file, no parsing */
+    {
+        if (mode)
+        {
+            escaped_value = g_strescape (value, NULL);
+            buffer = g_strdup_printf ("%s = %s\n", var, escaped_value);
+            g_free (escaped_value);
+            write (fhOut, buffer, strlen (buffer));
+            g_free (buffer);
+            close (fhOut);
 
-			buffer = g_build_filename (get_xdir (), confname, NULL);
-			g_free (confname);
-			buffer_tmp = g_build_filename (get_xdir (), confname_tmp, NULL);
-			g_free (confname_tmp);
-
-#ifdef WIN32
-			g_unlink (buffer);
-#endif
-
-			if (g_rename (buffer_tmp, buffer) == 0)
-			{
-				g_free (buffer);
-				g_free (buffer_tmp);
-				return 1;
-			}
-			else
-			{
-				g_free (buffer);
-				g_free (buffer_tmp);
-				return 0;
-			}
-		}
-		else
-		{
-			/* mode = 0, we want to delete but the config file and thus the given setting does not exist, we're ready */
-			close (fhOut);
-			g_free (confname);
-			g_free (confname_tmp);
-			return 1;
-		}
-	}
-	else	/* existing config file, preserve settings and find & replace current var value if any */
-	{
-		prevSetting = 0;
-
-		while (fscanf (fpIn, " %511[^\n]", line_bufp) != EOF)	/* read whole lines including whitespaces */
-		{
-			buffer_tmp = g_strdup_printf ("%s ", var);	/* add one space, this way it works against var - var2 checks too */
-
-			if (strncmp (buffer_tmp, line_buffer, strlen (var) + 1) == 0)	/* given setting already exists */
-			{
-				if (mode)									/* overwrite the existing matching setting if we are in save mode */
-				{
-					escaped_value = g_strescape (value, NULL);
-					buffer = g_strdup_printf ("%s = %s\n", var, escaped_value);
-					g_free (escaped_value);
-				}
-				else										/* erase the setting in delete mode */
-				{
-					buffer = g_strdup ("");
-				}
-
-				prevSetting = 1;
-			}
-			else
-			{
-				buffer = g_strdup_printf ("%s\n", line_buffer);	/* preserve the existing different settings */
-			}
-
-			write (fhOut, buffer, strlen (buffer));
-
-			g_free (buffer);
-			g_free (buffer_tmp);
-		}
-
-		fclose (fpIn);
-
-		if (!prevSetting && mode)	/* var doesn't exist currently, append if we're in save mode */
-		{
-			escaped_value = g_strescape (value, NULL);
-			buffer = g_strdup_printf ("%s = %s\n", var, escaped_value);
-			g_free (escaped_value);
-			write (fhOut, buffer, strlen (buffer));
-			g_free (buffer);
-		}
-
-		close (fhOut);
-
-		buffer = g_build_filename (get_xdir (), confname, NULL);
-		g_free (confname);
-		buffer_tmp = g_build_filename (get_xdir (), confname_tmp, NULL);
-		g_free (confname_tmp);
+            buffer = g_build_filename (get_xdir (), confname, NULL);
+            g_free (confname);
+            buffer_tmp = g_build_filename (get_xdir (), confname_tmp, NULL);
+            g_free (confname_tmp);
 
 #ifdef WIN32
-		g_unlink (buffer);
+            g_unlink (buffer);
 #endif
 
-		if (g_rename (buffer_tmp, buffer) == 0)
-		{
-			g_free (buffer);
-			g_free (buffer_tmp);
-			return 1;
-		}
-		else
-		{
-			g_free (buffer);
-			g_free (buffer_tmp);
-			return 0;
-		}
-	}
+            if (g_rename (buffer_tmp, buffer) == 0)
+            {
+                g_free (buffer);
+                g_free (buffer_tmp);
+                return 1;
+            }
+            else
+            {
+                g_free (buffer);
+                g_free (buffer_tmp);
+                return 0;
+            }
+        }
+        else
+        {
+            /* mode = 0, we want to delete but the config file and thus the given setting does not exist, we're ready */
+            close (fhOut);
+            g_free (confname);
+            g_free (confname_tmp);
+            return 1;
+        }
+    }
+    else    /* existing config file, preserve settings and find & replace current var value if any */
+    {
+        prevSetting = 0;
+
+        while (fscanf (fpIn, " %511[^\n]", line_bufp) != EOF)   /* read whole lines including whitespaces */
+        {
+            buffer_tmp = g_strdup_printf ("%s ", var);      /* add one space, this way it works against var - var2 checks too */
+
+            if (strncmp (buffer_tmp, line_buffer, strlen (var) + 1) == 0)   /* given setting already exists */
+            {
+                if (mode)                                                                       /* overwrite the existing matching setting if we are in save mode */
+                {
+                    escaped_value = g_strescape (value, NULL);
+                    buffer = g_strdup_printf ("%s = %s\n", var, escaped_value);
+                    g_free (escaped_value);
+                }
+                else                                                                            /* erase the setting in delete mode */
+                {
+                    buffer = g_strdup ("");
+                }
+
+                prevSetting = 1;
+            }
+            else
+            {
+                buffer = g_strdup_printf ("%s\n", line_buffer); /* preserve the existing different settings */
+            }
+
+            write (fhOut, buffer, strlen (buffer));
+
+            g_free (buffer);
+            g_free (buffer_tmp);
+        }
+
+        fclose (fpIn);
+
+        if (!prevSetting && mode)       /* var doesn't exist currently, append if we're in save mode */
+        {
+            escaped_value = g_strescape (value, NULL);
+            buffer = g_strdup_printf ("%s = %s\n", var, escaped_value);
+            g_free (escaped_value);
+            write (fhOut, buffer, strlen (buffer));
+            g_free (buffer);
+        }
+
+        close (fhOut);
+
+        buffer = g_build_filename (get_xdir (), confname, NULL);
+        g_free (confname);
+        buffer_tmp = g_build_filename (get_xdir (), confname_tmp, NULL);
+        g_free (confname_tmp);
+
+#ifdef WIN32
+        g_unlink (buffer);
+#endif
+
+        if (g_rename (buffer_tmp, buffer) == 0)
+        {
+            g_free (buffer);
+            g_free (buffer_tmp);
+            return 1;
+        }
+        else
+        {
+            g_free (buffer);
+            g_free (buffer_tmp);
+            return 0;
+        }
+    }
 }
 
 int
 hextor_pluginpref_set_str (hextor_plugin *pl, const char *var, const char *value)
 {
-	return hextor_pluginpref_set_str_real (pl, var, value, 1);
+    return hextor_pluginpref_set_str_real (pl, var, value, 1);
 }
 
 static int
 hextor_pluginpref_get_str_real (hextor_plugin *pl, const char *var, char *dest, int dest_len)
 {
-	char *confname, *canon, *cfg, *unescaped_value;
-	char buf[512];
+    char *confname, *canon, *cfg, *unescaped_value;
+    char buf[512];
 
-	canon = g_strdup (pl->name);
-	canonalize_key (canon);
-	confname = g_strdup_printf ("%s%caddon_%s.conf", get_xdir(), G_DIR_SEPARATOR, canon);
-	g_free (canon);
+    canon = g_strdup (pl->name);
+    canonalize_key (canon);
+    confname = g_strdup_printf ("%s%caddon_%s.conf", get_xdir(), G_DIR_SEPARATOR, canon);
+    g_free (canon);
 
-	if (!g_file_get_contents (confname, &cfg, NULL, NULL))
-	{
-		g_free (confname);
-		return 0;
-	}
-	g_free (confname);
+    if (!g_file_get_contents (confname, &cfg, NULL, NULL))
+    {
+        g_free (confname);
+        return 0;
+    }
+    g_free (confname);
 
-	if (!cfg_get_str (cfg, var, buf, sizeof(buf)))
-	{
-		g_free (cfg);
-		return 0;
-	}
+    if (!cfg_get_str (cfg, var, buf, sizeof(buf)))
+    {
+        g_free (cfg);
+        return 0;
+    }
 
-	unescaped_value = g_strcompress (buf);
-	g_strlcpy (dest, unescaped_value, dest_len);
+    unescaped_value = g_strcompress (buf);
+    g_strlcpy (dest, unescaped_value, dest_len);
 
-	g_free (unescaped_value);
-	g_free (cfg);
-	return 1;
+    g_free (unescaped_value);
+    g_free (cfg);
+    return 1;
 }
 
 int
 hextor_pluginpref_get_str (hextor_plugin *pl, const char *var, char *dest)
 {
-	/* All users of this must ensure dest is >= 512... */
-	return hextor_pluginpref_get_str_real (pl, var, dest, 512);
+    /* All users of this must ensure dest is >= 512... */
+    return hextor_pluginpref_get_str_real (pl, var, dest, 512);
 }
 
 int
 hextor_pluginpref_set_int (hextor_plugin *pl, const char *var, int value)
 {
-	char buffer[12];
+    char buffer[12];
 
-	g_snprintf (buffer, sizeof (buffer), "%d", value);
-	return hextor_pluginpref_set_str_real (pl, var, buffer, 1);
+    g_snprintf (buffer, sizeof (buffer), "%d", value);
+    return hextor_pluginpref_set_str_real (pl, var, buffer, 1);
 }
 
 int
 hextor_pluginpref_get_int (hextor_plugin *pl, const char *var)
 {
-	char buffer[12];
+    char buffer[12];
 
-	if (hextor_pluginpref_get_str_real (pl, var, buffer, sizeof(buffer)))
-	{
-		return atoi (buffer);
-	}
-	else
-	{
-		return -1;
-	}
+    if (hextor_pluginpref_get_str_real (pl, var, buffer, sizeof(buffer)))
+    {
+        return atoi (buffer);
+    }
+    else
+    {
+        return -1;
+    }
 }
 
 int
 hextor_pluginpref_delete (hextor_plugin *pl, const char *var)
 {
-	return hextor_pluginpref_set_str_real (pl, var, 0, 0);
+    return hextor_pluginpref_set_str_real (pl, var, 0, 0);
 }
 
 int
 hextor_pluginpref_list (hextor_plugin *pl, char* dest)
 {
-	FILE *fpIn;
-	char confname[64];
-	char buffer[512];										/* the same as in cfg_put_str */
-	char *bufp = buffer;
-	char *token;
+    FILE *fpIn;
+    char confname[64];
+    char buffer[512];                                                                               /* the same as in cfg_put_str */
+    char *bufp = buffer;
+    char *token;
 
-	token = g_strdup (pl->name);
-	canonalize_key (token);
-	sprintf (confname, "addon_%s.conf", token);
-	g_free (token);
+    token = g_strdup (pl->name);
+    canonalize_key (token);
+    sprintf (confname, "addon_%s.conf", token);
+    g_free (token);
 
-	fpIn = hextor_fopen_file (confname, "r", 0);
+    fpIn = hextor_fopen_file (confname, "r", 0);
 
-	if (fpIn == NULL)										/* no existing config file, no parsing */
-	{
-		return 0;
-	}
-	else													/* existing config file, get list of settings */
-	{
-		strcpy (dest, "");									/* clean up garbage */
-		while (fscanf (fpIn, " %[^\n]", bufp) != EOF)	/* read whole lines including whitespaces */
-		{
-			token = strtok (buffer, "=");
-			g_strlcat (dest, g_strchomp (token), 4096); /* Dest must not be smaller than this */
-			g_strlcat (dest, ",", 4096);
-		}
+    if (fpIn == NULL)                                                                               /* no existing config file, no parsing */
+    {
+        return 0;
+    }
+    else                                                                                                    /* existing config file, get list of settings */
+    {
+        strcpy (dest, "");                                                                      /* clean up garbage */
+        while (fscanf (fpIn, " %[^\n]", bufp) != EOF)   /* read whole lines including whitespaces */
+        {
+            token = strtok (buffer, "=");
+            g_strlcat (dest, g_strchomp (token), 4096); /* Dest must not be smaller than this */
+            g_strlcat (dest, ",", 4096);
+        }
 
-		fclose (fpIn);
-	}
+        fclose (fpIn);
+    }
 
-	return 1;
+    return 1;
 }

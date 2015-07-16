@@ -26,22 +26,22 @@
 /* for storage of /menu entries */
 typedef struct
 {
-	gint32 pos;	/* position */
-	gint16 modifier;	/* keybinding */
-	gint16 root_offset;	/* bytes to offset ->path */
+    gint32 pos;     /* position */
+    gint16 modifier;        /* keybinding */
+    gint16 root_offset;     /* bytes to offset ->path */
 
-	char is_main;	/* is part of the Main menu? (not a popup) */
-	char state;	/* state of toggle items */
-	char markup;	/* use pango markup? */
-	char enable;	/* enabled? sensitivity */
+    char is_main;   /* is part of the Main menu? (not a popup) */
+    char state;     /* state of toggle items */
+    char markup;    /* use pango markup? */
+    char enable;    /* enabled? sensitivity */
 
-	int key;
-	char *path;
-	char *label;
-	char *cmd;
-	char *ucmd;	/* unselect command (toggles) */
-	char *group;	/* for radio items or NULL */
-	char *icon;	/* filename */
+    int key;
+    char *path;
+    char *label;
+    char *cmd;
+    char *ucmd;     /* unselect command (toggles) */
+    char *group;    /* for radio items or NULL */
+    char *icon;     /* filename */
 } menu_entry;
 
 int fe_args (int argc, char *argv[]);
@@ -76,7 +76,7 @@ void fe_update_channel_key (struct session *sess);
 void fe_update_channel_limit (struct session *sess);
 int fe_is_chanwindow (struct server *serv);
 void fe_add_chan_list (struct server *serv, char *chan, char *users,
-							  char *topic);
+                       char *topic);
 void fe_chan_list_end (struct server *serv);
 gboolean fe_add_ban_list (struct session *sess, char *mask, char *who, char *when, int rplcode);
 gboolean fe_ban_list_end (struct session *sess, int rplcode);
@@ -87,7 +87,7 @@ void fe_close_window (struct session *sess);
 void fe_progressbar_start (struct session *sess);
 void fe_progressbar_end (struct server *serv);
 void fe_print_text (struct session *sess, char *text, time_t stamp,
-					gboolean no_activity);
+                    gboolean no_activity);
 void fe_userlist_insert (struct session *sess, struct User *newuser, gboolean sel);
 int fe_userlist_remove (struct session *sess, struct User *user);
 void fe_userlist_rehash (struct session *sess, struct User *user);
@@ -124,27 +124,27 @@ void fe_serverlist_open (session *sess);
 void fe_get_bool (char *title, char *prompt, void *callback, void *userdata);
 void fe_get_str (char *prompt, char *def, void *callback, void *ud);
 void fe_get_int (char *prompt, int def, void *callback, void *ud);
-#define FRF_WRITE 1				/* save file */
-#define FRF_MULTIPLE 2			/* multi-select */
-#define FRF_RECENTLYUSED 4		/* let gtk decide start dir instead of our config */
-#define FRF_CHOOSEFOLDER 8		/* choosing a folder only */
-#define FRF_FILTERISINITIAL 16	/* filter is initial directory */
-#define FRF_NOASKOVERWRITE 32	/* don't ask to overwrite existing files */
-#define FRF_EXTENSIONS 64		/* specify file extensions to be displayed */
-#define FRF_MIMETYPES 128		/* specify file mimetypes to be displayed */
+#define FRF_WRITE 1                             /* save file */
+#define FRF_MULTIPLE 2                  /* multi-select */
+#define FRF_RECENTLYUSED 4              /* let gtk decide start dir instead of our config */
+#define FRF_CHOOSEFOLDER 8              /* choosing a folder only */
+#define FRF_FILTERISINITIAL 16  /* filter is initial directory */
+#define FRF_NOASKOVERWRITE 32   /* don't ask to overwrite existing files */
+#define FRF_EXTENSIONS 64               /* specify file extensions to be displayed */
+#define FRF_MIMETYPES 128               /* specify file mimetypes to be displayed */
 void fe_get_file (const char *title, char *initial,
-				 void (*callback) (void *userdata, char *file), void *userdata,
-				 int flags);
+                  void (*callback) (void *userdata, char *file), void *userdata,
+                  int flags);
 typedef enum {
-	FE_GUI_HIDE,
-	FE_GUI_SHOW,
-	FE_GUI_FOCUS,
-	FE_GUI_FLASH,
-	FE_GUI_COLOR,
-	FE_GUI_ICONIFY,
-	FE_GUI_MENU,
-	FE_GUI_ATTACH,
-	FE_GUI_APPLY,
+    FE_GUI_HIDE,
+    FE_GUI_SHOW,
+    FE_GUI_FOCUS,
+    FE_GUI_FLASH,
+    FE_GUI_COLOR,
+    FE_GUI_ICONIFY,
+    FE_GUI_MENU,
+    FE_GUI_ATTACH,
+    FE_GUI_APPLY,
 } fe_gui_action;
 void fe_ctrl_gui (session *sess, fe_gui_action action, int arg);
 int fe_gui_info (session *sess, int info_type);
@@ -170,11 +170,11 @@ void fe_tray_set_flash (const char *filename1, const char *filename2, int timeou
 void fe_tray_set_file (const char *filename);
 typedef enum
 {
-	FE_ICON_NORMAL = 0,
-	FE_ICON_MESSAGE = 2,
-	FE_ICON_HIGHLIGHT = 5,
-	FE_ICON_PRIVMSG = 8,
-	FE_ICON_FILEOFFER = 11
+    FE_ICON_NORMAL = 0,
+    FE_ICON_MESSAGE = 2,
+    FE_ICON_HIGHLIGHT = 5,
+    FE_ICON_PRIVMSG = 8,
+    FE_ICON_FILEOFFER = 11
 } feicon;
 void fe_tray_set_icon (feicon icon);
 void fe_tray_set_tooltip (const char *text);

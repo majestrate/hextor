@@ -39,23 +39,23 @@
 
 struct defaultserver
 {
-	char *network;
-	char *host;
-	char *channel;
-	char *charset;
-	int loginmode;		/* default authentication type */
-	char *connectcmd;	/* default connect command - should only be used for rare login types, paired with LOGIN_CUSTOM */
-	gboolean ssl;
+    char *network;
+    char *host;
+    char *channel;
+    char *charset;
+    int loginmode;          /* default authentication type */
+    char *connectcmd;       /* default connect command - should only be used for rare login types, paired with LOGIN_CUSTOM */
+    gboolean ssl;
 };
 
 static const struct defaultserver def[] =
 {
 #ifdef USE_OPENSSL
-  {"OFTC",	0, 0, 0, 0, 0, TRUE},
-  {0,			"irc.oftc.net/6697"},
-  {0,			"ircv4.oftc.net/6697"},
+    {"OFTC",      0, 0, 0, 0, 0, TRUE},
+    {0,                   "irc.oftc.net/6697"},
+    {0,                   "ircv4.oftc.net/6697"},
 #endif
-  {0,0}
+    {0,0}
 };
 
 GSList *network_list = 0;
@@ -66,337 +66,337 @@ GSList *network_list = 0;
 static GSList*
 servlist_slist_copy_deep (GSList *list, GCopyFunc func, gpointer user_data)
 {
-  GSList *new_list = NULL;
+    GSList *new_list = NULL;
 
-  if (list)
+    if (list)
     {
-      GSList *last;
+        GSList *last;
 
-      new_list = g_slice_new (GSList);
-      if (func)
-        new_list->data = func (list->data, user_data);
-      else
-        new_list->data = list->data;
-      last = new_list;
-      list = list->next;
-      while (list)
+        new_list = g_slice_new (GSList);
+        if (func)
+            new_list->data = func (list->data, user_data);
+        else
+            new_list->data = list->data;
+        last = new_list;
+        list = list->next;
+        while (list)
         {
-          last->next = g_slice_new (GSList);
-          last = last->next;
-          if (func)
-            last->data = func (list->data, user_data);
-          else
-            last->data = list->data;
-          list = list->next;
+            last->next = g_slice_new (GSList);
+            last = last->next;
+            if (func)
+                last->data = func (list->data, user_data);
+            else
+                last->data = list->data;
+            list = list->next;
         }
-      last->next = NULL;
+        last->next = NULL;
     }
 
-  return new_list;
+    return new_list;
 }
 #endif
 
 favchannel *
 servlist_favchan_copy (favchannel *fav)
 {
-	favchannel *newfav;
+    favchannel *newfav;
 
-	newfav = g_new (favchannel, 1);
-	newfav->name = g_strdup (fav->name);
-	newfav->key = g_strdup (fav->key);		/* g_strdup() can handle NULLs so no need to check it */
+    newfav = g_new (favchannel, 1);
+    newfav->name = g_strdup (fav->name);
+    newfav->key = g_strdup (fav->key);              /* g_strdup() can handle NULLs so no need to check it */
 
-	return newfav;
+    return newfav;
 }
 
 void
 servlist_connect (session *sess, ircnet *net, gboolean join)
 {
-	ircserver *ircserv;
-	GSList *list;
-	char *port;
-	server *serv;
+    ircserver *ircserv;
+    GSList *list;
+    char *port;
+    server *serv;
 
-	if (!sess)
-		sess = new_ircwindow (NULL, NULL, SESS_SERVER, TRUE);
+    if (!sess)
+        sess = new_ircwindow (NULL, NULL, SESS_SERVER, TRUE);
 
-	serv = sess->server;
+    serv = sess->server;
 
-	/* connect to the currently selected Server-row */
-	list = g_slist_nth (net->servlist, net->selected);
-	if (!list)
-		list = net->servlist;
-	if (!list)
-		return;
-	ircserv = list->data;
+    /* connect to the currently selected Server-row */
+    list = g_slist_nth (net->servlist, net->selected);
+    if (!list)
+        list = net->servlist;
+    if (!list)
+        return;
+    ircserv = list->data;
 
-	/* in case a protocol switch is added to the servlist gui */
-	server_fill_her_up (sess->server);
+    /* in case a protocol switch is added to the servlist gui */
+    server_fill_her_up (sess->server);
 
-	if (join)
-	{
-		sess->willjoinchannel[0] = 0;
+    if (join)
+    {
+        sess->willjoinchannel[0] = 0;
 
-		if (net->favchanlist)
-		{
-			if (serv->favlist)
-			{
-				g_slist_free_full (serv->favlist, (GDestroyNotify) servlist_favchan_free);
-			}
-			serv->favlist = g_slist_copy_deep (net->favchanlist, (GCopyFunc) servlist_favchan_copy, NULL);
-		}
-	}
+        if (net->favchanlist)
+        {
+            if (serv->favlist)
+            {
+                g_slist_free_full (serv->favlist, (GDestroyNotify) servlist_favchan_free);
+            }
+            serv->favlist = g_slist_copy_deep (net->favchanlist, (GCopyFunc) servlist_favchan_copy, NULL);
+        }
+    }
 
-	if (net->logintype)
-	{
-		serv->loginmethod = net->logintype;
-	}
-	else
-	{
-		serv->loginmethod = LOGIN_DEFAULT_REAL;
-	}
+    if (net->logintype)
+    {
+        serv->loginmethod = net->logintype;
+    }
+    else
+    {
+        serv->loginmethod = LOGIN_DEFAULT_REAL;
+    }
 
-	serv->password[0] = 0;
+    serv->password[0] = 0;
 
-	if (net->pass)
-	{
-		safe_strcpy (serv->password, net->pass, sizeof (serv->password));
-	}
+    if (net->pass)
+    {
+        safe_strcpy (serv->password, net->pass, sizeof (serv->password));
+    }
 
-	if (net->flags & FLAG_USE_GLOBAL)
-	{
-		strcpy (serv->nick, prefs.hex_irc_nick1);
-	}
-	else
-	{
-		if (net->nick)
-			strcpy (serv->nick, net->nick);
-	}
+    if (net->flags & FLAG_USE_GLOBAL)
+    {
+        strcpy (serv->nick, prefs.hex_irc_nick1);
+    }
+    else
+    {
+        if (net->nick)
+            strcpy (serv->nick, net->nick);
+    }
 
-	serv->dont_use_proxy = (net->flags & FLAG_USE_PROXY) ? FALSE : TRUE;
+    serv->dont_use_proxy = (net->flags & FLAG_USE_PROXY) ? FALSE : TRUE;
 
 #ifdef USE_OPENSSL
-	serv->use_ssl = (net->flags & FLAG_USE_SSL) ? TRUE : FALSE;
-	serv->accept_invalid_cert =
-		(net->flags & FLAG_ALLOW_INVALID) ? TRUE : FALSE;
+    serv->use_ssl = (net->flags & FLAG_USE_SSL) ? TRUE : FALSE;
+    serv->accept_invalid_cert =
+        (net->flags & FLAG_ALLOW_INVALID) ? TRUE : FALSE;
 #endif
 
-	serv->network = net;
+    serv->network = net;
 
-	port = strrchr (ircserv->hostname, '/');
-	if (port)
-	{
-		*port = 0;
+    port = strrchr (ircserv->hostname, '/');
+    if (port)
+    {
+        *port = 0;
 
-		/* support "+port" to indicate SSL (like mIRC does) */
-		if (port[1] == '+')
-		{
+        /* support "+port" to indicate SSL (like mIRC does) */
+        if (port[1] == '+')
+        {
 #ifdef USE_OPENSSL
-			serv->use_ssl = TRUE;
+            serv->use_ssl = TRUE;
 #endif
-			serv->connect (serv, ircserv->hostname, atoi (port + 2), FALSE);
-		} else
-		{
-			serv->connect (serv, ircserv->hostname, atoi (port + 1), FALSE);
-		}
+            serv->connect (serv, ircserv->hostname, atoi (port + 2), FALSE);
+        } else
+        {
+            serv->connect (serv, ircserv->hostname, atoi (port + 1), FALSE);
+        }
 
-		*port = '/';
-	} else
-		serv->connect (serv, ircserv->hostname, -1, FALSE);
+        *port = '/';
+    } else
+        serv->connect (serv, ircserv->hostname, -1, FALSE);
 
-	server_set_encoding (serv, net->encoding);
+    server_set_encoding (serv, net->encoding);
 }
 
 int
 servlist_connect_by_netname (session *sess, char *network, gboolean join)
 {
-	ircnet *net;
-	GSList *list = network_list;
+    ircnet *net;
+    GSList *list = network_list;
 
-	while (list)
-	{
-		net = list->data;
+    while (list)
+    {
+        net = list->data;
 
-		if (g_ascii_strcasecmp (net->name, network) == 0)
-		{
-			servlist_connect (sess, net, join);
-			return 1;
-		}
+        if (g_ascii_strcasecmp (net->name, network) == 0)
+        {
+            servlist_connect (sess, net, join);
+            return 1;
+        }
 
-		list = list->next;
-	}
+        list = list->next;
+    }
 
-	return 0;
+    return 0;
 }
 
 int
 servlist_have_auto (void)
 {
-	GSList *list = network_list;
-	ircnet *net;
+    GSList *list = network_list;
+    ircnet *net;
 
-	while (list)
-	{
-		net = list->data;
+    while (list)
+    {
+        net = list->data;
 
-		if (net->flags & FLAG_AUTO_CONNECT)
-			return 1;
+        if (net->flags & FLAG_AUTO_CONNECT)
+            return 1;
 
-		list = list->next;
-	}
+        list = list->next;
+    }
 
-	return 0;
+    return 0;
 }
 
 int
 servlist_auto_connect (session *sess)
 {
-	GSList *list = network_list;
-	ircnet *net;
-	int ret = 0;
+    GSList *list = network_list;
+    ircnet *net;
+    int ret = 0;
 
-	while (list)
-	{
-		net = list->data;
+    while (list)
+    {
+        net = list->data;
 
-		if (net->flags & FLAG_AUTO_CONNECT)
-		{
-			servlist_connect (sess, net, TRUE);
-			ret = 1;
-		}
+        if (net->flags & FLAG_AUTO_CONNECT)
+        {
+            servlist_connect (sess, net, TRUE);
+            ret = 1;
+        }
 
-		list = list->next;
-	}
+        list = list->next;
+    }
 
-	return ret;
+    return ret;
 }
 
 static gint
 servlist_cycle_cb (server *serv)
 {
-	if (serv->network)
-	{
-		PrintTextf (serv->server_session,
-			_("Cycling to next server in %s...\n"), ((ircnet *)serv->network)->name);
-		servlist_connect (serv->server_session, serv->network, TRUE);
-	}
+    if (serv->network)
+    {
+        PrintTextf (serv->server_session,
+                    _("Cycling to next server in %s...\n"), ((ircnet *)serv->network)->name);
+        servlist_connect (serv->server_session, serv->network, TRUE);
+    }
 
-	return 0;
+    return 0;
 }
 
 int
 servlist_cycle (server *serv)
 {
-	ircnet *net;
-	int max, del;
+    ircnet *net;
+    int max, del;
 
-	net = serv->network;
-	if (net)
-	{
-		max = g_slist_length (net->servlist);
-		if (max > 0)
-		{
-			/* try the next server, if that option is on */
-			if (net->flags & FLAG_CYCLE)
-			{
-				net->selected++;
-				if (net->selected >= max)
-					net->selected = 0;
-			}
+    net = serv->network;
+    if (net)
+    {
+        max = g_slist_length (net->servlist);
+        if (max > 0)
+        {
+            /* try the next server, if that option is on */
+            if (net->flags & FLAG_CYCLE)
+            {
+                net->selected++;
+                if (net->selected >= max)
+                    net->selected = 0;
+            }
 
-			del = prefs.hex_net_reconnect_delay * 1000;
-			if (del < 1000)
-				del = 500;				  /* so it doesn't block the gui */
+            del = prefs.hex_net_reconnect_delay * 1000;
+            if (del < 1000)
+                del = 500;                                /* so it doesn't block the gui */
 
-			if (del)
-				serv->recondelay_tag = fe_timeout_add (del, servlist_cycle_cb, serv);
-			else
-				servlist_connect (serv->server_session, net, TRUE);
+            if (del)
+                serv->recondelay_tag = fe_timeout_add (del, servlist_cycle_cb, serv);
+            else
+                servlist_connect (serv->server_session, net, TRUE);
 
-			return TRUE;
-		}
-	}
+            return TRUE;
+        }
+    }
 
-	return FALSE;
+    return FALSE;
 }
 
 ircserver *
 servlist_server_find (ircnet *net, char *name, int *pos)
 {
-	GSList *list = net->servlist;
-	ircserver *serv;
-	int i = 0;
+    GSList *list = net->servlist;
+    ircserver *serv;
+    int i = 0;
 
-	while (list)
-	{
-		serv = list->data;
-		if (strcmp (serv->hostname, name) == 0)
-		{
-			if (pos)
-			{
-				*pos = i;
-			}
-			return serv;
-		}
-		i++;
-		list = list->next;
-	}
+    while (list)
+    {
+        serv = list->data;
+        if (strcmp (serv->hostname, name) == 0)
+        {
+            if (pos)
+            {
+                *pos = i;
+            }
+            return serv;
+        }
+        i++;
+        list = list->next;
+    }
 
-	return NULL;
+    return NULL;
 }
 
 favchannel *
 servlist_favchan_find (ircnet *net, char *channel, int *pos)
 {
-	GSList *list;
-	favchannel *favchan;
-	int i = 0;
+    GSList *list;
+    favchannel *favchan;
+    int i = 0;
 
-	if (net == NULL)
-		return NULL;
+    if (net == NULL)
+        return NULL;
 
-	list = net->favchanlist;
+    list = net->favchanlist;
 
-	while (list)
-	{
-		favchan = list->data;
-		if (g_ascii_strcasecmp (favchan->name, channel) == 0)
-		{
-			if (pos)
-			{
-				*pos = i;
-			}
-			return favchan;
-		}
-		i++;
-		list = list->next;
-	}
+    while (list)
+    {
+        favchan = list->data;
+        if (g_ascii_strcasecmp (favchan->name, channel) == 0)
+        {
+            if (pos)
+            {
+                *pos = i;
+            }
+            return favchan;
+        }
+        i++;
+        list = list->next;
+    }
 
-	return NULL;
+    return NULL;
 }
 
 commandentry *
 servlist_command_find (ircnet *net, char *cmd, int *pos)
 {
-	GSList *list = net->commandlist;
-	commandentry *entry;
-	int i = 0;
+    GSList *list = net->commandlist;
+    commandentry *entry;
+    int i = 0;
 
-	while (list)
-	{
-		entry = list->data;
-		if (strcmp (entry->command, cmd) == 0)
-		{
-			if (pos)
-			{
-				*pos = i;
-			}
-			return entry;
-		}
-		i++;
-		list = list->next;
-	}
+    while (list)
+    {
+        entry = list->data;
+        if (strcmp (entry->command, cmd) == 0)
+        {
+            if (pos)
+            {
+                *pos = i;
+            }
+            return entry;
+        }
+        i++;
+        list = list->next;
+    }
 
-	return NULL;
+    return NULL;
 }
 
 /* find a network (e.g. (ircnet *) to "FreeNode") from a hostname
@@ -405,176 +405,176 @@ servlist_command_find (ircnet *net, char *cmd, int *pos)
 ircnet *
 servlist_net_find_from_server (char *server_name)
 {
-	GSList *list = network_list;
-	GSList *slist;
-	ircnet *net;
-	ircserver *serv;
+    GSList *list = network_list;
+    GSList *slist;
+    ircnet *net;
+    ircserver *serv;
 
-	while (list)
-	{
-		net = list->data;
+    while (list)
+    {
+        net = list->data;
 
-		slist = net->servlist;
-		while (slist)
-		{
-			serv = slist->data;
-			if (g_ascii_strcasecmp (serv->hostname, server_name) == 0)
-				return net;
-			slist = slist->next;
-		}
+        slist = net->servlist;
+        while (slist)
+        {
+            serv = slist->data;
+            if (g_ascii_strcasecmp (serv->hostname, server_name) == 0)
+                return net;
+            slist = slist->next;
+        }
 
-		list = list->next;
-	}
+        list = list->next;
+    }
 
-	return NULL;
+    return NULL;
 }
 
 ircnet *
 servlist_net_find (char *name, int *pos, int (*cmpfunc) (const char *, const char *))
 {
-	GSList *list = network_list;
-	ircnet *net;
-	int i = 0;
+    GSList *list = network_list;
+    ircnet *net;
+    int i = 0;
 
-	while (list)
-	{
-		net = list->data;
-		if (cmpfunc (net->name, name) == 0)
-		{
-			if (pos)
-				*pos = i;
-			return net;
-		}
-		i++;
-		list = list->next;
-	}
+    while (list)
+    {
+        net = list->data;
+        if (cmpfunc (net->name, name) == 0)
+        {
+            if (pos)
+                *pos = i;
+            return net;
+        }
+        i++;
+        list = list->next;
+    }
 
-	return NULL;
+    return NULL;
 }
 
 ircserver *
 servlist_server_add (ircnet *net, char *name)
 {
-	ircserver *serv;
+    ircserver *serv;
 
-	serv = g_new (ircserver, 1);
-	serv->hostname = g_strdup (name);
+    serv = g_new (ircserver, 1);
+    serv->hostname = g_strdup (name);
 
-	net->servlist = g_slist_append (net->servlist, serv);
+    net->servlist = g_slist_append (net->servlist, serv);
 
-	return serv;
+    return serv;
 }
 
 commandentry *
 servlist_command_add (ircnet *net, char *cmd)
 {
-	commandentry *entry;
+    commandentry *entry;
 
-	entry = g_new (commandentry, 1);
-	entry->command = g_strdup (cmd);
+    entry = g_new (commandentry, 1);
+    entry->command = g_strdup (cmd);
 
-	net->commandlist = g_slist_append (net->commandlist, entry);
+    net->commandlist = g_slist_append (net->commandlist, entry);
 
-	return entry;
+    return entry;
 }
 
 GSList *
 servlist_favchan_listadd (GSList *chanlist, char *channel, char *key)
 {
-	favchannel *chan;
+    favchannel *chan;
 
-	chan = g_new (favchannel, 1);
-	chan->name = g_strdup (channel);
-	chan->key = g_strdup (key);
-	chanlist = g_slist_append (chanlist, chan);
+    chan = g_new (favchannel, 1);
+    chan->name = g_strdup (channel);
+    chan->key = g_strdup (key);
+    chanlist = g_slist_append (chanlist, chan);
 
-	return chanlist;
+    return chanlist;
 }
 
 void
 servlist_favchan_add (ircnet *net, char *channel)
 {
-	int pos;
-	char *name;
-	char *key;
+    int pos;
+    char *name;
+    char *key;
 
-	if (strchr (channel, ',') != NULL)
-	{
-		pos = (int) (strchr (channel, ',') - channel);
-		name = g_strndup (channel, pos);
-		key = g_strdup (channel + pos + 1);
-	}
-	else
-	{
-		name = g_strdup (channel);
-		key = NULL;
-	}
+    if (strchr (channel, ',') != NULL)
+    {
+        pos = (int) (strchr (channel, ',') - channel);
+        name = g_strndup (channel, pos);
+        key = g_strdup (channel + pos + 1);
+    }
+    else
+    {
+        name = g_strdup (channel);
+        key = NULL;
+    }
 
-	net->favchanlist = servlist_favchan_listadd (net->favchanlist, name, key);
+    net->favchanlist = servlist_favchan_listadd (net->favchanlist, name, key);
 
-	g_free (name);
-	g_free (key);
+    g_free (name);
+    g_free (key);
 }
 
 void
 servlist_server_remove (ircnet *net, ircserver *serv)
 {
-	g_free (serv->hostname);
-	g_free (serv);
-	net->servlist = g_slist_remove (net->servlist, serv);
+    g_free (serv->hostname);
+    g_free (serv);
+    net->servlist = g_slist_remove (net->servlist, serv);
 }
 
 static void
 servlist_server_remove_all (ircnet *net)
 {
-	ircserver *serv;
+    ircserver *serv;
 
-	while (net->servlist)
-	{
-		serv = net->servlist->data;
-		servlist_server_remove (net, serv);
-	}
+    while (net->servlist)
+    {
+        serv = net->servlist->data;
+        servlist_server_remove (net, serv);
+    }
 }
 
 void
 servlist_command_free (commandentry *entry)
 {
-	g_free (entry->command);
-	g_free (entry);
+    g_free (entry->command);
+    g_free (entry);
 }
 
 void
 servlist_command_remove (ircnet *net, commandentry *entry)
 {
-	servlist_command_free (entry);
-	net->commandlist = g_slist_remove (net->commandlist, entry);
+    servlist_command_free (entry);
+    net->commandlist = g_slist_remove (net->commandlist, entry);
 }
 
 void
 servlist_favchan_free (favchannel *channel)
 {
-	g_free (channel->name);
-	g_free (channel->key);
-	g_free (channel);
+    g_free (channel->name);
+    g_free (channel->key);
+    g_free (channel);
 }
 
 void
 servlist_favchan_remove (ircnet *net, favchannel *channel)
 {
-	servlist_favchan_free (channel);
-	net->favchanlist = g_slist_remove (net->favchanlist, channel);
+    servlist_favchan_free (channel);
+    net->favchanlist = g_slist_remove (net->favchanlist, channel);
 }
 
 static void
 free_and_clear (char *str)
 {
-	if (str)
-	{
-		char *orig = str;
-		while (*str)
-			*str++ = 0;
-		g_free (orig);
-	}
+    if (str)
+    {
+        char *orig = str;
+        while (*str)
+            *str++ = 0;
+        g_free (orig);
+    }
 }
 
 /* executed on exit: Clear any password strings */
@@ -582,407 +582,407 @@ free_and_clear (char *str)
 void
 servlist_cleanup (void)
 {
-	GSList *list;
-	ircnet *net;
+    GSList *list;
+    ircnet *net;
 
-	for (list = network_list; list; list = list->next)
-	{
-		net = list->data;
-		free_and_clear (net->pass);
-	}
+    for (list = network_list; list; list = list->next)
+    {
+        net = list->data;
+        free_and_clear (net->pass);
+    }
 }
 
 void
 servlist_net_remove (ircnet *net)
 {
-	GSList *list;
-	server *serv;
+    GSList *list;
+    server *serv;
 
-	servlist_server_remove_all (net);
-	network_list = g_slist_remove (network_list, net);
+    servlist_server_remove_all (net);
+    network_list = g_slist_remove (network_list, net);
 
-	g_free (net->nick);
-	g_free (net->nick2);
-	g_free (net->user);
-	g_free (net->real);
-	free_and_clear (net->pass);
-	if (net->favchanlist)
-		g_slist_free_full (net->favchanlist, (GDestroyNotify) servlist_favchan_free);
-	if (net->commandlist)
-		g_slist_free_full (net->commandlist, (GDestroyNotify) servlist_command_free);
-	g_free (net->encoding);
-	g_free (net->name);
-	g_free (net);
+    g_free (net->nick);
+    g_free (net->nick2);
+    g_free (net->user);
+    g_free (net->real);
+    free_and_clear (net->pass);
+    if (net->favchanlist)
+        g_slist_free_full (net->favchanlist, (GDestroyNotify) servlist_favchan_free);
+    if (net->commandlist)
+        g_slist_free_full (net->commandlist, (GDestroyNotify) servlist_command_free);
+    g_free (net->encoding);
+    g_free (net->name);
+    g_free (net);
 
-	/* for safety */
-	list = serv_list;
-	while (list)
-	{
-		serv = list->data;
-		if (serv->network == net)
-		{
-			serv->network = NULL;
-		}
-		list = list->next;
-	}
+    /* for safety */
+    list = serv_list;
+    while (list)
+    {
+        serv = list->data;
+        if (serv->network == net)
+        {
+            serv->network = NULL;
+        }
+        list = list->next;
+    }
 }
 
 ircnet *
 servlist_net_add (char *name, char *comment, int prepend)
 {
-	ircnet *net;
+    ircnet *net;
 
-	net = g_new0 (ircnet, 1);
-	net->name = g_strdup (name);
-	net->flags = FLAG_CYCLE | FLAG_USE_GLOBAL | FLAG_USE_PROXY;
+    net = g_new0 (ircnet, 1);
+    net->name = g_strdup (name);
+    net->flags = FLAG_CYCLE | FLAG_USE_GLOBAL | FLAG_USE_PROXY;
 
-	if (prepend)
-		network_list = g_slist_prepend (network_list, net);
-	else
-		network_list = g_slist_append (network_list, net);
+    if (prepend)
+        network_list = g_slist_prepend (network_list, net);
+    else
+        network_list = g_slist_append (network_list, net);
 
-	return net;
+    return net;
 }
 
 static void
 servlist_load_defaults (void)
 {
-	int i = 0, j = 0;
-	ircnet *net = NULL;
-	guint def_hash = g_str_hash ("freenode");
+    int i = 0, j = 0;
+    ircnet *net = NULL;
+    guint def_hash = g_str_hash ("freenode");
 
-	while (1)
-	{
-		if (def[i].network)
-		{
-			net = servlist_net_add (def[i].network, def[i].host, FALSE);
-			if (def[i].channel)
-			{
-				servlist_favchan_add (net, def[i].channel);
-			}
-			if (def[i].charset)
-			{
-				net->encoding = g_strdup (def[i].charset);
-			}
-			else
-			{
-				net->encoding = g_strdup (IRC_DEFAULT_CHARSET);
-			}
-			if (def[i].loginmode)
-			{
-				net->logintype = def[i].loginmode;
-			}
-			if (def[i].connectcmd)
-			{
-				servlist_command_add (net, def[i].connectcmd);
-			}
-			if (def[i].ssl)
-			{
-				net->flags |= FLAG_USE_SSL;
-			}
+    while (1)
+    {
+        if (def[i].network)
+        {
+            net = servlist_net_add (def[i].network, def[i].host, FALSE);
+            if (def[i].channel)
+            {
+                servlist_favchan_add (net, def[i].channel);
+            }
+            if (def[i].charset)
+            {
+                net->encoding = g_strdup (def[i].charset);
+            }
+            else
+            {
+                net->encoding = g_strdup (IRC_DEFAULT_CHARSET);
+            }
+            if (def[i].loginmode)
+            {
+                net->logintype = def[i].loginmode;
+            }
+            if (def[i].connectcmd)
+            {
+                servlist_command_add (net, def[i].connectcmd);
+            }
+            if (def[i].ssl)
+            {
+                net->flags |= FLAG_USE_SSL;
+            }
 
-			if (g_str_hash (def[i].network) == def_hash)
-			{
-				prefs.hex_gui_slist_select = j;
-			}
+            if (g_str_hash (def[i].network) == def_hash)
+            {
+                prefs.hex_gui_slist_select = j;
+            }
 
-			j++;
-		}
-		else
-		{
-			servlist_server_add (net, def[i].host);
-			if (!def[i+1].host && !def[i+1].network)
-			{
-				break;
-			}
-		}
-		i++;
-	}
+            j++;
+        }
+        else
+        {
+            servlist_server_add (net, def[i].host);
+            if (!def[i+1].host && !def[i+1].network)
+            {
+                break;
+            }
+        }
+        i++;
+    }
 }
 
 static int
 servlist_load (void)
 {
-	FILE *fp;
-	char buf[2048];
-	int len;
-	ircnet *net = NULL;
+    FILE *fp;
+    char buf[2048];
+    int len;
+    ircnet *net = NULL;
 
-	/* simple migration we will keep for a short while */
-	char *oldfile = g_build_filename (get_xdir (), "servlist_.conf", NULL);
-	char *newfile = g_build_filename (get_xdir (), "servlist.conf", NULL);
+    /* simple migration we will keep for a short while */
+    char *oldfile = g_build_filename (get_xdir (), "servlist_.conf", NULL);
+    char *newfile = g_build_filename (get_xdir (), "servlist.conf", NULL);
 
-	if (g_file_test (oldfile, G_FILE_TEST_EXISTS) && !g_file_test (newfile, G_FILE_TEST_EXISTS))
-	{
-		g_rename (oldfile, newfile);
-	}
+    if (g_file_test (oldfile, G_FILE_TEST_EXISTS) && !g_file_test (newfile, G_FILE_TEST_EXISTS))
+    {
+        g_rename (oldfile, newfile);
+    }
 
-	g_free (oldfile);
-	g_free (newfile);
+    g_free (oldfile);
+    g_free (newfile);
 
-	fp = hextor_fopen_file ("servlist.conf", "r", 0);
-	if (!fp)
-		return FALSE;
+    fp = hextor_fopen_file ("servlist.conf", "r", 0);
+    if (!fp)
+        return FALSE;
 
-	while (fgets (buf, sizeof (buf) - 2, fp))
-	{
-		len = strlen (buf);
-		buf[len] = 0;
-		buf[len-1] = 0;	/* remove the trailing \n */
-		if (net)
-		{
-			switch (buf[0])
-			{
-			case 'I':
-				net->nick = g_strdup (buf + 2);
-				break;
-			case 'i':
-				net->nick2 = g_strdup (buf + 2);
-				break;
-			case 'U':
-				net->user = g_strdup (buf + 2);
-				break;
-			case 'R':
-				net->real = g_strdup (buf + 2);
-				break;
-			case 'P':
-				net->pass = g_strdup (buf + 2);
-				break;
-			case 'L':
-				net->logintype = atoi (buf + 2);
-				break;
-			case 'E':
-				net->encoding = servlist_check_encoding (buf + 2) ? g_strdup (buf + 2) : g_strdup ("UTF-8");
-				break;
-			case 'F':
-				net->flags = atoi (buf + 2);
-				break;
-			case 'S':	/* new server/hostname for this network */
-				servlist_server_add (net, buf + 2);
-				break;
-			case 'C':
-				servlist_command_add (net, buf + 2);
-				break;
-			case 'J':
-				servlist_favchan_add (net, buf + 2);
-				break;
-			case 'D':
-				net->selected = atoi (buf + 2);
-				break;
-			/* FIXME Migration code. In 2.9.5 the order was:
-			 *
-			 * P=serverpass, A=saslpass, B=nickservpass
-			 *
-			 * So if server password was unset, we can safely use SASL
-			 * password for our new universal password, or if that's also
-			 * unset, use NickServ password.
-			 *
-			 * Should be removed at some point.
-			 */
-			case 'A':
-				if (!net->pass)
-				{
-					net->pass = g_strdup (buf + 2);
-					if (!net->logintype)
-					{
-						net->logintype = LOGIN_SASL;
-					}
-				}
-			case 'B':
-				if (!net->pass)
-				{
-					net->pass = g_strdup (buf + 2);
-					if (!net->logintype)
-					{
-						net->logintype = LOGIN_NICKSERV;
-					}
-				}
-			}
-		}
-		if (buf[0] == 'N')
-			net = servlist_net_add (buf + 2, /* comment */ NULL, FALSE);
-	}
-	fclose (fp);
+    while (fgets (buf, sizeof (buf) - 2, fp))
+    {
+        len = strlen (buf);
+        buf[len] = 0;
+        buf[len-1] = 0; /* remove the trailing \n */
+        if (net)
+        {
+            switch (buf[0])
+            {
+            case 'I':
+                net->nick = g_strdup (buf + 2);
+                break;
+            case 'i':
+                net->nick2 = g_strdup (buf + 2);
+                break;
+            case 'U':
+                net->user = g_strdup (buf + 2);
+                break;
+            case 'R':
+                net->real = g_strdup (buf + 2);
+                break;
+            case 'P':
+                net->pass = g_strdup (buf + 2);
+                break;
+            case 'L':
+                net->logintype = atoi (buf + 2);
+                break;
+            case 'E':
+                net->encoding = servlist_check_encoding (buf + 2) ? g_strdup (buf + 2) : g_strdup ("UTF-8");
+                break;
+            case 'F':
+                net->flags = atoi (buf + 2);
+                break;
+            case 'S':       /* new server/hostname for this network */
+                servlist_server_add (net, buf + 2);
+                break;
+            case 'C':
+                servlist_command_add (net, buf + 2);
+                break;
+            case 'J':
+                servlist_favchan_add (net, buf + 2);
+                break;
+            case 'D':
+                net->selected = atoi (buf + 2);
+                break;
+                /* FIXME Migration code. In 2.9.5 the order was:
+                 *
+                 * P=serverpass, A=saslpass, B=nickservpass
+                 *
+                 * So if server password was unset, we can safely use SASL
+                 * password for our new universal password, or if that's also
+                 * unset, use NickServ password.
+                 *
+                 * Should be removed at some point.
+                 */
+            case 'A':
+                if (!net->pass)
+                {
+                    net->pass = g_strdup (buf + 2);
+                    if (!net->logintype)
+                    {
+                        net->logintype = LOGIN_SASL;
+                    }
+                }
+            case 'B':
+                if (!net->pass)
+                {
+                    net->pass = g_strdup (buf + 2);
+                    if (!net->logintype)
+                    {
+                        net->logintype = LOGIN_NICKSERV;
+                    }
+                }
+            }
+        }
+        if (buf[0] == 'N')
+            net = servlist_net_add (buf + 2, /* comment */ NULL, FALSE);
+    }
+    fclose (fp);
 
-	return TRUE;
+    return TRUE;
 }
 
 void
 servlist_init (void)
 {
-	if (!network_list)
-		if (!servlist_load ())
-			servlist_load_defaults ();
+    if (!network_list)
+        if (!servlist_load ())
+            servlist_load_defaults ();
 }
 
 /* check if a charset is known by Iconv */
 int
 servlist_check_encoding (char *charset)
 {
-	GIConv gic;
-	char *c;
+    GIConv gic;
+    char *c;
 
-	c = strchr (charset, ' ');
-	if (c)
-		c[0] = 0;
+    c = strchr (charset, ' ');
+    if (c)
+        c[0] = 0;
 
-	gic = g_iconv_open (charset, "UTF-8");
+    gic = g_iconv_open (charset, "UTF-8");
 
-	if (c)
-		c[0] = ' ';
+    if (c)
+        c[0] = ' ';
 
-	if (gic != (GIConv)-1)
-	{
-		g_iconv_close (gic);
-		return TRUE;
-	}
+    if (gic != (GIConv)-1)
+    {
+        g_iconv_close (gic);
+        return TRUE;
+    }
 
-	return FALSE;
+    return FALSE;
 }
 
 int
 servlist_save (void)
 {
-	FILE *fp;
-	char *buf;
-	ircnet *net;
-	ircserver *serv;
-	commandentry *cmd;
-	favchannel *favchan;
-	GSList *list;
-	GSList *netlist;
-	GSList *cmdlist;
-	GSList *favlist;
+    FILE *fp;
+    char *buf;
+    ircnet *net;
+    ircserver *serv;
+    commandentry *cmd;
+    favchannel *favchan;
+    GSList *list;
+    GSList *netlist;
+    GSList *cmdlist;
+    GSList *favlist;
 #ifndef WIN32
-	int first = FALSE;
+    int first = FALSE;
 
-	buf = g_build_filename (get_xdir (), "servlist.conf", NULL);
-	if (g_access (buf, F_OK) != 0)
-		first = TRUE;
+    buf = g_build_filename (get_xdir (), "servlist.conf", NULL);
+    if (g_access (buf, F_OK) != 0)
+        first = TRUE;
 #endif
 
-	fp = hextor_fopen_file ("servlist.conf", "w", 0);
-	if (!fp)
-	{
+    fp = hextor_fopen_file ("servlist.conf", "w", 0);
+    if (!fp)
+    {
 #ifndef WIN32
-		g_free (buf);
+        g_free (buf);
 #endif
-		return FALSE;
-	}
+        return FALSE;
+    }
 
 #ifndef WIN32
-	if (first)
-		g_chmod (buf, 0600);
+    if (first)
+        g_chmod (buf, 0600);
 
-	g_free (buf);
+    g_free (buf);
 #endif
-	fprintf (fp, "v=" PACKAGE_VERSION "\n\n");
+    fprintf (fp, "v=" PACKAGE_VERSION "\n\n");
 
-	list = network_list;
-	while (list)
-	{
-		net = list->data;
+    list = network_list;
+    while (list)
+    {
+        net = list->data;
 
-		fprintf (fp, "N=%s\n", net->name);
-		if (net->nick)
-			fprintf (fp, "I=%s\n", net->nick);
-		if (net->nick2)
-			fprintf (fp, "i=%s\n", net->nick2);
-		if (net->user)
-			fprintf (fp, "U=%s\n", net->user);
-		if (net->real)
-			fprintf (fp, "R=%s\n", net->real);
-		if (net->pass)
-			fprintf (fp, "P=%s\n", net->pass);
-		if (net->logintype)
-			fprintf (fp, "L=%d\n", net->logintype);
-		if (net->encoding)
-		{
-			fprintf (fp, "E=%s\n", net->encoding);
-			if (!servlist_check_encoding (net->encoding))
-			{
-				buf = g_strdup_printf (_("Warning: \"%s\" character set is unknown. No conversion will be applied for network %s."),
-							 net->encoding, net->name);
-				fe_message (buf, FE_MSG_WARN);
-				g_free (buf);
-			}
-		}
+        fprintf (fp, "N=%s\n", net->name);
+        if (net->nick)
+            fprintf (fp, "I=%s\n", net->nick);
+        if (net->nick2)
+            fprintf (fp, "i=%s\n", net->nick2);
+        if (net->user)
+            fprintf (fp, "U=%s\n", net->user);
+        if (net->real)
+            fprintf (fp, "R=%s\n", net->real);
+        if (net->pass)
+            fprintf (fp, "P=%s\n", net->pass);
+        if (net->logintype)
+            fprintf (fp, "L=%d\n", net->logintype);
+        if (net->encoding)
+        {
+            fprintf (fp, "E=%s\n", net->encoding);
+            if (!servlist_check_encoding (net->encoding))
+            {
+                buf = g_strdup_printf (_("Warning: \"%s\" character set is unknown. No conversion will be applied for network %s."),
+                                       net->encoding, net->name);
+                fe_message (buf, FE_MSG_WARN);
+                g_free (buf);
+            }
+        }
 
-		fprintf (fp, "F=%d\nD=%d\n", net->flags, net->selected);
+        fprintf (fp, "F=%d\nD=%d\n", net->flags, net->selected);
 
-		netlist = net->servlist;
-		while (netlist)
-		{
-			serv = netlist->data;
-			fprintf (fp, "S=%s\n", serv->hostname);
-			netlist = netlist->next;
-		}
+        netlist = net->servlist;
+        while (netlist)
+        {
+            serv = netlist->data;
+            fprintf (fp, "S=%s\n", serv->hostname);
+            netlist = netlist->next;
+        }
 
-		cmdlist = net->commandlist;
-		while (cmdlist)
-		{
-			cmd = cmdlist->data;
-			fprintf (fp, "C=%s\n", cmd->command);
-			cmdlist = cmdlist->next;
-		}
+        cmdlist = net->commandlist;
+        while (cmdlist)
+        {
+            cmd = cmdlist->data;
+            fprintf (fp, "C=%s\n", cmd->command);
+            cmdlist = cmdlist->next;
+        }
 
-		favlist = net->favchanlist;
-		while (favlist)
-		{
-			favchan = favlist->data;
+        favlist = net->favchanlist;
+        while (favlist)
+        {
+            favchan = favlist->data;
 
-			if (favchan->key)
-			{
-				fprintf (fp, "J=%s,%s\n", favchan->name, favchan->key);
-			}
-			else
-			{
-				fprintf (fp, "J=%s\n", favchan->name);
-			}
+            if (favchan->key)
+            {
+                fprintf (fp, "J=%s,%s\n", favchan->name, favchan->key);
+            }
+            else
+            {
+                fprintf (fp, "J=%s\n", favchan->name);
+            }
 
-			favlist = favlist->next;
-		}
+            favlist = favlist->next;
+        }
 
-		if (fprintf (fp, "\n") < 1)
-		{
-			fclose (fp);
-			return FALSE;
-		}
+        if (fprintf (fp, "\n") < 1)
+        {
+            fclose (fp);
+            return FALSE;
+        }
 
-		list = list->next;
-	}
+        list = list->next;
+    }
 
-	fclose (fp);
-	return TRUE;
+    fclose (fp);
+    return TRUE;
 }
 
 static int
 joinlist_find_chan (favchannel *curr_item, const char *channel)
 {
-	if (!g_ascii_strcasecmp (curr_item->name, channel))
-	{
-		return 0;
-	}
-	else
-	{
-		return 1;
-	}
+    if (!g_ascii_strcasecmp (curr_item->name, channel))
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
 }
 
 gboolean
 joinlist_is_in_list (server *serv, char *channel)
 {
-	if (!serv->network || !((ircnet *)serv->network)->favchanlist)
-	{
-		return FALSE;
-	}
+    if (!serv->network || !((ircnet *)serv->network)->favchanlist)
+    {
+        return FALSE;
+    }
 
-	if (g_slist_find_custom (((ircnet *)serv->network)->favchanlist, channel, (GCompareFunc) joinlist_find_chan))
-	{
-		return TRUE;
-	}
-	else
-	{
-		return FALSE;
-	}
+    if (g_slist_find_custom (((ircnet *)serv->network)->favchanlist, channel, (GCompareFunc) joinlist_find_chan))
+    {
+        return TRUE;
+    }
+    else
+    {
+        return FALSE;
+    }
 }
