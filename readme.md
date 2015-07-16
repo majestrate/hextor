@@ -44,6 +44,8 @@ In the short-run, the following features are being developed:
 
 ---
 
+# Licensing and Copyright
+
 <sub>
 X-Chat ("xchat") Copyright (c) 1998-2010 By Peter Zelezny.  
 HexChat ("hexchat") Copyright (c) 2009-2014 By Berke Viktor.
