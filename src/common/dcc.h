@@ -19,7 +19,7 @@
 
 /* dcc.h */
 
-#include <time.h>						/* for time_t */
+#include <time.h>                                               /* for time_t */
 #include "proto-irc.h"
 
 #ifndef HEXTOR_DCC_H
@@ -41,66 +41,66 @@
 
 struct DCC
 {
-	struct server *serv;
-	struct dcc_chat *dccchat;
-	struct proxy_state *proxy;
-	guint32 addr;					/* the 32bit IP number, host byte order */
-	int fp;							/* file pointer */
-	int sok;
-	int iotag;						/* reading io tag */
-	int wiotag;						/* writing/sending io tag */
-	int port;
-	int pasvid;						/* mIRC's passive DCC id */
-	gint64 cps;
-	int resume_error;
-	int resume_errno;
+    struct server *serv;
+    struct dcc_chat *dccchat;
+    struct proxy_state *proxy;
+    guint32 addr;                                   /* the 32bit IP number, host byte order */
+    int fp;                                                 /* file pointer */
+    int sok;
+    int iotag;                                              /* reading io tag */
+    int wiotag;                                             /* writing/sending io tag */
+    int port;
+    int pasvid;                                             /* mIRC's passive DCC id */
+    gint64 cps;
+    int resume_error;
+    int resume_errno;
 
-	GTimeVal lastcpstv, firstcpstv;
-	goffset lastcpspos;
-	gint64 maxcps;
+    GTimeVal lastcpstv, firstcpstv;
+    goffset lastcpspos;
+    gint64 maxcps;
 
-	unsigned char ack_buf[4];	/* buffer for reading 4-byte ack */
-	int ack_pos;
+    unsigned char ack_buf[4];       /* buffer for reading 4-byte ack */
+    int ack_pos;
 
-	guint64 size;
-	guint64 resumable;
-	guint64 ack;
-	guint64 pos;
-	time_t starttime;
-	time_t offertime;
-	time_t lasttime;
-	char *file;					/* utf8 */
-	char *destfile;			/* utf8 */
-	char *nick;
-	unsigned char type;		  /* 0 = SEND  1 = RECV  2 = CHAT */
-	unsigned char dccstat;	  /* 0 = QUEUED  1 = ACTIVE  2 = FAILED  3 = DONE */
-	unsigned int resume_sent:1;	/* resume request sent */
-	unsigned int fastsend:1;
-	unsigned int ackoffset:1;	/* is receiver sending acks as an offset from */
-										/* the resume point? */
-	unsigned int throttled:2;	/* 0x1 = per send/get throttle
-											0x2 = global throttle */
+    guint64 size;
+    guint64 resumable;
+    guint64 ack;
+    guint64 pos;
+    time_t starttime;
+    time_t offertime;
+    time_t lasttime;
+    char *file;                                     /* utf8 */
+    char *destfile;                 /* utf8 */
+    char *nick;
+    unsigned char type;               /* 0 = SEND  1 = RECV  2 = CHAT */
+    unsigned char dccstat;    /* 0 = QUEUED  1 = ACTIVE  2 = FAILED  3 = DONE */
+    unsigned int resume_sent:1;     /* resume request sent */
+    unsigned int fastsend:1;
+    unsigned int ackoffset:1;       /* is receiver sending acks as an offset from */
+    /* the resume point? */
+    unsigned int throttled:2;       /* 0x1 = per send/get throttle
+                                       0x2 = global throttle */
 };
 
 #define MAX_PROXY_BUFFER 1024
 struct proxy_state
 {
-	int phase;
-	unsigned char buffer[MAX_PROXY_BUFFER];
-	int buffersize;
-	int bufferused;
+    int phase;
+    unsigned char buffer[MAX_PROXY_BUFFER];
+    int buffersize;
+    int bufferused;
 };
 
 struct dcc_chat
 {
-	char linebuf[2048];
-	int pos;
+    char linebuf[2048];
+    int pos;
 };
 
 struct dccstat_info
 {
-	char *name;						  /* Display name */
-	int color;						  /* Display color (index into colors[] ) */
+    char *name;                                               /* Display name */
+    int color;                                                /* Display color (index into colors[] ) */
 };
 
 extern struct dccstat_info dccstat[];
@@ -119,7 +119,7 @@ struct DCC *find_dcc (char *nick, char *file, int type);
 void dcc_get_nick (struct session *sess, char *nick);
 void dcc_chat (session *sess, char *nick, int passive);
 void handle_dcc (session *sess, char *nick, char *word[], char *word_eol[],
-					  const message_tags_data *tags_data);
+                 const message_tags_data *tags_data);
 void dcc_show_list (session *sess);
 guint32 dcc_get_my_address (void);
 void dcc_get_with_destfile (struct DCC *dcc, char *utf8file);

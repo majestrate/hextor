@@ -23,388 +23,388 @@
 
 #include <time.h>
 
-#define HEXTOR_PRI_HIGHEST	127
-#define HEXTOR_PRI_HIGH		64
-#define HEXTOR_PRI_NORM		0
-#define HEXTOR_PRI_LOW		(-64)
-#define HEXTOR_PRI_LOWEST	(-128)
+#define HEXTOR_PRI_HIGHEST      127
+#define HEXTOR_PRI_HIGH         64
+#define HEXTOR_PRI_NORM         0
+#define HEXTOR_PRI_LOW          (-64)
+#define HEXTOR_PRI_LOWEST       (-128)
 
-#define HEXTOR_FD_READ		1
-#define HEXTOR_FD_WRITE		2
-#define HEXTOR_FD_EXCEPTION	4
-#define HEXTOR_FD_NOTSOCKET	8
+#define HEXTOR_FD_READ          1
+#define HEXTOR_FD_WRITE         2
+#define HEXTOR_FD_EXCEPTION     4
+#define HEXTOR_FD_NOTSOCKET     8
 
-#define HEXTOR_EAT_NONE		0	/* pass it on through! */
-#define HEXTOR_EAT_HEXTOR		1	/* don't let Hextor see this event */
-#define HEXTOR_EAT_PLUGIN	2	/* don't let other plugins see this event */
-#define HEXTOR_EAT_ALL		(HEXTOR_EAT_HEXTOR|HEXTOR_EAT_PLUGIN)	/* don't let anything see this event */
+#define HEXTOR_EAT_NONE         0       /* pass it on through! */
+#define HEXTOR_EAT_HEXTOR               1       /* don't let Hextor see this event */
+#define HEXTOR_EAT_PLUGIN       2       /* don't let other plugins see this event */
+#define HEXTOR_EAT_ALL          (HEXTOR_EAT_HEXTOR|HEXTOR_EAT_PLUGIN)   /* don't let anything see this event */
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-typedef struct _hextor_plugin hextor_plugin;
-typedef struct _hextor_list hextor_list;
-typedef struct _hextor_hook hextor_hook;
+    typedef struct _hextor_plugin hextor_plugin;
+    typedef struct _hextor_list hextor_list;
+    typedef struct _hextor_hook hextor_hook;
 #ifndef PLUGIN_C
-typedef struct _hextor_context hextor_context;
+    typedef struct _hextor_context hextor_context;
 #endif
-typedef struct
-{
-	time_t server_time_utc; /* 0 if not used */
-} hextor_event_attrs;
+    typedef struct
+    {
+        time_t server_time_utc; /* 0 if not used */
+    } hextor_event_attrs;
 
 #ifndef PLUGIN_C
-struct _hextor_plugin
-{
-	/* these are only used on win32 */
-	hextor_hook *(*hextor_hook_command) (hextor_plugin *ph,
-		    const char *name,
-		    int pri,
-		    int (*callback) (char *word[], char *word_eol[], void *user_data),
-		    const char *help_text,
-		    void *userdata);
-	hextor_hook *(*hextor_hook_server) (hextor_plugin *ph,
-		   const char *name,
-		   int pri,
-		   int (*callback) (char *word[], char *word_eol[], void *user_data),
-		   void *userdata);
-	hextor_hook *(*hextor_hook_print) (hextor_plugin *ph,
-		  const char *name,
-		  int pri,
-		  int (*callback) (char *word[], void *user_data),
-		  void *userdata);
-	hextor_hook *(*hextor_hook_timer) (hextor_plugin *ph,
-		  int timeout,
-		  int (*callback) (void *user_data),
-		  void *userdata);
-	hextor_hook *(*hextor_hook_fd) (hextor_plugin *ph,
-		   int fd,
-		   int flags,
-		   int (*callback) (int fd, int flags, void *user_data),
-		   void *userdata);
-	void *(*hextor_unhook) (hextor_plugin *ph,
-	      hextor_hook *hook);
-	void (*hextor_print) (hextor_plugin *ph,
-	     const char *text);
-	void (*hextor_printf) (hextor_plugin *ph,
-	      const char *format, ...)
+    struct _hextor_plugin
+    {
+        /* these are only used on win32 */
+        hextor_hook *(*hextor_hook_command) (hextor_plugin *ph,
+                                             const char *name,
+                                             int pri,
+                                             int (*callback) (char *word[], char *word_eol[], void *user_data),
+                                             const char *help_text,
+                                             void *userdata);
+        hextor_hook *(*hextor_hook_server) (hextor_plugin *ph,
+                                            const char *name,
+                                            int pri,
+                                            int (*callback) (char *word[], char *word_eol[], void *user_data),
+                                            void *userdata);
+        hextor_hook *(*hextor_hook_print) (hextor_plugin *ph,
+                                           const char *name,
+                                           int pri,
+                                           int (*callback) (char *word[], void *user_data),
+                                           void *userdata);
+        hextor_hook *(*hextor_hook_timer) (hextor_plugin *ph,
+                                           int timeout,
+                                           int (*callback) (void *user_data),
+                                           void *userdata);
+        hextor_hook *(*hextor_hook_fd) (hextor_plugin *ph,
+                                        int fd,
+                                        int flags,
+                                        int (*callback) (int fd, int flags, void *user_data),
+                                        void *userdata);
+        void *(*hextor_unhook) (hextor_plugin *ph,
+                                hextor_hook *hook);
+        void (*hextor_print) (hextor_plugin *ph,
+                              const char *text);
+        void (*hextor_printf) (hextor_plugin *ph,
+                               const char *format, ...)
 #ifdef __GNUC__
-	__attribute__((format(printf, 2, 3)))
+            __attribute__((format(printf, 2, 3)))
 #endif
-	;
-	void (*hextor_command) (hextor_plugin *ph,
-	       const char *command);
-	void (*hextor_commandf) (hextor_plugin *ph,
-		const char *format, ...)
+            ;
+        void (*hextor_command) (hextor_plugin *ph,
+                                const char *command);
+        void (*hextor_commandf) (hextor_plugin *ph,
+                                 const char *format, ...)
 #ifdef __GNUC__
-	__attribute__((format(printf, 2, 3)))
+            __attribute__((format(printf, 2, 3)))
 #endif
-	;
-	int (*hextor_nickcmp) (hextor_plugin *ph,
-	       const char *s1,
-	       const char *s2);
-	int (*hextor_set_context) (hextor_plugin *ph,
-		   hextor_context *ctx);
-	hextor_context *(*hextor_find_context) (hextor_plugin *ph,
-		    const char *servname,
-		    const char *channel);
-	hextor_context *(*hextor_get_context) (hextor_plugin *ph);
-	const char *(*hextor_get_info) (hextor_plugin *ph,
-		const char *id);
-	int (*hextor_get_prefs) (hextor_plugin *ph,
-		 const char *name,
-		 const char **string,
-		 int *integer);
-	hextor_list * (*hextor_list_get) (hextor_plugin *ph,
-		const char *name);
-	void (*hextor_list_free) (hextor_plugin *ph,
-		 hextor_list *xlist);
-	const char * const * (*hextor_list_fields) (hextor_plugin *ph,
-		   const char *name);
-	int (*hextor_list_next) (hextor_plugin *ph,
-		 hextor_list *xlist);
-	const char * (*hextor_list_str) (hextor_plugin *ph,
-		hextor_list *xlist,
-		const char *name);
-	int (*hextor_list_int) (hextor_plugin *ph,
-		hextor_list *xlist,
-		const char *name);
-	void * (*hextor_plugingui_add) (hextor_plugin *ph,
-		     const char *filename,
-		     const char *name,
-		     const char *desc,
-		     const char *version,
-		     char *reserved);
-	void (*hextor_plugingui_remove) (hextor_plugin *ph,
-			void *handle);
-	int (*hextor_emit_print) (hextor_plugin *ph,
-			const char *event_name, ...);
-	int (*hextor_read_fd) (hextor_plugin *ph,
-			void *src,
-			char *buf,
-			int *len);
-	time_t (*hextor_list_time) (hextor_plugin *ph,
-		hextor_list *xlist,
-		const char *name);
-	char *(*hextor_gettext) (hextor_plugin *ph,
-		const char *msgid);
-	void (*hextor_send_modes) (hextor_plugin *ph,
-		  const char **targets,
-		  int ntargets,
-		  int modes_per_line,
-		  char sign,
-		  char mode);
-	char *(*hextor_strip) (hextor_plugin *ph,
-	     const char *str,
-	     int len,
-	     int flags);
-	void (*hextor_free) (hextor_plugin *ph,
-	    void *ptr);
-	int (*hextor_pluginpref_set_str) (hextor_plugin *ph,
-		const char *var,
-		const char *value);
-	int (*hextor_pluginpref_get_str) (hextor_plugin *ph,
-		const char *var,
-		char *dest);
-	int (*hextor_pluginpref_set_int) (hextor_plugin *ph,
-		const char *var,
-		int value);
-	int (*hextor_pluginpref_get_int) (hextor_plugin *ph,
-		const char *var);
-	int (*hextor_pluginpref_delete) (hextor_plugin *ph,
-		const char *var);
-	int (*hextor_pluginpref_list) (hextor_plugin *ph,
-		char *dest);
-	hextor_hook *(*hextor_hook_server_attrs) (hextor_plugin *ph,
-		   const char *name,
-		   int pri,
-		   int (*callback) (char *word[], char *word_eol[],
-							hextor_event_attrs *attrs, void *user_data),
-		   void *userdata);
-	hextor_hook *(*hextor_hook_print_attrs) (hextor_plugin *ph,
-		  const char *name,
-		  int pri,
-		  int (*callback) (char *word[], hextor_event_attrs *attrs,
-						   void *user_data),
-		  void *userdata);
-	int (*hextor_emit_print_attrs) (hextor_plugin *ph, hextor_event_attrs *attrs,
-									 const char *event_name, ...);
-	hextor_event_attrs *(*hextor_event_attrs_create) (hextor_plugin *ph);
-	void (*hextor_event_attrs_free) (hextor_plugin *ph,
-									  hextor_event_attrs *attrs);
-};
+            ;
+        int (*hextor_nickcmp) (hextor_plugin *ph,
+                               const char *s1,
+                               const char *s2);
+        int (*hextor_set_context) (hextor_plugin *ph,
+                                   hextor_context *ctx);
+        hextor_context *(*hextor_find_context) (hextor_plugin *ph,
+                                                const char *servname,
+                                                const char *channel);
+        hextor_context *(*hextor_get_context) (hextor_plugin *ph);
+        const char *(*hextor_get_info) (hextor_plugin *ph,
+                                        const char *id);
+        int (*hextor_get_prefs) (hextor_plugin *ph,
+                                 const char *name,
+                                 const char **string,
+                                 int *integer);
+        hextor_list * (*hextor_list_get) (hextor_plugin *ph,
+                                          const char *name);
+        void (*hextor_list_free) (hextor_plugin *ph,
+                                  hextor_list *xlist);
+        const char * const * (*hextor_list_fields) (hextor_plugin *ph,
+                                                    const char *name);
+        int (*hextor_list_next) (hextor_plugin *ph,
+                                 hextor_list *xlist);
+        const char * (*hextor_list_str) (hextor_plugin *ph,
+                                         hextor_list *xlist,
+                                         const char *name);
+        int (*hextor_list_int) (hextor_plugin *ph,
+                                hextor_list *xlist,
+                                const char *name);
+        void * (*hextor_plugingui_add) (hextor_plugin *ph,
+                                        const char *filename,
+                                        const char *name,
+                                        const char *desc,
+                                        const char *version,
+                                        char *reserved);
+        void (*hextor_plugingui_remove) (hextor_plugin *ph,
+                                         void *handle);
+        int (*hextor_emit_print) (hextor_plugin *ph,
+                                  const char *event_name, ...);
+        int (*hextor_read_fd) (hextor_plugin *ph,
+                               void *src,
+                               char *buf,
+                               int *len);
+        time_t (*hextor_list_time) (hextor_plugin *ph,
+                                    hextor_list *xlist,
+                                    const char *name);
+        char *(*hextor_gettext) (hextor_plugin *ph,
+                                 const char *msgid);
+        void (*hextor_send_modes) (hextor_plugin *ph,
+                                   const char **targets,
+                                   int ntargets,
+                                   int modes_per_line,
+                                   char sign,
+                                   char mode);
+        char *(*hextor_strip) (hextor_plugin *ph,
+                               const char *str,
+                               int len,
+                               int flags);
+        void (*hextor_free) (hextor_plugin *ph,
+                             void *ptr);
+        int (*hextor_pluginpref_set_str) (hextor_plugin *ph,
+                                          const char *var,
+                                          const char *value);
+        int (*hextor_pluginpref_get_str) (hextor_plugin *ph,
+                                          const char *var,
+                                          char *dest);
+        int (*hextor_pluginpref_set_int) (hextor_plugin *ph,
+                                          const char *var,
+                                          int value);
+        int (*hextor_pluginpref_get_int) (hextor_plugin *ph,
+                                          const char *var);
+        int (*hextor_pluginpref_delete) (hextor_plugin *ph,
+                                         const char *var);
+        int (*hextor_pluginpref_list) (hextor_plugin *ph,
+                                       char *dest);
+        hextor_hook *(*hextor_hook_server_attrs) (hextor_plugin *ph,
+                                                  const char *name,
+                                                  int pri,
+                                                  int (*callback) (char *word[], char *word_eol[],
+                                                                   hextor_event_attrs *attrs, void *user_data),
+                                                  void *userdata);
+        hextor_hook *(*hextor_hook_print_attrs) (hextor_plugin *ph,
+                                                 const char *name,
+                                                 int pri,
+                                                 int (*callback) (char *word[], hextor_event_attrs *attrs,
+                                                                  void *user_data),
+                                                 void *userdata);
+        int (*hextor_emit_print_attrs) (hextor_plugin *ph, hextor_event_attrs *attrs,
+                                        const char *event_name, ...);
+        hextor_event_attrs *(*hextor_event_attrs_create) (hextor_plugin *ph);
+        void (*hextor_event_attrs_free) (hextor_plugin *ph,
+                                         hextor_event_attrs *attrs);
+    };
 #endif
 
 
-hextor_hook *
-hextor_hook_command (hextor_plugin *ph,
-		    const char *name,
-		    int pri,
-		    int (*callback) (char *word[], char *word_eol[], void *user_data),
-		    const char *help_text,
-		    void *userdata);
+    hextor_hook *
+    hextor_hook_command (hextor_plugin *ph,
+                         const char *name,
+                         int pri,
+                         int (*callback) (char *word[], char *word_eol[], void *user_data),
+                         const char *help_text,
+                         void *userdata);
 
-hextor_event_attrs *hextor_event_attrs_create (hextor_plugin *ph);
+    hextor_event_attrs *hextor_event_attrs_create (hextor_plugin *ph);
 
-void hextor_event_attrs_free (hextor_plugin *ph, hextor_event_attrs *attrs);
+    void hextor_event_attrs_free (hextor_plugin *ph, hextor_event_attrs *attrs);
 
-hextor_hook *
-hextor_hook_server (hextor_plugin *ph,
-		   const char *name,
-		   int pri,
-		   int (*callback) (char *word[], char *word_eol[], void *user_data),
-		   void *userdata);
+    hextor_hook *
+    hextor_hook_server (hextor_plugin *ph,
+                        const char *name,
+                        int pri,
+                        int (*callback) (char *word[], char *word_eol[], void *user_data),
+                        void *userdata);
 
-hextor_hook *
-hextor_hook_server_attrs (hextor_plugin *ph,
-		   const char *name,
-		   int pri,
-		   int (*callback) (char *word[], char *word_eol[],
-							hextor_event_attrs *attrs, void *user_data),
-		   void *userdata);
+    hextor_hook *
+    hextor_hook_server_attrs (hextor_plugin *ph,
+                              const char *name,
+                              int pri,
+                              int (*callback) (char *word[], char *word_eol[],
+                                               hextor_event_attrs *attrs, void *user_data),
+                              void *userdata);
 
-hextor_hook *
-hextor_hook_print (hextor_plugin *ph,
-		  const char *name,
-		  int pri,
-		  int (*callback) (char *word[], void *user_data),
-		  void *userdata);
+    hextor_hook *
+    hextor_hook_print (hextor_plugin *ph,
+                       const char *name,
+                       int pri,
+                       int (*callback) (char *word[], void *user_data),
+                       void *userdata);
 
-hextor_hook *
-hextor_hook_print_attrs (hextor_plugin *ph,
-		  const char *name,
-		  int pri,
-		  int (*callback) (char *word[], hextor_event_attrs *attrs,
-						   void *user_data),
-		  void *userdata);
+    hextor_hook *
+    hextor_hook_print_attrs (hextor_plugin *ph,
+                             const char *name,
+                             int pri,
+                             int (*callback) (char *word[], hextor_event_attrs *attrs,
+                                              void *user_data),
+                             void *userdata);
 
-hextor_hook *
-hextor_hook_timer (hextor_plugin *ph,
-		  int timeout,
-		  int (*callback) (void *user_data),
-		  void *userdata);
+    hextor_hook *
+    hextor_hook_timer (hextor_plugin *ph,
+                       int timeout,
+                       int (*callback) (void *user_data),
+                       void *userdata);
 
-hextor_hook *
-hextor_hook_fd (hextor_plugin *ph,
-		int fd,
-		int flags,
-		int (*callback) (int fd, int flags, void *user_data),
-		void *userdata);
+    hextor_hook *
+    hextor_hook_fd (hextor_plugin *ph,
+                    int fd,
+                    int flags,
+                    int (*callback) (int fd, int flags, void *user_data),
+                    void *userdata);
 
-void *
-hextor_unhook (hextor_plugin *ph,
-	      hextor_hook *hook);
+    void *
+    hextor_unhook (hextor_plugin *ph,
+                   hextor_hook *hook);
 
-void
-hextor_print (hextor_plugin *ph,
-	     const char *text);
+    void
+    hextor_print (hextor_plugin *ph,
+                  const char *text);
 
-void
-hextor_printf (hextor_plugin *ph,
-	      const char *format, ...)
+    void
+    hextor_printf (hextor_plugin *ph,
+                   const char *format, ...)
 #ifdef __GNUC__
-	__attribute__((format(printf, 2, 3)))
+        __attribute__((format(printf, 2, 3)))
 #endif
-;
+        ;
 
-void
-hextor_command (hextor_plugin *ph,
-	       const char *command);
+    void
+    hextor_command (hextor_plugin *ph,
+                    const char *command);
 
-void
-hextor_commandf (hextor_plugin *ph,
-		const char *format, ...)
+    void
+    hextor_commandf (hextor_plugin *ph,
+                     const char *format, ...)
 #ifdef __GNUC__
-	__attribute__((format(printf, 2, 3)))
+        __attribute__((format(printf, 2, 3)))
 #endif
-;
+        ;
 
-int
-hextor_nickcmp (hextor_plugin *ph,
-	       const char *s1,
-	       const char *s2);
+    int
+    hextor_nickcmp (hextor_plugin *ph,
+                    const char *s1,
+                    const char *s2);
 
-int
-hextor_set_context (hextor_plugin *ph,
-		   hextor_context *ctx);
+    int
+    hextor_set_context (hextor_plugin *ph,
+                        hextor_context *ctx);
 
-hextor_context *
-hextor_find_context (hextor_plugin *ph,
-		    const char *servname,
-		    const char *channel);
+    hextor_context *
+    hextor_find_context (hextor_plugin *ph,
+                         const char *servname,
+                         const char *channel);
 
-hextor_context *
-hextor_get_context (hextor_plugin *ph);
+    hextor_context *
+    hextor_get_context (hextor_plugin *ph);
 
-const char *
-hextor_get_info (hextor_plugin *ph,
-		const char *id);
+    const char *
+    hextor_get_info (hextor_plugin *ph,
+                     const char *id);
 
-int
-hextor_get_prefs (hextor_plugin *ph,
-		 const char *name,
-		 const char **string,
-		 int *integer);
+    int
+    hextor_get_prefs (hextor_plugin *ph,
+                      const char *name,
+                      const char **string,
+                      int *integer);
 
-hextor_list *
-hextor_list_get (hextor_plugin *ph,
-		const char *name);
+    hextor_list *
+    hextor_list_get (hextor_plugin *ph,
+                     const char *name);
 
-void
-hextor_list_free (hextor_plugin *ph,
-		 hextor_list *xlist);
+    void
+    hextor_list_free (hextor_plugin *ph,
+                      hextor_list *xlist);
 
-const char * const *
-hextor_list_fields (hextor_plugin *ph,
-		   const char *name);
+    const char * const *
+    hextor_list_fields (hextor_plugin *ph,
+                        const char *name);
 
-int
-hextor_list_next (hextor_plugin *ph,
-		 hextor_list *xlist);
+    int
+    hextor_list_next (hextor_plugin *ph,
+                      hextor_list *xlist);
 
-const char *
-hextor_list_str (hextor_plugin *ph,
-		hextor_list *xlist,
-		const char *name);
+    const char *
+    hextor_list_str (hextor_plugin *ph,
+                     hextor_list *xlist,
+                     const char *name);
 
-int
-hextor_list_int (hextor_plugin *ph,
-		hextor_list *xlist,
-		const char *name);
+    int
+    hextor_list_int (hextor_plugin *ph,
+                     hextor_list *xlist,
+                     const char *name);
 
-time_t
-hextor_list_time (hextor_plugin *ph,
-		 hextor_list *xlist,
-		 const char *name);
+    time_t
+    hextor_list_time (hextor_plugin *ph,
+                      hextor_list *xlist,
+                      const char *name);
 
-void *
-hextor_plugingui_add (hextor_plugin *ph,
-		     const char *filename,
-		     const char *name,
-		     const char *desc,
-		     const char *version,
-		     char *reserved);
+    void *
+    hextor_plugingui_add (hextor_plugin *ph,
+                          const char *filename,
+                          const char *name,
+                          const char *desc,
+                          const char *version,
+                          char *reserved);
 
-void
-hextor_plugingui_remove (hextor_plugin *ph,
-			void *handle);
+    void
+    hextor_plugingui_remove (hextor_plugin *ph,
+                             void *handle);
 
-int 
-hextor_emit_print (hextor_plugin *ph,
-		  const char *event_name, ...);
+    int
+    hextor_emit_print (hextor_plugin *ph,
+                       const char *event_name, ...);
 
-int 
-hextor_emit_print_attrs (hextor_plugin *ph, hextor_event_attrs *attrs,
-						  const char *event_name, ...);
+    int
+    hextor_emit_print_attrs (hextor_plugin *ph, hextor_event_attrs *attrs,
+                             const char *event_name, ...);
 
-char *
-hextor_gettext (hextor_plugin *ph,
-	       const char *msgid);
+    char *
+    hextor_gettext (hextor_plugin *ph,
+                    const char *msgid);
 
-void
-hextor_send_modes (hextor_plugin *ph,
-		  const char **targets,
-		  int ntargets,
-		  int modes_per_line,
-		  char sign,
-		  char mode);
+    void
+    hextor_send_modes (hextor_plugin *ph,
+                       const char **targets,
+                       int ntargets,
+                       int modes_per_line,
+                       char sign,
+                       char mode);
 
-char *
-hextor_strip (hextor_plugin *ph,
-	     const char *str,
-	     int len,
-	     int flags);
+    char *
+    hextor_strip (hextor_plugin *ph,
+                  const char *str,
+                  int len,
+                  int flags);
 
-void
-hextor_free (hextor_plugin *ph,
-	    void *ptr);
+    void
+    hextor_free (hextor_plugin *ph,
+                 void *ptr);
 
-int
-hextor_pluginpref_set_str (hextor_plugin *ph,
-		const char *var,
-		const char *value);
+    int
+    hextor_pluginpref_set_str (hextor_plugin *ph,
+                               const char *var,
+                               const char *value);
 
-int
-hextor_pluginpref_get_str (hextor_plugin *ph,
-		const char *var,
-		char *dest);
+    int
+    hextor_pluginpref_get_str (hextor_plugin *ph,
+                               const char *var,
+                               char *dest);
 
-int
-hextor_pluginpref_set_int (hextor_plugin *ph,
-		const char *var,
-		int value);
-int
-hextor_pluginpref_get_int (hextor_plugin *ph,
-		const char *var);
+    int
+    hextor_pluginpref_set_int (hextor_plugin *ph,
+                               const char *var,
+                               int value);
+    int
+    hextor_pluginpref_get_int (hextor_plugin *ph,
+                               const char *var);
 
-int
-hextor_pluginpref_delete (hextor_plugin *ph,
-		const char *var);
+    int
+    hextor_pluginpref_delete (hextor_plugin *ph,
+                              const char *var);
 
-int
-hextor_pluginpref_list (hextor_plugin *ph,
-		char *dest);
+    int
+    hextor_pluginpref_list (hextor_plugin *ph,
+                            char *dest);
 
 #if !defined(PLUGIN_C) && defined(WIN32)
 #ifndef HEXTOR_PLUGIN_HANDLE

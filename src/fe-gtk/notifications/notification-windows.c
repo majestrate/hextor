@@ -31,57 +31,57 @@ int (*winrt_notification_backend_supported) (void) = NULL;
 void
 notification_backend_show (const char *title, const char *text)
 {
-	if (winrt_notification_backend_show == NULL)
-	{
-		return;
-	}
+    if (winrt_notification_backend_show == NULL)
+    {
+        return;
+    }
 
-	winrt_notification_backend_show (title, text);
+    winrt_notification_backend_show (title, text);
 }
 
 int
 notification_backend_init (void)
 {
-	UINT original_error_mode;
-	GModule *module;
+    UINT original_error_mode;
+    GModule *module;
 
-	/* Temporarily suppress the "DLL could not be loaded" dialog box before trying to load hcnotifications-winrt.dll */
-	original_error_mode = GetErrorMode ();
-	SetErrorMode(SEM_FAILCRITICALERRORS);
-	module = module_load (HEXTORLIBDIR "\\hcnotifications-winrt.dll");
-	SetErrorMode (original_error_mode);
+    /* Temporarily suppress the "DLL could not be loaded" dialog box before trying to load hcnotifications-winrt.dll */
+    original_error_mode = GetErrorMode ();
+    SetErrorMode(SEM_FAILCRITICALERRORS);
+    module = module_load (HEXTORLIBDIR "\\hcnotifications-winrt.dll");
+    SetErrorMode (original_error_mode);
 
-	if (module == NULL)
-	{
-		return 0;
-	}
+    if (module == NULL)
+    {
+        return 0;
+    }
 
-	g_module_symbol (module, "notification_backend_show", (gpointer *) &winrt_notification_backend_show);
-	g_module_symbol (module, "notification_backend_init", (gpointer *) &winrt_notification_backend_init);
-	g_module_symbol (module, "notification_backend_deinit", (gpointer *) &winrt_notification_backend_deinit);
-	g_module_symbol (module, "notification_backend_supported", (gpointer *) &winrt_notification_backend_supported);
+    g_module_symbol (module, "notification_backend_show", (gpointer *) &winrt_notification_backend_show);
+    g_module_symbol (module, "notification_backend_init", (gpointer *) &winrt_notification_backend_init);
+    g_module_symbol (module, "notification_backend_deinit", (gpointer *) &winrt_notification_backend_deinit);
+    g_module_symbol (module, "notification_backend_supported", (gpointer *) &winrt_notification_backend_supported);
 
-	return winrt_notification_backend_init ();
+    return winrt_notification_backend_init ();
 }
 
 void
 notification_backend_deinit (void)
 {
-	if (winrt_notification_backend_deinit == NULL)
-	{
-		return;
-	}
+    if (winrt_notification_backend_deinit == NULL)
+    {
+        return;
+    }
 
-	winrt_notification_backend_deinit ();
+    winrt_notification_backend_deinit ();
 }
 
 int
 notification_backend_supported (void)
 {
-	if (winrt_notification_backend_supported == NULL)
-	{
-		return 0;
-	}
+    if (winrt_notification_backend_supported == NULL)
+    {
+        return 0;
+    }
 
-	return winrt_notification_backend_supported ();
+    return winrt_notification_backend_supported ();
 }
