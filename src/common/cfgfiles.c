@@ -508,7 +508,7 @@ const struct prefs vars[] =
     {"irc_id_ytext", P_OFFSET (hex_irc_id_ytext), TYPE_STR},
     {"irc_invisible", P_OFFINT (hex_irc_invisible), TYPE_BOOL},
     {"irc_join_delay", P_OFFINT (hex_irc_join_delay), TYPE_INT},
-    {"irc_logging", P_OFFINT (hex_irc_logging), TYPE_BOOL},
+    //{"irc_logging", P_OFFINT (hex_irc_logging), TYPE_BOOL},
     {"irc_logmask", P_OFFSET (hex_irc_logmask), TYPE_STR},
     {"irc_nick1", P_OFFSET (hex_irc_nick1), TYPE_STR},
     {"irc_nick2", P_OFFSET (hex_irc_nick2), TYPE_STR},
@@ -777,7 +777,7 @@ load_default_config(void)
     prefs.hex_input_tray_hilight = 1;
     prefs.hex_input_tray_priv = 1;
     prefs.hex_irc_cap_server_time = 1;
-    prefs.hex_irc_logging = 1;
+  //prefs.hex_irc_logging = 1;
     prefs.hex_irc_who_join = 1; /* Can kick with inordinate amount of channels, required for some of our features though, TODO: add cap like away check? */
     prefs.hex_irc_whois_front = 1;
     prefs.hex_net_auto_reconnect = 1;
@@ -795,6 +795,7 @@ load_default_config(void)
     prefs.hex_text_thin_sep = 1;
     prefs.hex_text_wordwrap = 1;
     prefs.hex_url_grabber = 1;
+    prefs.hex_url_logging = 0;
 
     /* NUMBERS */
     prefs.hex_away_size_max = 300;

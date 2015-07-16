@@ -583,13 +583,13 @@ static const setting advanced_settings[] =
 
 static const setting logging_settings[] =
 {
+/*
     {ST_HEADER,     N_("Logging"),0,0,0},
     {ST_TOGGLE,     N_("Display scrollback from previous session"), P_OFFINTNL(hex_text_replay), 0, 0, 0},
     {ST_NUMBER,     N_("Scrollback lines:"), P_OFFINTNL(hex_text_max_lines),0,0,100000},
     {ST_TOGGLE,     N_("Enable logging of conversations to disk"), P_OFFINTNL(hex_irc_logging), 0, 0, 0},
     {ST_ENTRY,      N_("Log filename:"), P_OFFSETNL(hex_irc_logmask), 0, 0, sizeof prefs.hex_irc_logmask},
     {ST_LABEL,      N_("%s=Server %c=Channel %n=Network.")},
-
     {ST_HEADER,     N_("Time Stamps"),0,0,0},
     {ST_TOGGLE,     N_("Insert timestamps in logs"), P_OFFINTNL(hex_stamp_log), 0, 0, 1},
     {ST_ENTRY,      N_("Log timestamp format:"), P_OFFSETNL(hex_stamp_log_format), 0, 0, sizeof prefs.hex_stamp_log_format},
@@ -598,9 +598,10 @@ static const setting logging_settings[] =
 #else
     {ST_LABEL,      N_("See the strftime manpage for details.")},
 #endif
+*/
 
     {ST_HEADER,     N_("URLs"),0,0,0},
-    {ST_TOGGLE,     N_("Enable logging of URLs to disk"), P_OFFINTNL(hex_url_logging), 0, 0, 0},
+    //{ST_TOGGLE,     N_("Enable logging of URLs to disk"), P_OFFINTNL(hex_url_logging), 0, 0, 0},
     {ST_TOGGLE,     N_("Enable URL grabber"), P_OFFINTNL(hex_url_grabber), 0, 0, 1},
     {ST_NUMBER,     N_("Maximum number of URLs to grab:"), P_OFFINTNL(hex_url_grabber_limit), 0, 0, 9999},
 
@@ -1379,12 +1380,12 @@ setup_create_page (const setting *set)
         i++;
         row++;
     }
-
+/*
     if (set == logging_settings)
     {
         setup_create_button (tab, row, _("Open Data Folder"), G_CALLBACK(open_data_cb));
     }
-
+*/
     return tab;
 }
 

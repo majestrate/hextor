@@ -1816,8 +1816,10 @@ static struct mymenu mymenu[] = {
     {N_("Friends List..."), notify_opengui, 0, M_MENUITEM, 0, 0, 1},
     {N_("Ignore List..."), ignore_gui_open, 0, M_MENUITEM, 0, 0, 1},
     {N_("_Plugins and Scripts..."), menu_pluginlist, 0, M_MENUITEM, 0, 0, 1},
-    {N_("_Raw Log..."), menu_rawlog, 0, M_MENUITEM, 0, 0, 1},       /* 61 */
-    {N_("URL Grabber..."), url_opengui, 0, M_MENUITEM, 0, 0, 1},
+/*
+  {N_("_Raw Log..."), menu_rawlog, 0, M_MENUITEM, 0, 0, 0},	// 61
+*/
+  {N_("URL Grabber..."), url_opengui, 0, M_MENUITEM, 0, 0, 0},
     {0, 0, 0, M_SEP, 0, 0, 0},
     {N_("Reset Marker Line"), menu_resetmarker, 0, M_MENUITEM, 0, 0, 1, GDK_KEY_m},
     {N_("Move to Marker Line"), menu_movetomarker, 0, M_MENUITEM, 0, 0, 1, GDK_KEY_M},
