@@ -46,11 +46,9 @@ In the short-run, the following features are being developed:
 
 # Licensing and Copyright
 
-<sub>
-X-Chat ("xchat") Copyright (c) 1998-2010 By Peter Zelezny.  
-HexChat ("hexchat") Copyright (c) 2009-2014 By Berke Viktor.
-Hextor ("hextor") Copyright (c) 2015 By Kevin C. Krinke.
-</sub>
+- X-Chat ("xchat") Copyright (c) 1998-2010 By Peter Zelezny.  
+- HexChat ("hexchat") Copyright (c) 2009-2014 By Berke Viktor.
+- Hextor ("hextor") Copyright (c) 2015 By Kevin C. Krinke.
 
 <sub>
 This program is released under the GPL v2 with the additional exemption
