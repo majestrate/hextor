@@ -2,7 +2,7 @@
 
 Hextor is an IRC client for privacy concerned people.
 
-If you don't know what IRC is; you should go and learn about IRC first and decide if that is even a communications medium you would want to use. See IRCHelp.org](http://irchelp.org) for information about other IRC software and IRC in general.
+If you don't know what IRC is; you should go and learn about IRC first and decide if that is even a communications medium you would want to use. See [IRCHelp.org](http://irchelp.org) for information about other IRC software and IRC in general.
 
 If you don't know what things like Tor are, you should go and learn about Tor first. See [Tor-Project.org](https://tor-project.org) for information about Tor.
 
@@ -39,7 +39,7 @@ In the short-run, the following features are being developed:
 # Supporters and Contributors
 
 - [@NullNode](https://twitter.com/NullNode)
-- [Toronto Crypto](https://torontocrypto.org)
+- [Toronto Crypto](https://torontocrypto.org), [@TorontoCrypto](https://twitter.com/TorontoCrypto)
 - Private Supporters
 
 ---
