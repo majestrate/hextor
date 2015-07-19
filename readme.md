@@ -1,4 +1,4 @@
-# Hextor
+# Hextor [![Buld Status](https://travis-ci.org/HextorIRC/hextor.svg?style=flat)](https://travis-ci.org/HextorIRC/hextor)
 
 Hextor is an IRC client for privacy concerned people.
 
