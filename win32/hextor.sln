@@ -24,11 +24,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "plugins", "plugins", "{5611
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripting", "scripting", "{D237DA6B-BD5F-46C0-8BEA-50E9A1340240}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "python2", "..\plugins\python\python2.vcxproj", "{19C52A0A-A790-409E-A28A-9745FF990F5C}"
-	ProjectSection(ProjectDependencies) = postProject
-		{87554B59-006C-4D94-9714-897B27067BA3} = {87554B59-006C-4D94-9714-897B27067BA3}
-	EndProjectSection
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "doat", "..\plugins\doat\doat.vcxproj", "{4980AF24-9D42-427D-A8E6-0DF3B97C455D}"
 	ProjectSection(ProjectDependencies) = postProject
 		{87554B59-006C-4D94-9714-897B27067BA3} = {87554B59-006C-4D94-9714-897B27067BA3}
