@@ -56,7 +56,6 @@ AH_VERBATIM([USE_SIGACTION],[#undef USE_SIGACTION])
 AH_VERBATIM([USING_FREEBSD],[#undef USING_FREEBSD])
 AH_VERBATIM([USING_LINUX],[#undef USING_LINUX])
 AH_VERBATIM([socklen_t],[#undef socklen_t])
-AH_VERBATIM([USE_DBUS],[#undef USE_DBUS])
 
 AC_PATH_PROG(sedpath, sed)
 AS_IF([test "_$sedpath" = _], [
@@ -127,10 +126,6 @@ AC_ARG_ENABLE(doat,
 AC_ARG_ENABLE(fishlim,
 	[AS_HELP_STRING([--disable-fishlim],[disable the FiSHLiM plugin])],
         fishlim=$enableval, fishlim=yes)
-
-AC_ARG_ENABLE(dbus,
-	[AS_HELP_STRING([--disable-dbus],[disable DBUS support])],
-        dbus=$enableval, dbus=yes)
 
 AC_ARG_ENABLE(libnotify,
 	[AS_HELP_STRING([--disable-libnotify],[disable libnotify support])],
@@ -392,28 +387,6 @@ AS_IF([test "$fishlim" != "no"], [
 	])
 ])
 
-dnl #######################################################################
-dnl # Check for DBUS libraries
-dnl #######################################################################
-
-AS_IF([test "x$dbus" = "xyes"], [
-	PKG_CHECK_MODULES(DBUS, [dbus-1 >= 0.60 dbus-glib-1 >= 0.60 gthread-2.0], dbus=yes, [
-		dbus=no
-	])
-	AC_PATH_PROG(DBUS_BINDING_TOOL, dbus-binding-tool, no)
-	AS_IF([test "x$DBUS_BINDING_TOOL" = "xno" || test "x$dbus" = "xno"], [
-		dbus="no"
-	], [
-		COMMON_LIBS="$COMMON_LIBS $DBUS_LIBS"
-		COMMON_CFLAGS="$COMMON_CFLAGS $DBUS_CFLAGS"
-		AC_DEFINE(USE_DBUS)
-
-		AS_AC_EXPAND(DBUS_SERVICES_DIR, "$datadir/dbus-1/services")
-		AC_SUBST(DBUS_SERVICES_DIR)
-		AC_DEFINE_UNQUOTED(DBUS_SERVICES_DIR, "$DBUS_SERVICES_DIR", [Where services dir for DBUS is])
-	])
-])
-
 dnl *********************************************************************
 dnl ** LIBNOTIFY ********************************************************
 dnl *********************************************************************
@@ -487,7 +460,6 @@ AM_CONDITIONAL(DO_CHECKSUM, test "x$checksum" = "xyes")
 AM_CONDITIONAL(DO_DOAT, test "x$doat" = "xyes")
 AM_CONDITIONAL(DO_FISHLIM, test "x$fishlim" = "xyes")
 AM_CONDITIONAL(DO_STATIC_ANALYSIS, test "x$analyze" = "xyes")
-AM_CONDITIONAL(USE_DBUS, test "x$dbus" = "xyes")
 AM_CONDITIONAL(HAVE_ISO_CODES, test "x$isocodes" = "xyes")
 AM_CONDITIONAL(HAVE_GTK_MAC, test "x$_gdk_tgt" = xquartz)
 AM_CONDITIONAL(WITH_TM, test "x$theme_manager" != "xno")
@@ -571,8 +543,6 @@ AC_SUBST(PERL_CFLAGS)
 AC_SUBST(PERL_LDFLAGS)
 AC_SUBST(PY_CFLAGS)
 AC_SUBST(PY_LIBS)
-AC_SUBST(DBUS_CFLAGS)
-AC_SUBST(DBUS_LIBS)
 AC_SUBST(OPENSSL_LIBS)
 AC_SUBST(OPENSSL_CFLAGS)
 AC_SUBST(PLUGIN_LDFLAGS)
@@ -610,7 +580,6 @@ data/pkgconfig/Makefile
 data/pkgconfig/hextor-plugin.pc
 src/Makefile
 src/common/Makefile
-src/common/dbus/Makefile
 src/fe-text/Makefile
 src/fe-gtk/Makefile
 src/htm/Makefile
@@ -634,7 +603,6 @@ echo Text interface ........ : $textfe
 echo Theme manager ......... : $theme_manager
 echo
 echo OpenSSL support ....... : $openssl
-echo D-Bus support ......... : $dbus
 echo libnotify support ..... : $libnotify
 echo libcanberra support ... : $libcanberra
 echo Plugin interface ...... : $plugin
