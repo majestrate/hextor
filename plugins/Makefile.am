@@ -1,7 +1,3 @@
-if DO_PYTHON
-pythondir = python
-endif
-
 if DO_PERL
 perldir = perl
 endif
@@ -22,4 +18,4 @@ if DO_SYSINFO
 sysinfodir = sysinfo
 endif
 
-SUBDIRS = $(pythondir) $(perldir) $(checksumdir) $(doatdir) $(fishlimdir) $(sysinfodir)
+SUBDIRS = $(perldir) $(checksumdir) $(doatdir) $(fishlimdir) $(sysinfodir)

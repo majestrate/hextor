@@ -104,11 +104,6 @@ AC_ARG_ENABLE(textfe,
 	[AS_HELP_STRING([--enable-textfe],[build the text frontend (default: no)])],
         textfe=$enableval, textfe=no)
 
-AC_ARG_ENABLE(python,
-	[AS_HELP_STRING([--enable-python=pythonversion],[build the python plugin; possible values: "python2", "python3" or specific such as "python3.3" (default on, python2)])],
-        python=$enableval, python=python2)
-AS_IF([test "x$python" = "xyes"], [python=python2])
-
 AC_ARG_ENABLE(perl,
 	[AS_HELP_STRING([--disable-perl],[don\'t build the perl plugin])],
         perl=$enableval, perl=yes)
@@ -249,60 +244,6 @@ AS_IF([test "$perl" = yes], [
 	], [
 		AC_MSG_RESULT([plugins are disabled, use the --enable-plugin option for Perl])
 		perl=no
-	])
-])
-
-dnl *********************************************************************
-dnl ** PYTHON ***********************************************************
-dnl *********************************************************************
-
-AS_IF([test "x$python" != xno], [
-	AC_MSG_CHECKING(for plugin interface used by Python)
-	AS_IF([test "$plugin" = yes], [
-		AC_MSG_RESULT([yes])
-		AS_CASE([$python],
-			dnl set python2 default here
-			[python2], [
-				PKG_CHECK_MODULES([PY], [python-2.7],
-								  [PY_VER="`$PKG_CONFIG --modversion python-2.7`"],
-								  [true])
-			],
-			dnl set python3 default here
-			[python3], [
-				PKG_CHECK_MODULES([PY], [python-3.4],
-								  [PY_VER="`$PKG_CONFIG --modversion python-3.4`"],
-								  [true])
-				AS_IF([test "$PY_VER" = ""], [
-					PKG_CHECK_MODULES([PY], [python-3.3],
-									  [PY_VER="`$PKG_CONFIG --modversion python-3.3`"],
-									  [true])
-				])
-			], 
-			dnl add broken versions here
-			[python2.5|python2.6|python3.1|python3.2], [
-				AC_MSG_WARN(Unsupported Python version ${python}!)
-			],
-			[python*], [
-				python="python-${python#python}" # stay posix compliant
-				PKG_CHECK_MODULES([PY], [${python}],
-								  [PY_VER="`$PKG_CONFIG --modversion ${python}`"],
-								  [AC_MSG_WARN(Cannot find "${python}.pc"!)])
-			],[
-				AC_MSG_WARN(Unsupported Python ${python}!)
-			]
-		)
-		AC_MSG_CHECKING(Python version)
-
-		AS_IF([test "$PY_VER"], [
-			AC_MSG_RESULT($PY_VER)
-			python="python-${PY_VER}"
-		], [
-			AC_MSG_RESULT(Not found)
-			python=no
-		])
-	], [
-		AC_MSG_RESULT([plugins are disabled, use the --enable-plugin option for Python])
-		python=no
 	])
 ])
 
@@ -567,7 +508,6 @@ AM_CONDITIONAL(USE_LIBCANBERRA, test "x$libcanberra" = "xyes")
 AM_CONDITIONAL(DO_TEXT, test "x$textfe" = "xyes")
 AM_CONDITIONAL(DO_GTK, test "x$gtkfe" = "xyes")
 AM_CONDITIONAL(DO_PERL, test "x$perl" = "xyes")
-AM_CONDITIONAL(DO_PYTHON, test "x$python" != "xno")
 AM_CONDITIONAL(DO_PLUGIN, test "x$plugin" = "xyes")
 AM_CONDITIONAL(DO_CHECKSUM, test "x$checksum" = "xyes")
 AM_CONDITIONAL(DO_DOAT, test "x$doat" = "xyes")
@@ -704,7 +644,6 @@ src/htm/Makefile
 src/htm/thememan
 osx/Info.plist
 plugins/Makefile
-plugins/python/Makefile
 plugins/perl/Makefile
 plugins/checksum/Makefile
 plugins/doat/Makefile
@@ -730,7 +669,6 @@ echo Plugin interface ...... : $plugin
 echo libproxy support ...... : $libproxy
 echo
 echo Perl .................. : $perl
-echo Python ................ : $python
 echo
 echo Checksum .............. : $checksum
 echo Do At ................. : $doat
