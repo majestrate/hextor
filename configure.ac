@@ -56,7 +56,6 @@ AH_VERBATIM([USE_SIGACTION],[#undef USE_SIGACTION])
 AH_VERBATIM([USING_FREEBSD],[#undef USING_FREEBSD])
 AH_VERBATIM([USING_LINUX],[#undef USING_LINUX])
 AH_VERBATIM([socklen_t],[#undef socklen_t])
-AH_VERBATIM([USE_DBUS],[#undef USE_DBUS])
 
 AC_PATH_PROG(sedpath, sed)
 AS_IF([test "_$sedpath" = _], [
@@ -104,11 +103,6 @@ AC_ARG_ENABLE(textfe,
 	[AS_HELP_STRING([--enable-textfe],[build the text frontend (default: no)])],
         textfe=$enableval, textfe=no)
 
-AC_ARG_ENABLE(python,
-	[AS_HELP_STRING([--enable-python=pythonversion],[build the python plugin; possible values: "python2", "python3" or specific such as "python3.3" (default on, python2)])],
-        python=$enableval, python=python2)
-AS_IF([test "x$python" = "xyes"], [python=python2])
-
 AC_ARG_ENABLE(perl,
 	[AS_HELP_STRING([--disable-perl],[don\'t build the perl plugin])],
         perl=$enableval, perl=yes)
@@ -132,14 +126,6 @@ AC_ARG_ENABLE(doat,
 AC_ARG_ENABLE(fishlim,
 	[AS_HELP_STRING([--disable-fishlim],[disable the FiSHLiM plugin])],
         fishlim=$enableval, fishlim=yes)
-
-AC_ARG_ENABLE(sysinfo,
-	[AS_HELP_STRING([--disable-sysinfo],[disable the SysInfo plugin])],
-        sysinfo=$enableval, sysinfo=yes)
-
-AC_ARG_ENABLE(dbus,
-	[AS_HELP_STRING([--disable-dbus],[disable DBUS support])],
-        dbus=$enableval, dbus=yes)
 
 AC_ARG_ENABLE(libnotify,
 	[AS_HELP_STRING([--disable-libnotify],[disable libnotify support])],
@@ -249,60 +235,6 @@ AS_IF([test "$perl" = yes], [
 	], [
 		AC_MSG_RESULT([plugins are disabled, use the --enable-plugin option for Perl])
 		perl=no
-	])
-])
-
-dnl *********************************************************************
-dnl ** PYTHON ***********************************************************
-dnl *********************************************************************
-
-AS_IF([test "x$python" != xno], [
-	AC_MSG_CHECKING(for plugin interface used by Python)
-	AS_IF([test "$plugin" = yes], [
-		AC_MSG_RESULT([yes])
-		AS_CASE([$python],
-			dnl set python2 default here
-			[python2], [
-				PKG_CHECK_MODULES([PY], [python-2.7],
-								  [PY_VER="`$PKG_CONFIG --modversion python-2.7`"],
-								  [true])
-			],
-			dnl set python3 default here
-			[python3], [
-				PKG_CHECK_MODULES([PY], [python-3.4],
-								  [PY_VER="`$PKG_CONFIG --modversion python-3.4`"],
-								  [true])
-				AS_IF([test "$PY_VER" = ""], [
-					PKG_CHECK_MODULES([PY], [python-3.3],
-									  [PY_VER="`$PKG_CONFIG --modversion python-3.3`"],
-									  [true])
-				])
-			], 
-			dnl add broken versions here
-			[python2.5|python2.6|python3.1|python3.2], [
-				AC_MSG_WARN(Unsupported Python version ${python}!)
-			],
-			[python*], [
-				python="python-${python#python}" # stay posix compliant
-				PKG_CHECK_MODULES([PY], [${python}],
-								  [PY_VER="`$PKG_CONFIG --modversion ${python}`"],
-								  [AC_MSG_WARN(Cannot find "${python}.pc"!)])
-			],[
-				AC_MSG_WARN(Unsupported Python ${python}!)
-			]
-		)
-		AC_MSG_CHECKING(Python version)
-
-		AS_IF([test "$PY_VER"], [
-			AC_MSG_RESULT($PY_VER)
-			python="python-${PY_VER}"
-		], [
-			AC_MSG_RESULT(Not found)
-			python=no
-		])
-	], [
-		AC_MSG_RESULT([plugins are disabled, use the --enable-plugin option for Python])
-		python=no
 	])
 ])
 
@@ -456,50 +388,6 @@ AS_IF([test "$fishlim" != "no"], [
 ])
 
 dnl *********************************************************************
-dnl ** SYSINFO **********************************************************
-dnl *********************************************************************
-
-AS_IF([test "$sysinfo" != "no"], [
-	AC_MSG_CHECKING(for plugin interface used by SysInfo)
-	AS_IF([test "$plugin" = yes], [
-		AC_MSG_RESULT([yes])
-		AS_IF([test "$platform_osx" = yes], [
-			sysinfo=yes
-		], [
-			PKG_CHECK_MODULES(LIBPCI, libpci >= 3.0.0, [
-				sysinfo=yes
-				AC_DEFINE(HAVE_LIBPCI)
-			], [sysinfo=no])
-		])
-	], [
-		AC_MSG_RESULT([plugins are disabled, use the --enable-plugin option for SysInfo])
-		sysinfo=no
-	])
-])
-
-dnl #######################################################################
-dnl # Check for DBUS libraries
-dnl #######################################################################
-
-AS_IF([test "x$dbus" = "xyes"], [
-	PKG_CHECK_MODULES(DBUS, [dbus-1 >= 0.60 dbus-glib-1 >= 0.60 gthread-2.0], dbus=yes, [
-		dbus=no
-	])
-	AC_PATH_PROG(DBUS_BINDING_TOOL, dbus-binding-tool, no)
-	AS_IF([test "x$DBUS_BINDING_TOOL" = "xno" || test "x$dbus" = "xno"], [
-		dbus="no"
-	], [
-		COMMON_LIBS="$COMMON_LIBS $DBUS_LIBS"
-		COMMON_CFLAGS="$COMMON_CFLAGS $DBUS_CFLAGS"
-		AC_DEFINE(USE_DBUS)
-
-		AS_AC_EXPAND(DBUS_SERVICES_DIR, "$datadir/dbus-1/services")
-		AC_SUBST(DBUS_SERVICES_DIR)
-		AC_DEFINE_UNQUOTED(DBUS_SERVICES_DIR, "$DBUS_SERVICES_DIR", [Where services dir for DBUS is])
-	])
-])
-
-dnl *********************************************************************
 dnl ** LIBNOTIFY ********************************************************
 dnl *********************************************************************
 
@@ -567,14 +455,11 @@ AM_CONDITIONAL(USE_LIBCANBERRA, test "x$libcanberra" = "xyes")
 AM_CONDITIONAL(DO_TEXT, test "x$textfe" = "xyes")
 AM_CONDITIONAL(DO_GTK, test "x$gtkfe" = "xyes")
 AM_CONDITIONAL(DO_PERL, test "x$perl" = "xyes")
-AM_CONDITIONAL(DO_PYTHON, test "x$python" != "xno")
 AM_CONDITIONAL(DO_PLUGIN, test "x$plugin" = "xyes")
 AM_CONDITIONAL(DO_CHECKSUM, test "x$checksum" = "xyes")
 AM_CONDITIONAL(DO_DOAT, test "x$doat" = "xyes")
 AM_CONDITIONAL(DO_FISHLIM, test "x$fishlim" = "xyes")
-AM_CONDITIONAL(DO_SYSINFO, test "x$sysinfo" = "xyes")
 AM_CONDITIONAL(DO_STATIC_ANALYSIS, test "x$analyze" = "xyes")
-AM_CONDITIONAL(USE_DBUS, test "x$dbus" = "xyes")
 AM_CONDITIONAL(HAVE_ISO_CODES, test "x$isocodes" = "xyes")
 AM_CONDITIONAL(HAVE_GTK_MAC, test "x$_gdk_tgt" = xquartz)
 AM_CONDITIONAL(WITH_TM, test "x$theme_manager" != "xno")
@@ -658,8 +543,6 @@ AC_SUBST(PERL_CFLAGS)
 AC_SUBST(PERL_LDFLAGS)
 AC_SUBST(PY_CFLAGS)
 AC_SUBST(PY_LIBS)
-AC_SUBST(DBUS_CFLAGS)
-AC_SUBST(DBUS_LIBS)
 AC_SUBST(OPENSSL_LIBS)
 AC_SUBST(OPENSSL_CFLAGS)
 AC_SUBST(PLUGIN_LDFLAGS)
@@ -697,19 +580,16 @@ data/pkgconfig/Makefile
 data/pkgconfig/hextor-plugin.pc
 src/Makefile
 src/common/Makefile
-src/common/dbus/Makefile
 src/fe-text/Makefile
 src/fe-gtk/Makefile
 src/htm/Makefile
 src/htm/thememan
 osx/Info.plist
 plugins/Makefile
-plugins/python/Makefile
 plugins/perl/Makefile
 plugins/checksum/Makefile
 plugins/doat/Makefile
 plugins/fishlim/Makefile
-plugins/sysinfo/Makefile
 po/Makefile.in
 ])
 
@@ -723,19 +603,16 @@ echo Text interface ........ : $textfe
 echo Theme manager ......... : $theme_manager
 echo
 echo OpenSSL support ....... : $openssl
-echo D-Bus support ......... : $dbus
 echo libnotify support ..... : $libnotify
 echo libcanberra support ... : $libcanberra
 echo Plugin interface ...... : $plugin
 echo libproxy support ...... : $libproxy
 echo
 echo Perl .................. : $perl
-echo Python ................ : $python
 echo
 echo Checksum .............. : $checksum
 echo Do At ................. : $doat
 echo FiSHLiM ............... : $fishlim
-echo SysInfo ............... : $sysinfo
 echo
 echo Debug mode ............ : $enable_debug
 echo

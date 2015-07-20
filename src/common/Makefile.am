@@ -46,12 +46,7 @@ if USE_OPENSSL
 ssl_c = ssl.c
 endif
 
-if USE_DBUS
-dbusdir = dbus
-libhextorcommon_a_LIBADD =				\
-	$(top_builddir)/src/common/dbus/dbus-*.$(OBJEXT)
-endif
-SUBDIRS = $(dbusdir) .
+SUBDIRS = .
 
 if DO_PLUGIN
 include_HEADERS = hextor-plugin.h

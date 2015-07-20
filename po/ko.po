@@ -29,7 +29,7 @@ msgstr "헥스채트는 사용하기 쉽고 확장성이 뛰어난 IRC 클라이
 #: ../data/misc/hextor.appdata.xml.in.h:2
 msgid ""
 "Hextor supports features such as: DCC, SASL, proxies, spellcheck, alerts, "
-"logging, custom themes, and Python/Perl scripts."
+"logging, custom themes, and Perl scripts."
 msgstr "핵스채트는 DCC, SASL, 프록시 서버, 철자 검사, 경고, 기록, 사용자 정의 테마, 파이썬/펄 스크립트 같은 기능을 지원합니다."
 
 #: ../data/misc/hextor.desktop.in.h:1

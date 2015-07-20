@@ -102,11 +102,6 @@ char **arg_urls = NULL;
 char *arg_command = NULL;
 gint arg_existing = FALSE;
 
-#ifdef USE_DBUS
-#include "dbus/dbus-client.h"
-#include "dbus/dbus-plugin.h"
-#endif /* USE_DBUS */
-
 struct session *current_tab;
 struct session *current_sess = 0;
 struct hextorprefs prefs;
@@ -395,10 +390,6 @@ irc_init (session *sess)
 #ifdef USE_PLUGIN
     if (!arg_skip_plugins)
         plugin_auto_load (sess);        /* autoload ~/.xchat *.so */
-#endif
-
-#ifdef USE_DBUS
-    plugin_add (sess, NULL, NULL, dbus_plugin_init, NULL, NULL, FALSE);
 #endif
 
     if (prefs.hex_notify_timeout)
@@ -1053,10 +1044,6 @@ main (int argc, char *argv[])
     ret = fe_args (argc, argv);
     if (ret != -1)
         return ret;
-
-#ifdef USE_DBUS
-    hextor_remote ();
-#endif
 
 #ifdef USE_LIBPROXY
     libproxy_factory = px_proxy_factory_new();

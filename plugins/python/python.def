@@ -1,4 +1,0 @@
-EXPORTS 
-hextor_plugin_init 
-hextor_plugin_deinit 
-hextor_plugin_get_info 

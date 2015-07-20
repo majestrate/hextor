@@ -17,8 +17,6 @@ src/common/servlist.c
 src/common/textevents.h
 src/common/text.c
 src/common/util.c
-src/common/dbus/dbus-client.c
-src/common/dbus/dbus-plugin.c
 src/fe-gtk/ascii.c
 src/fe-gtk/banlist.c
 src/fe-gtk/chanlist.c

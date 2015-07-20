@@ -37,7 +37,7 @@ msgstr "Hextor jest prostym, lecz dowolnie poszerzalnym klientem IRC. Pozwala na
 #: ../data/misc/hextor.appdata.xml.in.h:2
 msgid ""
 "Hextor supports features such as: DCC, SASL, proxies, spellcheck, alerts, "
-"logging, custom themes, and Python/Perl scripts."
+"logging, custom themes, and Perl scripts."
 msgstr "Hextor wspiera takie funkcje, jak: DCC, SASL, serwery proxy, sprawdzanie pisowni, alerty, logi, własne motywy i skrypty w Pythonie/Perlu."
 
 #: ../data/misc/hextor.desktop.in.h:1

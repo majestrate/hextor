@@ -455,13 +455,8 @@ plugin_auto_load (session *sess)
     for_files (lib_dir, "hcdoat.dll", plugin_auto_load_cb);
     for_files (lib_dir, "hcexec.dll", plugin_auto_load_cb);
     for_files (lib_dir, "hcfishlim.dll", plugin_auto_load_cb);
-    for_files (lib_dir, "hcmpcinfo.dll", plugin_auto_load_cb);
     for_files (lib_dir, "hcperl.dll", plugin_auto_load_cb);
-    for_files (lib_dir, "hcpython2.dll", plugin_auto_load_cb);
-    for_files (lib_dir, "hcpython3.dll", plugin_auto_load_cb);
     for_files (lib_dir, "hcupd.dll", plugin_auto_load_cb);
-    for_files (lib_dir, "hcwinamp.dll", plugin_auto_load_cb);
-    for_files (lib_dir, "hcsysinfo.dll", plugin_auto_load_cb);
 #else
     for_files (lib_dir, "*."G_MODULE_SUFFIX, plugin_auto_load_cb);
 #endif
