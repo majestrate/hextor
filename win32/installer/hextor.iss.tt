@@ -67,9 +67,7 @@ Name: "plugins\checksum"; Description: "Checksum"; Types: custom; Flags: disable
 Name: "plugins\doat"; Description: "Do At"; Types: custom; Flags: disablenouninstallwarning
 Name: "plugins\exec"; Description: "Exec"; Types: custom; Flags: disablenouninstallwarning
 Name: "plugins\fishlim"; Description: "FiSHLiM"; Types: custom; Flags: disablenouninstallwarning
-Name: "plugins\mpcinfo"; Description: "mpcInfo"; Types: custom; Flags: disablenouninstallwarning
 Name: "plugins\upd"; Description: "Update Checker"; Types: normal custom; Flags: disablenouninstallwarning
-Name: "plugins\winamp"; Description: "Winamp"; Types: custom; Flags: disablenouninstallwarning
 Name: "langs"; Description: "Language Interfaces"; Types: custom; Flags: disablenouninstallwarning
 Name: "langs\perl"; Description: "Perl (requires Perl 5.20)"; Types: custom; Flags: disablenouninstallwarning
 
@@ -153,12 +151,9 @@ Source: "plugins\hcchecksum.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "plugins\hcdoat.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion; Components: plugins\doat
 Source: "plugins\hcexec.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion; Components: plugins\exec
 Source: "plugins\hcfishlim.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion; Components: plugins\fishlim
-Source: "share\music.png"; DestDir: "{app}\share"; Flags: ignoreversion; Components: plugins\winamp or plugins\mpcinfo
-Source: "plugins\hcmpcinfo.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion; Components: plugins\mpcinfo
 Source: "share\download.png"; DestDir: "{app}\share"; Flags: ignoreversion; Components: plugins\upd
 Source: "plugins\hcupd.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion; Components: plugins\upd
 Source: "WinSparkle.dll"; DestDir: "{app}"; Flags: ignoreversion; Components: plugins\upd
-Source: "plugins\hcwinamp.dll"; DestDir: "{app}\plugins"; Flags: ignoreversion; Components: plugins\winamp
 
 Source: "hextor.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: libs
 Source: "hextor-text.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: xctext
