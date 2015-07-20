@@ -128,10 +128,6 @@ AC_ARG_ENABLE(fishlim,
 	[AS_HELP_STRING([--disable-fishlim],[disable the FiSHLiM plugin])],
         fishlim=$enableval, fishlim=yes)
 
-AC_ARG_ENABLE(sysinfo,
-	[AS_HELP_STRING([--disable-sysinfo],[disable the SysInfo plugin])],
-        sysinfo=$enableval, sysinfo=yes)
-
 AC_ARG_ENABLE(dbus,
 	[AS_HELP_STRING([--disable-dbus],[disable DBUS support])],
         dbus=$enableval, dbus=yes)
@@ -396,28 +392,6 @@ AS_IF([test "$fishlim" != "no"], [
 	])
 ])
 
-dnl *********************************************************************
-dnl ** SYSINFO **********************************************************
-dnl *********************************************************************
-
-AS_IF([test "$sysinfo" != "no"], [
-	AC_MSG_CHECKING(for plugin interface used by SysInfo)
-	AS_IF([test "$plugin" = yes], [
-		AC_MSG_RESULT([yes])
-		AS_IF([test "$platform_osx" = yes], [
-			sysinfo=yes
-		], [
-			PKG_CHECK_MODULES(LIBPCI, libpci >= 3.0.0, [
-				sysinfo=yes
-				AC_DEFINE(HAVE_LIBPCI)
-			], [sysinfo=no])
-		])
-	], [
-		AC_MSG_RESULT([plugins are disabled, use the --enable-plugin option for SysInfo])
-		sysinfo=no
-	])
-])
-
 dnl #######################################################################
 dnl # Check for DBUS libraries
 dnl #######################################################################
@@ -512,7 +486,6 @@ AM_CONDITIONAL(DO_PLUGIN, test "x$plugin" = "xyes")
 AM_CONDITIONAL(DO_CHECKSUM, test "x$checksum" = "xyes")
 AM_CONDITIONAL(DO_DOAT, test "x$doat" = "xyes")
 AM_CONDITIONAL(DO_FISHLIM, test "x$fishlim" = "xyes")
-AM_CONDITIONAL(DO_SYSINFO, test "x$sysinfo" = "xyes")
 AM_CONDITIONAL(DO_STATIC_ANALYSIS, test "x$analyze" = "xyes")
 AM_CONDITIONAL(USE_DBUS, test "x$dbus" = "xyes")
 AM_CONDITIONAL(HAVE_ISO_CODES, test "x$isocodes" = "xyes")
@@ -648,7 +621,6 @@ plugins/perl/Makefile
 plugins/checksum/Makefile
 plugins/doat/Makefile
 plugins/fishlim/Makefile
-plugins/sysinfo/Makefile
 po/Makefile.in
 ])
 
@@ -673,7 +645,6 @@ echo
 echo Checksum .............. : $checksum
 echo Do At ................. : $doat
 echo FiSHLiM ............... : $fishlim
-echo SysInfo ............... : $sysinfo
 echo
 echo Debug mode ............ : $enable_debug
 echo

@@ -14,8 +14,4 @@ if DO_CHECKSUM
 checksumdir = checksum
 endif
 
-if DO_SYSINFO
-sysinfodir = sysinfo
-endif
-
-SUBDIRS = $(perldir) $(checksumdir) $(doatdir) $(fishlimdir) $(sysinfodir)
+SUBDIRS = $(perldir) $(checksumdir) $(doatdir) $(fishlimdir)
