@@ -1,3 +1,0 @@
-[D-BUS Service]
-Name=org.hextor.service
-Exec=/usr/local/bin/hextor
