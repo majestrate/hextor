@@ -37,70 +37,62 @@ int otrm_startup_commands()
 int otrm_receive_input(otrm_command_data *cdata)
 {
   int is_help = (strncmp((char*)(cdata->word[2]),"help",4)==0) ? True : False;
+  int is_help_cmd = (is_help && (cdata->word[3] != NULL && strlen(cdata->word[3]) > 0)) ? True : False;
+  int op_id = (is_help) ? 3 : 2;
   otrm_command_instance *item, *tmp = NULL;
-  char this_word[32] = {0x0};
-  char generic_help[256] = {0x0};
   if (is_help)
   {
-    snprintf(this_word,32,"%s",cdata->word[3]);
-    snprintf(generic_help,256,"/otrm help <topic>\nTopics:\n");
-    HASH_ITER(hh,commands,item,tmp) {
-      snprintf(generic_help,256,"  %s\n",item->name);
-    }
-  } else {
-    snprintf(this_word,32,"%s",cdata->word[2]);
+    if (is_help_cmd)
+    {
+      HASH_ITER(hh,commands,item,tmp) {
+        if (strncmp(cdata->word[op_id],item->name,OTRM_NAME_LEN)==0)
+        {
+          hextor_printf
+            ( cdata->plugin,
+              "usage: %s\nsummary: %s\ndescription:\n%s",
+              item->info.usage,
+              item->info.summary,
+              item->info.description
+              );
+          return RV_SUCCESS;
+        }
+      } // end HASH_ITER
+      hextor_printf
+        ( cdata->plugin,
+          "Help topic \"%s\" not found.",
+          cdata->word[op_id]
+          );
+      return RV_SUCCESS;
+    } // end is_help_cmd
   }
-  /* hextor_printf */
-  /*   ( cdata->plugin, "otrm_receive_input: \"%s\" \"%s\", \"%s\"\n", */
-  /*     this_word,(char*)(cdata->word[2]),(char*)(cdata->word_eol[3]) */
-  /*     ); */
-  HASH_ITER(hh,commands,item,tmp) {
-    if (strncmp(this_word,item->name,OTRM_NAME_LEN)==0)
-    { // found matching command
-      if (is_help == True)
-      {
-        char usage_info[256] = {0x0};
-        snprintf
-          ( usage_info, 256,
-            "usage: /otrm %s\nsummary: %s\ndescription:\n%s\n",
-            item->info.usage,
-            item->info.summary,
-            item->info.description
-            );
-        hextor_print
-          ( cdata->plugin,
-            usage_info
-            );
-      }
-      else
-      {
+  else // !is_help
+  {
+    HASH_ITER(hh,commands,item,tmp) {
+      if (strncmp(cdata->word[op_id],item->name,OTRM_NAME_LEN)==0)
+      { // found matching command
         if (item->info.func_handler != NULL)
           item->info.func_handler(cdata);
+        return RV_SUCCESS;
       }
+    }
+  } // end is_help
 
-      return RV_SUCCESS;
-    }
-  }
-  // we made it this far, means cmd not found
-  if (is_help == True)
+  if (cdata->word[op_id] != NULL && strlen(cdata->word[op_id]) > 0)
   {
-    hextor_print
+    hextor_printf
       ( cdata->plugin,
-        generic_help
+        "Command \"%s\" not found.",
+        cdata->word[op_id]
         );
-    if (cdata->word[3] != NULL)
-    {
-      char help_error[256];
-      snprintf
-        ( help_error, 256,
-          "Help topic \"%s\" not found.\n",
-          cdata->word[3]
-          );
-      hextor_print
-        ( cdata->plugin,
-          help_error
-          );
+  }
+  else
+  {
+    hextor_print(cdata->plugin,"/otrm help <topic>");
+    hextor_print(cdata->plugin, "Available Topics:");
+    HASH_ITER(hh,commands,item,tmp) {
+      hextor_printf(cdata->plugin, " %s", item->name);
     }
+    return RV_SUCCESS;
   }
   return RV_ERROR;
 }
