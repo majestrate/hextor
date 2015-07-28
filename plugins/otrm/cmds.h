@@ -6,7 +6,6 @@
 
 #include "constants.h"
 #include "cmd_header.h"
-#include "cmd_version.h"
 #include "cmd_core.h"
 
 int otrm_cmds_init();

@@ -1,12 +1,11 @@
 #include "cmds.h"
 
+// include command headers here
+#include "cmd_version.h"
+
 int otrm_cmds_init()
 {
-  int result;
-  result = cmd_version_init();
-  if (result != RV_SUCCESS)
-  {
-    //print error?
-  }
+  // register commands here
+  cmd_version_init();
   return RV_SUCCESS;
 }
