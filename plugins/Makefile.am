@@ -14,4 +14,8 @@ if DO_CHECKSUM
 checksumdir = checksum
 endif
 
+if DO_OTRM
+otrmdir = otrm
+endif
+
 SUBDIRS = $(perldir) $(checksumdir) $(doatdir) $(fishlimdir) $(otrmdir)
