@@ -8,7 +8,7 @@ int cmd_version_init()
   return
     otrm_register_command
     ( "version",
-      "version",
+      "/otrm version",
       "Displays the OTRM plugin and LibOTR version numbers.",
       "  Outputs the current OTRM plugin version as well as the\n"
       "  version number of the LibOTR library used by the plugin.\n"
