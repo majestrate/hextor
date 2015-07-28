@@ -1,4 +1,4 @@
-#include "version.h"
+#include "cmd_version.h"
 
 // private function definitions
 // public function definitions
@@ -22,7 +22,7 @@ int cmd_version_init()
 
 void cmd_version_handler(otrm_command_data *cdata)
 {
-  hexchat_print
+  hextor_print
     ( cdata->plugin,
       "OTRM Plugin v"PLUGIN_VERSION", libotr v"OTRL_VERSION"\n"
       );

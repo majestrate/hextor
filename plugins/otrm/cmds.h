@@ -5,9 +5,9 @@
 #define _OTRM_CMDS_H_
 
 #include "constants.h"
-#include "./cmds/header.h"
-#include "./cmds/version.h"
-#include "./cmds/core.h"
+#include "cmd_header.h"
+#include "cmd_version.h"
+#include "cmd_core.h"
 
 int otrm_cmds_init();
 

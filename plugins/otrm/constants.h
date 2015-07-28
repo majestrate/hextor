@@ -4,7 +4,7 @@
 #ifndef _OTRM_CONSTANTS_H_
 #define _OTRM_CONSTANTS_H_
 
-#include "hexchat-plugin.h"
+#include "hextor-plugin.h"
 #include <stdio.h>
 #include <string.h>
 #include <libotr/proto.h>

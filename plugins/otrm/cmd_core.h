@@ -4,8 +4,8 @@
 #ifndef _OTRM_CMDS_CORE_H_
 #define _OTRM_CMDS_CORE_H_
 
-#include "header.h"
-#include "../ut/include/uthash.h"
+#include "cmd_header.h"
+#include "ut/include/uthash.h"
 
 #define OTRM_NAME_LEN 32
 #define OTRM_USAGE_LEN 64
@@ -14,7 +14,7 @@
 
 typedef struct
 {
-  hexchat_plugin *plugin;
+  hextor_plugin *plugin;
   OtrlUserState *userstate;
   void *userdata;
   char *word[32];

@@ -1,4 +1,4 @@
-#include "core.h"
+#include "cmd_core.h"
 
 static otrm_command_instance *commands = NULL;
 
@@ -50,7 +50,7 @@ int otrm_receive_input(otrm_command_data *cdata)
   } else {
     snprintf(this_word,32,"%s",cdata->word[2]);
   }
-  /* hexchat_printf */
+  /* hextor_printf */
   /*   ( cdata->plugin, "otrm_receive_input: \"%s\" \"%s\", \"%s\"\n", */
   /*     this_word,(char*)(cdata->word[2]),(char*)(cdata->word_eol[3]) */
   /*     ); */
@@ -67,7 +67,7 @@ int otrm_receive_input(otrm_command_data *cdata)
             item->info.summary,
             item->info.description
             );
-        hexchat_print
+        hextor_print
           ( cdata->plugin,
             usage_info
             );
@@ -84,7 +84,7 @@ int otrm_receive_input(otrm_command_data *cdata)
   // we made it this far, means cmd not found
   if (is_help == True)
   {
-    hexchat_print
+    hextor_print
       ( cdata->plugin,
         generic_help
         );
@@ -96,7 +96,7 @@ int otrm_receive_input(otrm_command_data *cdata)
           "Help topic \"%s\" not found.\n",
           cdata->word[3]
           );
-      hexchat_print
+      hextor_print
         ( cdata->plugin,
           help_error
           );

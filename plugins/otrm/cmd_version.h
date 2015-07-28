@@ -4,7 +4,7 @@
 #ifndef _OTRM_CMDS_VERSION_H_
 #define _OTRM_CMDS_VERSION_H_
 
-#include "header.h"
+#include "cmd_header.h"
 
 // public function declarations
 
