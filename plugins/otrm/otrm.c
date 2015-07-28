@@ -15,27 +15,11 @@ static int otrm_cb (char *word[], char *word_eol[], void *userdata)
     cdata->plugin = g_plugin;
     for (int i=0;i<32;i++)
     {
-      /* s = (char*)malloc(sizeof(char)*256); */
-      /* memset(s,0x0,256); */
-      /* if (word[i]!=0x0) */
-      /* { */
-      /*   snprintf(s,256,"%s",(char*)(word[i])); */
-      /*   cdata->word[i] = s; */
-      /* } */
       cdata->word[i] = word[i];
-      //hextor_printf(g_plugin,"word[%d]: %s\n",i,cdata->word[i]);
     }
     for (int i=0;i<32;i++)
     {
-      /* s = (char*)malloc(sizeof(char)*256); */
-      /* memset(s,0x0,256); */
-      /* if (word_eol[i]!=0x0) */
-      /* { */
-      /*   snprintf(s,256,"%s",(char*)(word_eol[i])); */
-      /*   cdata->word_eol[i] = s; */
-      /* } */
       cdata->word_eol[i] = word_eol[i];
-      //hextor_printf(g_plugin,"word[%d]: %s\n",i,cdata->word_eol[i]);
     }
     cdata->userdata = userdata;
     result = otrm_receive_input(cdata);
@@ -44,7 +28,6 @@ static int otrm_cb (char *word[], char *word_eol[], void *userdata)
       // basic usage info
       hextor_print (g_plugin, "usage: /otrm help\n");
     }
-
     free(cdata);
     return HEXTOR_EAT_ALL;
   }

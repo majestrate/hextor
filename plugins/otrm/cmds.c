@@ -1,5 +1,4 @@
 #include "cmds.h"
-#include "cmd_version.h"
 
 int otrm_cmds_init()
 {
