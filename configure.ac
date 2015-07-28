@@ -11,7 +11,7 @@ AC_CONFIG_SRCDIR([configure.ac])
 AC_CONFIG_MACRO_DIR([m4])
 
 AM_INIT_AUTOMAKE([1.11.1 dist-bzip2 subdir-objects no-define foreign])
-AM_SILENT_RULES([yes])
+AM_SILENT_RULES([no])
 
 AX_IS_RELEASE([minor-version])
 AX_CHECK_ENABLE_DEBUG([yes])
