@@ -2799,6 +2799,9 @@ cmd_msg (struct session *sess, char *tbuf, char *word[], char *word_eol[])
         if (g_ascii_strcasecmp (nick, "nickserv") == 0 &&
             g_ascii_strncasecmp (msg, "identify ", 9) == 0)
           msg = "identify ****";
+        else if (g_ascii_strcasecmp (nick, "operserv") == 0 &&
+                 g_ascii_strncasecmp (msg, "identify ", 9) == 0)
+          msg = "identify hunter2";
         EMIT_SIGNAL (XP_TE_MSGSEND, sess, nick, msg, NULL, NULL, 0);
       }
 
