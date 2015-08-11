@@ -680,8 +680,10 @@ static char defaultconf_ctcp[] =
 
 static char defaultconf_replace[] =
     "NAME teh\n"            "CMD the\n\n";
-/*      "NAME r\n"                                      "CMD are\n\n"\
-        "NAME u\n"                                      "CMD you\n\n"*/
+/*
+    "NAME r\n"              "CMD are\n\n"\
+    "NAME u\n"              "CMD you\n\n"
+*/
 
 static char defaultconf_commands[] =
     "NAME ACTION\n"         "CMD me &2\n\n"\
@@ -715,8 +717,25 @@ static char defaultconf_commands[] =
     "NAME WI\n"             "CMD quote WHOIS %2\n\n"\
     "NAME WII\n"            "CMD quote WHOIS %2 %2\n\n";
 
+#ifdef WIN32
 static char defaultconf_urlhandlers[] =
-    "NAME Open Link in a new Firefox Window\n"              "CMD !firefox -new-window %s\n\n";
+  "NAME Open Link with Firefox in a new window\n"\
+  "CMD !firefox -new-window %s\n\n";
+#elif __APPLE__
+static char defaultconf_urlhandlers[] =
+  "NAME Open Link with Safari in a new tab\n"\
+  "CMD !/usr/bin/open -a Safari \"%s\"\n\n";
+#else // LINUX
+static char defaultconf_urlhandlers[] =
+  "NAME Open Link with Chromium in a new window\n"\
+  "CMD !/usr/bin/chromium -new-window \"%s\"\n\n"\
+  "NAME Open Link with Iceweasel in a new window\n"\
+  "CMD !/usr/bin/iceweasel -new-window \"%s\"\n\n"\
+  "NAME Open Link with Firefox in a new window\n"\
+  "CMD !/usr/bin/firefox -new-window \"%s\"\n\n"\
+  "NAME Open Link with xdg-open\n"\
+  "CMD !/usr/bin/xdg-open \"%s\"\n\n";
+#endif
 
 #ifdef USE_SIGACTION
 /* Close and open log files on SIGUSR1. Usefull for log rotating */
