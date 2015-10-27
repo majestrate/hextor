@@ -9,7 +9,7 @@ script:
     - make V=1 -j$(nproc)
 notifications:
     irc:
-        channels: "chat.freenode.net#hexchat-devel"
+        channels: "irc.oftc.net#hextor-dev"
         template: "Build %{build_url} (%{commit} in %{branch}) by %{author}: %{message}"
         on_success: change
 matrix:

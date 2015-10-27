@@ -190,7 +190,7 @@ plugingui_unload (GtkWidget * wid, gpointer unused)
     else
     {
         char *buf;
-        /* let python.so or perl.so handle it */
+        /* let perl.so handle it */
         if (strchr (file, ' '))
             buf = g_strdup_printf ("UNLOAD \"%s\"", file);
         else

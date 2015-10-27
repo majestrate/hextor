@@ -102,11 +102,6 @@ char **arg_urls = NULL;
 char *arg_command = NULL;
 gint arg_existing = FALSE;
 
-#ifdef USE_DBUS
-#include "dbus/dbus-client.h"
-#include "dbus/dbus-plugin.h"
-#endif /* USE_DBUS */
-
 struct session *current_tab;
 struct session *current_sess = 0;
 struct hextorprefs prefs;
@@ -397,10 +392,6 @@ irc_init (session *sess)
         plugin_auto_load (sess);        /* autoload ~/.xchat *.so */
 #endif
 
-#ifdef USE_DBUS
-    plugin_add (sess, NULL, NULL, dbus_plugin_init, NULL, NULL, FALSE);
-#endif
-
     if (prefs.hex_notify_timeout)
         notify_tag = fe_timeout_add (prefs.hex_notify_timeout * 1000,
                                      notify_checklist, 0);
@@ -684,48 +675,67 @@ free_sessions (void)
 
 
 static char defaultconf_ctcp[] =
-    "NAME TIME\n"                           "CMD nctcp %s TIME %t\n\n"\
-    "NAME PING\n"                           "CMD nctcp %s PING %d\n\n";
+    "NAME TIME\n"           "CMD nctcp %s TIME %t\n\n"\
+    "NAME PING\n"           "CMD nctcp %s PING %d\n\n";
 
 static char defaultconf_replace[] =
-    "NAME teh\n"                            "CMD the\n\n";
-/*      "NAME r\n"                                      "CMD are\n\n"\
-        "NAME u\n"                                      "CMD you\n\n"*/
+    "NAME teh\n"            "CMD the\n\n";
+/*
+    "NAME r\n"              "CMD are\n\n"\
+    "NAME u\n"              "CMD you\n\n"
+*/
 
 static char defaultconf_commands[] =
     "NAME ACTION\n"         "CMD me &2\n\n"\
-    "NAME AME\n"                    "CMD allchan me &2\n\n"\
-    "NAME ANICK\n"                  "CMD allserv nick &2\n\n"\
-    "NAME AMSG\n"                   "CMD allchan say &2\n\n"\
-    "NAME BANLIST\n"                "CMD quote MODE %c +b\n\n"\
-    "NAME CHAT\n"                   "CMD dcc chat %2\n\n"\
+    "NAME AME\n"            "CMD allchan me &2\n\n"\
+    "NAME ANICK\n"          "CMD allserv nick &2\n\n"\
+    "NAME AMSG\n"           "CMD allchan say &2\n\n"\
+    "NAME BANLIST\n"        "CMD quote MODE %c +b\n\n"\
+    "NAME CHAT\n"           "CMD dcc chat %2\n\n"\
     "NAME DIALOG\n"         "CMD query %2\n\n"\
-    "NAME DMSG\n"                   "CMD msg =%2 &3\n\n"\
-    "NAME EXIT\n"                   "CMD quit\n\n"\
-    "NAME GREP\n"                   "CMD lastlog -r -- &2\n\n"\
-    "NAME IGNALL\n"                 "CMD ignore %2!*@* ALL\n\n"\
-    "NAME J\n"                              "CMD join &2\n\n"\
-    "NAME KILL\n"                   "CMD quote KILL %2 :&3\n\n"\
-    "NAME LEAVE\n"                  "CMD part &2\n\n"\
-    "NAME M\n"                              "CMD msg &2\n\n"\
-    "NAME OMSG\n"                   "CMD msg @%c &2\n\n"\
-    "NAME ONOTICE\n"                "CMD notice @%c &2\n\n"\
-    "NAME RAW\n"                    "CMD quote &2\n\n"\
-    "NAME SERVHELP\n"               "CMD quote HELP\n\n"\
-    "NAME SPING\n"                  "CMD ping\n\n"\
+    "NAME DMSG\n"           "CMD msg =%2 &3\n\n"\
+    "NAME EXIT\n"           "CMD quit\n\n"\
+    "NAME GREP\n"           "CMD lastlog -r -- &2\n\n"\
+    "NAME IGNALL\n"         "CMD ignore %2!*@* ALL\n\n"\
+    "NAME J\n"              "CMD join &2\n\n"\
+    "NAME KILL\n"           "CMD quote KILL %2 :&3\n\n"\
+    "NAME LEAVE\n"          "CMD part &2\n\n"\
+    "NAME M\n"              "CMD msg &2\n\n"\
+    "NAME OMSG\n"           "CMD msg @%c &2\n\n"\
+    "NAME ONOTICE\n"        "CMD notice @%c &2\n\n"\
+    "NAME RAW\n"            "CMD quote &2\n\n"\
+    "NAME SERVHELP\n"       "CMD quote HELP\n\n"\
+    "NAME SPING\n"          "CMD ping\n\n"\
     "NAME SQUERY\n"         "CMD quote SQUERY %2 :&3\n\n"\
     "NAME SSLSERVER\n"      "CMD server -ssl &2\n\n"\
-    "NAME SV\n"                             "CMD echo Hextor %v %m\n\n"\
-    "NAME UMODE\n"                  "CMD mode %n &2\n\n"\
+    "NAME SV\n"             "CMD echo Hextor %v %m\n\n"\
+    "NAME UMODE\n"          "CMD mode %n &2\n\n"\
     "NAME UPTIME\n"         "CMD quote STATS u\n\n"\
-    "NAME VER\n"                    "CMD ctcp %2 VERSION\n\n"\
-    "NAME VERSION\n"                "CMD ctcp %2 VERSION\n\n"\
-    "NAME WALLOPS\n"                "CMD quote WALLOPS :&2\n\n"\
-    "NAME WI\n"                     "CMD quote WHOIS %2\n\n"\
-    "NAME WII\n"                    "CMD quote WHOIS %2 %2\n\n";
+    "NAME VER\n"            "CMD ctcp %2 VERSION\n\n"\
+    "NAME VERSION\n"        "CMD ctcp %2 VERSION\n\n"\
+    "NAME WALLOPS\n"        "CMD quote WALLOPS :&2\n\n"\
+    "NAME WI\n"             "CMD quote WHOIS %2\n\n"\
+    "NAME WII\n"            "CMD quote WHOIS %2 %2\n\n";
 
+#ifdef WIN32
 static char defaultconf_urlhandlers[] =
-    "NAME Open Link in a new Firefox Window\n"              "CMD !firefox -new-window %s\n\n";
+  "NAME Open Link with Firefox in a new window\n"\
+  "CMD !firefox -new-window %s\n\n";
+#elif __APPLE__
+static char defaultconf_urlhandlers[] =
+  "NAME Open Link with Safari in a new tab\n"\
+  "CMD !/usr/bin/open -a Safari \"%s\"\n\n";
+#else // LINUX
+static char defaultconf_urlhandlers[] =
+  "NAME Open Link with Chromium in a new window\n"\
+  "CMD !/usr/bin/chromium -new-window \"%s\"\n\n"\
+  "NAME Open Link with Iceweasel in a new window\n"\
+  "CMD !/usr/bin/iceweasel -new-window \"%s\"\n\n"\
+  "NAME Open Link with Firefox in a new window\n"\
+  "CMD !/usr/bin/firefox -new-window \"%s\"\n\n"\
+  "NAME Open Link with xdg-open\n"\
+  "CMD !/usr/bin/xdg-open \"%s\"\n\n";
+#endif
 
 #ifdef USE_SIGACTION
 /* Close and open log files on SIGUSR1. Usefull for log rotating */
@@ -810,34 +820,34 @@ xchat_init (void)
     ignore_load ();
 
     g_snprintf (buf, sizeof (buf),
-                "NAME %s~%s~\n"                         "CMD query %%s\n\n"\
-                "NAME %s~%s~\n"                         "CMD send %%s\n\n"\
-                "NAME %s~%s~\n"                         "CMD whois %%s %%s\n\n"\
-                "NAME %s~%s~\n"                         "CMD notify -n ASK %%s\n\n"\
-                "NAME %s~%s~\n"                         "CMD ignore %%s!*@* ALL\n\n"\
+                "NAME %s~%s~\n"     "CMD query %%s\n\n"\
+                "NAME %s~%s~\n"     "CMD send %%s\n\n"\
+                "NAME %s~%s~\n"     "CMD whois %%s %%s\n\n"\
+                "NAME %s~%s~\n"     "CMD notify -n ASK %%s\n\n"\
+                "NAME %s~%s~\n"     "CMD ignore %%s!*@* ALL\n\n"\
 
-                "NAME SUB\n"                                    "CMD %s\n\n"\
-                "NAME %s\n"                                     "CMD op %%a\n\n"\
-                "NAME %s\n"                                     "CMD deop %%a\n\n"\
-                "NAME SEP\n"                            "CMD \n\n"\
-                "NAME %s\n"                                     "CMD voice %%a\n\n"\
-                "NAME %s\n"                                     "CMD devoice %%a\n"\
-                "NAME SEP\n"                            "CMD \n\n"\
-                "NAME SUB\n"                            "CMD %s\n\n"\
-                "NAME %s\n"                             "CMD kick %%s\n\n"\
-                "NAME %s\n"                             "CMD ban %%s\n\n"\
-                "NAME SEP\n"                    "CMD \n\n"\
+                "NAME SUB\n"        "CMD %s\n\n"\
+                "NAME %s\n"         "CMD op %%a\n\n"\
+                "NAME %s\n"         "CMD deop %%a\n\n"\
+                "NAME SEP\n"        "CMD \n\n"\
+                "NAME %s\n"         "CMD voice %%a\n\n"\
+                "NAME %s\n"         "CMD devoice %%a\n"\
+                "NAME SEP\n"        "CMD \n\n"\
+                "NAME SUB\n"        "CMD %s\n\n"\
+                "NAME %s\n"         "CMD kick %%s\n\n"\
+                "NAME %s\n"         "CMD ban %%s\n\n"\
+                "NAME SEP\n"        "CMD \n\n"\
                 "NAME %s *!*@*.host\n""CMD ban %%s 0\n\n"\
                 "NAME %s *!*@domain\n""CMD ban %%s 1\n\n"\
                 "NAME %s *!*user@*.host\n""CMD ban %%s 2\n\n"\
                 "NAME %s *!*user@domain\n""CMD ban %%s 3\n\n"\
-                "NAME SEP\n"                    "CMD \n\n"\
+                "NAME SEP\n"        "CMD \n\n"\
                 "NAME %s *!*@*.host\n""CMD kickban %%s 0\n\n"\
                 "NAME %s *!*@domain\n""CMD kickban %%s 1\n\n"\
                 "NAME %s *!*user@*.host\n""CMD kickban %%s 2\n\n"\
                 "NAME %s *!*user@domain\n""CMD kickban %%s 3\n\n"\
-                "NAME ENDSUB\n"                 "CMD \n\n"\
-                "NAME ENDSUB\n"                         "CMD \n\n",
+                "NAME ENDSUB\n"     "CMD \n\n"\
+                "NAME ENDSUB\n"     "CMD \n\n",
 
                 _("_Open Dialog Window"), "gtk-go-up",
                 _("_Send a File"), "gtk-floppy",
@@ -866,11 +876,11 @@ xchat_init (void)
     list_loadconf ("popup.conf", &popup_list, buf);
 
     g_snprintf (buf, sizeof (buf),
-                "NAME %s\n"                             "CMD part\n\n"
-                "NAME %s\n"                             "CMD getstr # join \"%s\"\n\n"
-                "NAME %s\n"                             "CMD quote LINKS\n\n"
-                "NAME %s\n"                             "CMD ping\n\n"
-                "NAME TOGGLE %s\n"      "CMD irc_hide_version\n\n",
+                "NAME %s\n"         "CMD part\n\n"
+                "NAME %s\n"         "CMD getstr # join \"%s\"\n\n"
+                "NAME %s\n"         "CMD quote LINKS\n\n"
+                "NAME %s\n"         "CMD ping\n\n"
+                "NAME TOGGLE %s\n"  "CMD irc_hide_version\n\n",
                 _("Leave Channel"),
                 _("Join Channel..."),
                 _("Enter Channel to Join:"),
@@ -880,12 +890,12 @@ xchat_init (void)
     list_loadconf ("usermenu.conf", &usermenu_list, buf);
 
     g_snprintf (buf, sizeof (buf),
-                "NAME %s\n"             "CMD op %%a\n\n"
-                "NAME %s\n"             "CMD deop %%a\n\n"
-                "NAME %s\n"             "CMD ban %%s\n\n"
-                "NAME %s\n"             "CMD getstr \"%s\" \"kick %%s\" \"%s\"\n\n"
-                "NAME %s\n"             "CMD send %%s\n\n"
-                "NAME %s\n"             "CMD query %%s\n\n",
+                "NAME %s\n"         "CMD op %%a\n\n"
+                "NAME %s\n"         "CMD deop %%a\n\n"
+                "NAME %s\n"         "CMD ban %%s\n\n"
+                "NAME %s\n"         "CMD getstr \"%s\" \"kick %%s\" \"%s\"\n\n"
+                "NAME %s\n"         "CMD send %%s\n\n"
+                "NAME %s\n"         "CMD query %%s\n\n",
                 _("Op"),
                 _("DeOp"),
                 _("Ban"),
@@ -897,11 +907,11 @@ xchat_init (void)
     list_loadconf ("buttons.conf", &button_list, buf);
 
     g_snprintf (buf, sizeof (buf),
-                "NAME %s\n"                             "CMD whois %%s %%s\n\n"
-                "NAME %s\n"                             "CMD send %%s\n\n"
-                "NAME %s\n"                             "CMD dcc chat %%s\n\n"
-                "NAME %s\n"                             "CMD clear\n\n"
-                "NAME %s\n"                             "CMD ping %%s\n\n",
+                "NAME %s\n"         "CMD whois %%s %%s\n\n"
+                "NAME %s\n"         "CMD send %%s\n\n"
+                "NAME %s\n"         "CMD dcc chat %%s\n\n"
+                "NAME %s\n"         "CMD clear\n\n"
+                "NAME %s\n"         "CMD ping %%s\n\n",
                 _("WhoIs"),
                 _("Send"),
                 _("Chat"),
@@ -916,7 +926,7 @@ xchat_init (void)
     list_loadconf ("urlhandlers.conf", &urlhandler_list,
                    defaultconf_urlhandlers);
 
-    servlist_init ();                                                       /* load server list */
+    servlist_init (); /* load server list */
 
     /* if we got a URL, don't open the server list GUI */
     if (!prefs.hex_gui_slist_skip && !arg_url && !arg_urls)
@@ -970,7 +980,7 @@ void
 hextor_exec (const char *cmd)
 {
     util_exec (cmd);
-}
+  }
 
 
 static void
@@ -1053,10 +1063,6 @@ main (int argc, char *argv[])
     ret = fe_args (argc, argv);
     if (ret != -1)
         return ret;
-
-#ifdef USE_DBUS
-    hextor_remote ();
-#endif
 
 #ifdef USE_LIBPROXY
     libproxy_factory = px_proxy_factory_new();

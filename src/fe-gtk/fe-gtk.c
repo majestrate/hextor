@@ -85,9 +85,6 @@ static const GOptionEntry gopt_entries[] =
     {"configdir",  'u', 0, G_OPTION_ARG_NONE,      &arg_show_config, N_("Show user config directory"), NULL},
     {"url",         0,  G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_STRING, &arg_url, N_("Open an irc://server:port/channel?key URL"), "URL"},
     {"command",    'c', 0, G_OPTION_ARG_STRING,    &arg_command, N_("Execute command:"), "COMMAND"},
-#ifdef USE_DBUS
-    {"existing",   'e', 0, G_OPTION_ARG_NONE,      &arg_existing, N_("Open URL or execute command in an existing Hextor"), NULL},
-#endif
     {"minimize",    0,  0, G_OPTION_ARG_INT,       &arg_minimize, N_("Begin minimized. Level 0=Normal 1=Iconified 2=Tray"), N_("level")},
     {"version",    'v', 0, G_OPTION_ARG_NONE,      &arg_show_version, N_("Show version information"), NULL},
     {G_OPTION_REMAINING, '\0', 0, G_OPTION_ARG_STRING_ARRAY, &arg_urls, N_("Open an irc://server:port/channel?key URL"), "URL"},
