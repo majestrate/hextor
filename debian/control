@@ -1,9 +1,9 @@
 Source: hextor
 Section: net
 Priority: optional
-Maintainer: Jesse Rhodes <drubo@drubo.net>
-Vcs-Browser: http://anonscm.debian.org/cgit/collab-maint/hextor.git
-Vcs-git: git://anonscm.debian.org/collab-maint/hextor.git
+Maintainer: Kevin C. Krinke <kevin@krinke.ca>
+Vcs-Browser: https://github.com/HextorIRC/hextor
+Vcs-git: https://github.com/HextorIRC/hextor.git
 Build-Depends:
  debhelper (>= 9.0.0),
  dh-autoreconf,
@@ -29,7 +29,7 @@ Provides: irc
 Depends: ${misc:Depends}, hextor-common (= ${source:Version}), ${shlibs:Depends}
 Recommends: gvfs-bin
 Suggests: unifont
-Description: IRC client for X based on X-Chat 2
+Description: IRC client for X based on HexChat, X-Chat 2
  Hextor is a graphical IRC client with a GTK+ GUI. Features include Python
  (2 and 3) and Perl scripting support, a plugin API, multiple server/channel
  windows, spell checking, multiple authentication methods including SASL,
