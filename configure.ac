@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 
-AC_INIT([Hextor],[0.5])
+AC_INIT([Hextor],[0.6])
 
 AC_PREREQ([2.64])
 AC_COPYRIGHT([Copyright (C) 1998-2010 Peter Zelezny, Copyright (c) 2009-2014 Berke Viktor, Copyright (c) 2015 Kevin C. Krinke])
