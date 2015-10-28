@@ -27,7 +27,7 @@ AM_PROG_AS
 AM_PROG_AR
 LT_PREREQ([2.2.6])
 LT_INIT([disable-static])
-AC_PATH_PROG(MDTOOL, mdtool, no)
+AC_PATH_PROG([MDTOOL], [mdtool], [GCRYPT_CONFIG], [libgcrypt-config], [no])
 PKG_PROG_PKG_CONFIG
 
 dnl -----------------------------------------------------------
@@ -116,8 +116,12 @@ AC_ARG_ENABLE(plugin,
         plugin=$enableval, plugin=yes)
 
 AC_ARG_ENABLE(checksum,
-	[AS_HELP_STRING([--disable-checksum],[disable the Checksum plugin])],
+  [AS_HELP_STRING([--disable-checksum],[disable the Checksum plugin])],
         checksum=$enableval, checksum=yes)
+
+AC_ARG_ENABLE(otr,
+  [AS_HELP_STRING([--disable-otr],[disable the OTR plugin])],
+        otr=$enableval, otr=yes)
 
 AC_ARG_ENABLE(doat,
 	[AS_HELP_STRING([--disable-doat],[disable the Do At plugin])],
@@ -352,6 +356,26 @@ AS_IF([test "$checksum" != "no"], [
 ])
 
 dnl *********************************************************************
+dnl ** OTR **************************************************************
+dnl *********************************************************************
+
+AS_IF([test "$otr" != "no"], [
+  otr=no
+  AC_MSG_CHECKING(for plugin interface used by OTR)
+  PKG_CHECK_MODULES([OTR], [libotr >= 4.1.0])
+  AS_IF([test "$plugin" = yes], [
+    GCRYPT_CFLAGS="`$GCRYPT_CONFIG --cflags` -Wall -Wextra -Wno-unused-parameter -std=c89 -pedantic"
+    GCRYPT_LIBS="`$GCRYPT_CONFIG --libs`"
+    AC_SUBST([GCRYPT_CFLAGS])
+    AC_SUBST([GCRYPT_LIBS])
+    otr=yes
+    AC_MSG_RESULT([yes])
+  ], [
+    AC_MSG_RESULT([plugins are disabled, use the --enable-plugin option])
+  ])
+])
+
+dnl *********************************************************************
 dnl ** DO AT ************************************************************
 dnl *********************************************************************
 
@@ -457,6 +481,7 @@ AM_CONDITIONAL(DO_GTK, test "x$gtkfe" = "xyes")
 AM_CONDITIONAL(DO_PERL, test "x$perl" = "xyes")
 AM_CONDITIONAL(DO_PLUGIN, test "x$plugin" = "xyes")
 AM_CONDITIONAL(DO_CHECKSUM, test "x$checksum" = "xyes")
+AM_CONDITIONAL(DO_OTR, test "x$otr" = "xyes")
 AM_CONDITIONAL(DO_DOAT, test "x$doat" = "xyes")
 AM_CONDITIONAL(DO_FISHLIM, test "x$fishlim" = "xyes")
 AM_CONDITIONAL(DO_STATIC_ANALYSIS, test "x$analyze" = "xyes")
@@ -588,6 +613,7 @@ osx/Info.plist
 plugins/Makefile
 plugins/perl/Makefile
 plugins/checksum/Makefile
+plugins/otr/Makefile
 plugins/doat/Makefile
 plugins/fishlim/Makefile
 po/Makefile.in
@@ -611,6 +637,7 @@ echo
 echo Perl .................. : $perl
 echo
 echo Checksum .............. : $checksum
+echo OTR ................... : $otr
 echo Do At ................. : $doat
 echo FiSHLiM ............... : $fishlim
 echo
