@@ -1,3 +1,9 @@
+hextor (0.6-1) unstable; urgency=medium
+
+  * Testing OTR plugin
+
+ -- Kevin C. Krinke <kevin@krinke.ca>  Wed, 28 Oct 2015 16:34:59 -0400
+
 hextor (0.5-1) unstable; urgency=medium
 
   * Initial v0.5 release

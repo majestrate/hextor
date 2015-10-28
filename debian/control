@@ -19,14 +19,15 @@ Build-Depends:
  libproxy-dev,
  libssl-dev,
  libtool,
- python-dev
+ python-dev,
+ libotr5-dev
 Standards-Version: 3.9.5
 Homepage: http://hextor.github.io/
 
 Package: hextor
 Architecture: any
 Provides: irc
-Depends: ${misc:Depends}, hextor-common (= ${source:Version}), ${shlibs:Depends}
+Depends: ${misc:Depends}, hextor-common (= ${source:Version}), ${shlibs:Depends}, libotr5
 Recommends: gvfs-bin
 Suggests: unifont
 Description: IRC client for X based on HexChat, X-Chat 2
