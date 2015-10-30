@@ -153,7 +153,7 @@ char *otr_send (IRC_CTX *ircctx, const char *msg, const char *to)
 
 	if (!(co = otr_getcontext (accname, to, FALSE, ircctx)))
 	{
-		otr_notice (ircctx, to, TXT_SEND_CHANGE);
+    /* otr_notice (ircctx, to, TXT_SEND_CHANGE); */
 		return NULL;
 	}
 

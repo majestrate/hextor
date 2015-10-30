@@ -83,7 +83,7 @@ FORMAT_REC formats[] = {
 	{ "cmd_debug_off", "Debug mode is off" },
 	{ "cmd_finish", "Finished conversation with %s@%s." },
 	{ "cmd_finishall_none", "No conversations to finish." },
-	{ "cmd_version", "This is irc-otr version %s" },
+  { "cmd_version", "hextor-otr: v%s, libotr: %s" },
 	{ "peer_finished", "%s has finished the OTR conversation. If you want to continue talking enter /otr finish for plaintext or ?OTR? to restart OTR." },
 	{ NULL, "Contexts" },
 	{ "ctx_ctx_unencrypted", "%20s    %30s    plaintext" },
