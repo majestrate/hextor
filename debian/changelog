@@ -1,3 +1,10 @@
+hextor (0.6-2) unstable; urgency=medium
+
+  * Bugfixes for OTR plugin
+  * Expanded OTR help system
+
+ -- Kevin C. Krinke <kevin@krinke.ca>  Thu, 29 Oct 2015 20:47:40 -0400
+
 hextor (0.6-1) unstable; urgency=medium
 
   * Testing OTR plugin
