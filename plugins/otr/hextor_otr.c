@@ -215,7 +215,11 @@ int hook_outgoing (char *word[], char *word_eol[], void *userdata)
 
 	if (g_regex_match (regex_nickignore, channel, 0, NULL))
 		return HEXTOR_EAT_NONE;
-	otrmsg = otr_send (&ircctx, word_eol[1], channel);
+
+  otrmsg = otr_send (&ircctx, word_eol[1], channel);
+
+  if (otrmsg == NULL)
+    return HEXTOR_EAT_NONE;
 
 	if (otrmsg == word_eol[1])
 		return HEXTOR_EAT_NONE;
