@@ -44,7 +44,7 @@
 #define OTR_HELP_SET_FINISHONUNLOAD ""
 #define OTR_USAGE_SET_FINISHONUNLOAD "usage: /otr set finishonunload\n"
 
-#define OTR_HELP_VERSION "Display the version numbers of hextor-otr and the libotr used.\n"
+#define OTR_HELP_VERSION "Display the version of hextor and libotr.\n"
 #define OTR_USAGE_VERSION "usage: /otr version\n"
 
 #define OTR_HELP_HELP ""
