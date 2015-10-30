@@ -64,8 +64,13 @@ static void cmd_start (const char *nick)
 		hextor_print (ph, "OTR: You can only use OTR in a dialog\n");
 		return;
 	}
-
-	hextor_commandf (ph, "quote PRIVMSG %s :?OTRv23?", nick);
+  const char *own_nick = hextor_get_info (ph, "nick");
+  if (strncmp(nick,own_nick,strlen(nick))==0)
+  {
+    hextor_print (ph,"OTR with yourself? Doesn't make sense.\n");
+    return;
+  }
+  hextor_commandf (ph, "quote PRIVMSG %s :?OTRv23?", nick);
 }
 
 int cmd_otr (char *word[], char *word_eol[], void *userdata)
