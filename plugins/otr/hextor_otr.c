@@ -269,10 +269,7 @@ int hook_outgoing (char *word[], char *word_eol[], void *userdata)
 
   otrmsg = otr_send (&ircctx, word_eol[1], channel);
 
-  if (otrmsg == NULL)
-    return HEXTOR_EAT_NONE;
-
-	if (otrmsg == word_eol[1])
+  if (otrmsg == word_eol[1])
 		return HEXTOR_EAT_NONE;
 
 	hextor_emit_print (ph, "Your Message", own_nick, word_eol[1], NULL, NULL);
