@@ -1,4 +1,5 @@
 #include "otr.h"
+#include <libotr/version.h>
 
 int debug = 0;
 
@@ -96,9 +97,9 @@ int cmd_otr (char *word[], char *word_eol[], void *userdata)
 		cmd_start (target);
 	}
 	else if (strcmp (cmd, "version") == 0)
-	{
-		otr_noticest (TXT_CMD_VERSION, PVERSION);
-	}
+  {
+    otr_notice(ircctx,target,TXT_CMD_VERSION, PVERSION, OTRL_VERSION);
+  }
 	else if (strcmp (cmd, "finish") == 0)
 	{
 		if (word[3] && *word[3])
