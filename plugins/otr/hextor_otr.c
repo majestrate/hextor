@@ -192,6 +192,57 @@ int cmd_otr (char *word[], char *word_eol[], void *userdata)
 							set_finishonunload ? "true" : "false");
 		}
 	}
+  else if (strcmp (cmd, "help") == 0)
+  {
+    if (!word[3] || !*word[3])
+    {
+      hextor_printf (ph, OTR_HELP "\n");
+      hextor_printf (ph, "usage: /otr help <start|finish|trust|auth|authabort|genkey|set|version>\n");
+    }
+    else
+    {
+      if (strcmp(word[3],"version") == 0)
+        hextor_print (ph,OTR_HELP_VERSION OTR_USAGE_VERSION);
+      else if (strcmp(word[3],"start") == 0)
+        hextor_print (ph,OTR_HELP_START OTR_USAGE_START);
+      else if (strcmp(word[3],"finish") == 0)
+        hextor_print (ph,OTR_HELP_FINISH OTR_USAGE_FINISH);
+      else if (strcmp(word[3],"trust") == 0)
+        hextor_print (ph,OTR_HELP_TRUST OTR_USAGE_TRUST);
+      else if (strcmp(word[3],"auth") == 0)
+        hextor_print (ph,OTR_HELP_AUTH OTR_USAGE_AUTH);
+      else if (strcmp(word[3],"authq") == 0)
+        hextor_print (ph,OTR_HELP_AUTHQ OTR_USAGE_AUTHQ);
+      else if (strcmp(word[3],"authabort") == 0)
+        hextor_print (ph,OTR_HELP_AUTHABORT OTR_USAGE_AUTHABORT);
+      else if (strcmp(word[3],"genkey") == 0)
+        hextor_print (ph,OTR_HELP_GENKEY OTR_USAGE_GENKEY);
+      else if (strcmp(word[3],"set") == 0)
+      {
+        if (word[4] && *word[4])
+        {
+          if (strcmp(word[4],"policy") == 0)
+            hextor_print (ph,OTR_HELP_SET_POLICY OTR_USAGE_SET_POLICY);
+          else if (strcmp(word[4],"policy_known") == 0)
+            hextor_print (ph,OTR_HELP_SET_POLICY_KNOWN OTR_USAGE_SET_POLICY_KNOWN);
+          else if (strcmp(word[4],"ignore") == 0)
+            hextor_print (ph,OTR_HELP_SET_IGNORE OTR_USAGE_SET_IGNORE);
+          else if (strcmp(word[4],"finishonunload") == 0)
+            hextor_print (ph,OTR_HELP_SET_FINISHONUNLOAD OTR_USAGE_SET_FINISHONUNLOAD);
+          else
+            hextor_print (ph,OTR_HELP_SET OTR_USAGE_SET);
+        }
+        else
+        {
+          hextor_print (ph,OTR_HELP_SET OTR_USAGE_SET);
+        }
+      }
+      else
+      {
+        hextor_printf (ph, OTR_HELP_HELP OTR_USAGE_HELP_HELP);
+      }
+    }
+  }
 	else
 		hextor_command(ph, "help otr");
 
