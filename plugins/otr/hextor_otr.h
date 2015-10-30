@@ -6,7 +6,7 @@
 #define PNAME "OTR"
 #define PDESC "Off-The-Record Messaging for Hextor"
 #define PVERSION PACKAGE_VERSION
-#define OTR_HELP "usage: /otr <start|finish|trust|auth|authq|authabort|genkey|set|version|help>"
+#define OTR_HELP "usage: /otr <start|finish|trust|auth|authq|authabort|genkey|set|status|version|help>"
 
 #define OTR_HELP_START "Initiate an OTR session. Only works in private chat dialogs.\n"
 #define OTR_USAGE_START "usage: /otr start\n"
@@ -44,11 +44,14 @@
 #define OTR_HELP_SET_FINISHONUNLOAD ""
 #define OTR_USAGE_SET_FINISHONUNLOAD "usage: /otr set finishonunload\n"
 
+#define OTR_HELP_STATUS "Display the current state of the dialog session.\n"
+#define OTR_USAGE_STATUS "usage: /otr status\n"
+
 #define OTR_HELP_VERSION "Display the version of hextor and libotr.\n"
 #define OTR_USAGE_VERSION "usage: /otr version\n"
 
 #define OTR_HELP_HELP ""
-#define OTR_USAGE_HELP_HELP "usage: /otr help <start|finish|trust|auth|authq|authabort|genkey|set|version>\n"
+#define OTR_USAGE_HELP_HELP "usage: /otr help <start|finish|trust|auth|authq|authabort|genkey|set|status|version>\n"
 
 
 #define MAX_FORMAT_PARAMS 10

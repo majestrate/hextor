@@ -96,7 +96,19 @@ int cmd_otr (char *word[], char *word_eol[], void *userdata)
 	{
 		debug = !debug;
 		otr_noticest (debug ? TXT_CMD_DEBUG_ON : TXT_CMD_DEBUG_OFF);
-	}
+  }
+  else if (strcmp (cmd, "status") == 0)
+  {
+    int status = otr_getstatus(ircctx,target);
+    if ((status & IO_ST_TRUST_MANUAL) == IO_ST_TRUST_MANUAL)
+      hextor_print(ph, "This is a manually trusted session.\n");
+    else if ((status & IO_ST_TRUST_SMP) == IO_ST_TRUST_SMP)
+      hextor_print(ph, "This is an SMP trusted session.\n");
+    else if ((status & IO_ST_UNTRUSTED) == IO_ST_UNTRUSTED)
+      hextor_print(ph, "This is an untrusted session.\n");
+    else
+      hextor_print(ph, "This is a plaintext session.\n");
+  }
 	else if (strcmp (cmd, "start") == 0 || strcmp (cmd, "init") == 0)
 	{
 		cmd_start (target);
@@ -197,7 +209,6 @@ int cmd_otr (char *word[], char *word_eol[], void *userdata)
     if (!word[3] || !*word[3])
     {
       hextor_printf (ph, OTR_HELP "\n");
-      hextor_printf (ph, "usage: /otr help <start|finish|trust|auth|authabort|genkey|set|version>\n");
     }
     else
     {
@@ -215,6 +226,8 @@ int cmd_otr (char *word[], char *word_eol[], void *userdata)
         hextor_print (ph,OTR_HELP_AUTHQ OTR_USAGE_AUTHQ);
       else if (strcmp(word[3],"authabort") == 0)
         hextor_print (ph,OTR_HELP_AUTHABORT OTR_USAGE_AUTHABORT);
+      else if (strcmp(word[3],"status")==0)
+        hextor_print (ph,OTR_HELP_STATUS OTR_USAGE_STATUS);
       else if (strcmp(word[3],"genkey") == 0)
         hextor_print (ph,OTR_HELP_GENKEY OTR_USAGE_GENKEY);
       else if (strcmp(word[3],"set") == 0)
