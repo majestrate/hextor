@@ -275,7 +275,9 @@ struct hextorprefs
     int hex_net_proxy_type;                         /* 0=disabled, 1=wingate 2=socks4, 3=socks5, 4=http */
     int hex_net_proxy_use;                          /* 0=all 1=IRC_ONLY 2=DCC_ONLY */
     int hex_net_tor_port;
-    int hex_net_sam_port; 
+#ifdef I2P_SUPPORT
+    int hex_net_sam_port;
+#endif
     int hex_net_reconnect_delay;
     int hex_notify_timeout;
     int hex_text_max_indent;
@@ -307,6 +309,9 @@ struct hextorprefs
     char hex_net_proxy_host[64];
     char hex_net_proxy_pass[32];
     char hex_net_proxy_user[32];
+#ifdef I2P_SUPPORT
+    char hex_net_sam_host[256];
+#endif
     char hex_stamp_log_format[64];
     char hex_stamp_text_format[64];
     char hex_text_background[PATHLEN + 1];
@@ -314,7 +319,7 @@ struct hextorprefs
     char hex_text_font_main[FONTNAMELEN + 1];
     char hex_text_font_alternative[3 * FONTNAMELEN + 1];
     char hex_text_spell_langs[64];
-
+    
     /* these are the private variables */
     guint32 local_ip;
     guint32 dcc_ip;

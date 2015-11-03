@@ -1405,8 +1405,7 @@ server_child (server * serv)
                 // default to 7656
                 proxy_port = 7656;
             }
-            // TODO: don't hardcode
-            proxy_host = g_strdup("127.0.0.1");
+            proxy_host = g_strdup(prefs.hex_net_sam_host);
         }
         if (proxy_host)
         {
@@ -1494,6 +1493,9 @@ server_child (server * serv)
                                     n = waitline(sok, buf, sizeof(buf), TRUE);
                                     if (strstr(buf, " RESULT=OK"))
                                     {
+                                        g_snprintf(buf, sizeof(buf), "0\nConnecting...\n");
+                                        write(serv->childwrite, buf, strlen(buf));
+
                                         n = g_snprintf(buf, sizeof(buf), "STREAM CONNECT ID=hextor%d DESTINATION=%s SILENT=false\n", id, dest);
                                         send(sok, buf, n, 0);
                                         n = waitline(sok, buf, sizeof(buf), TRUE);
