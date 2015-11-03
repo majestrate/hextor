@@ -658,6 +658,9 @@ static const setting network_settings[] =
   {ST_HEADER,	N_("The Onion Router"), 0, 0, 0, 0},
   {ST_NUMBER,	N_("TOR Port:"), P_OFFINTNL(hex_net_tor_port), N_("Defaults to 9050 when set to zero (0)."), 0, 65535},
 
+    {ST_HEADER,	N_("I2P Settings"), 0, 0, 0, 0},
+    {ST_NUMBER,	N_("SAM Port:"), P_OFFINTNL(hex_net_sam_port), N_("Defaults to 7656 when set to zero (0)."), 0, 65535},
+
     {ST_END, 0, 0, 0, 0, 0}
 };
 

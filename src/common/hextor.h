@@ -29,6 +29,8 @@
 #ifndef HEXTOR_H
 #define HEXTOR_H
 
+#define I2P_SUPPORT
+
 #ifdef USE_OPENSSL
 #ifdef __APPLE__
 #define __AVAILABILITYMACROS__
@@ -272,7 +274,8 @@ struct hextorprefs
     int hex_net_proxy_port;
     int hex_net_proxy_type;                         /* 0=disabled, 1=wingate 2=socks4, 3=socks5, 4=http */
     int hex_net_proxy_use;                          /* 0=all 1=IRC_ONLY 2=DCC_ONLY */
-  int hex_net_tor_port;
+    int hex_net_tor_port;
+    int hex_net_sam_port; 
     int hex_net_reconnect_delay;
     int hex_notify_timeout;
     int hex_text_max_indent;
@@ -479,6 +482,11 @@ typedef struct server
     int proxy_sok4;
     int proxy_sok6;
     int id;                                 /* unique ID number (for plugin API) */
+#ifdef I2P_SUPPORT
+    int sam_sok;
+    int sam_sok4;
+    int sam_sok6;
+#endif
 #ifdef USE_OPENSSL
     SSL_CTX *ctx;
     SSL *ssl;

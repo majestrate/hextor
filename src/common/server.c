@@ -72,6 +72,10 @@ static struct session *g_sess = NULL;
 
 #define TOR_SUPPORT
 
+
+#ifdef I2P_SUPPORT
+#define PROXY_TYPE_I2P 9
+#endif
 static GSList *away_list = NULL;
 GSList *serv_list = NULL;
 
@@ -788,6 +792,12 @@ server_read_child (GIOChannel *source, GIOCondition condition, server *serv)
             closesocket (serv->sok6);
         if (serv->proxy_sok6 != -1)
             closesocket (serv->proxy_sok6);
+        #ifdef I2P_SUPPORT
+        if (serv->sam_sok6 != -1)
+            closesocket(serv->sam_sok6);
+        if (serv->sam_sok4 != -1)
+            closesocket(serv->sam_sok4);
+        #endif
         EMIT_SIGNAL (XP_TE_UKNHOST, sess, NULL, NULL, NULL, NULL, 0);
         if (!servlist_cycle (serv))
             if (prefs.hex_net_auto_reconnectonfail)
@@ -803,6 +813,12 @@ server_read_child (GIOChannel *source, GIOCondition condition, server *serv)
             closesocket (serv->sok6);
         if (serv->proxy_sok6 != -1)
             closesocket (serv->proxy_sok6);
+#ifdef I2P_SUPPORT
+        if (serv->sam_sok6 != -1)
+            closesocket(serv->sam_sok6);
+        if (serv->sam_sok4 != -1)
+            closesocket(serv->sam_sok4);
+#endif
         EMIT_SIGNAL (XP_TE_CONNFAIL, sess, errorstring (atoi (tbuf)), NULL,
                      NULL, NULL, 0);
         if (!servlist_cycle (serv))
@@ -823,6 +839,7 @@ server_read_child (GIOChannel *source, GIOCondition condition, server *serv)
             closesocket (serv->sok6);
         else
             closesocket (serv->sok4);
+        
         if (serv->proxy_sok != -1)
         {
             if (serv->proxy_sok == serv->proxy_sok4)
@@ -830,7 +847,7 @@ server_read_child (GIOChannel *source, GIOCondition condition, server *serv)
             else
                 closesocket (serv->proxy_sok4);
         }
-
+        
         {
             struct sockaddr addr;
             int addr_len = sizeof (addr);
@@ -917,6 +934,12 @@ server_cleanup (server * serv)
             closesocket (serv->sok6);
         if (serv->proxy_sok6 != -1)
             closesocket (serv->proxy_sok6);
+#ifdef I2P_SUPPORT
+        if (serv->sam_sok6 != -1)
+            closesocket(serv->sam_sok6);
+        if (serv->sam_sok4 != -1)
+            closesocket(serv->sam_sok4);
+#endif
         return 1;
     }
 
@@ -925,6 +948,10 @@ server_cleanup (server * serv)
         close_socket (serv->sok);
         if (serv->proxy_sok)
             close_socket (serv->proxy_sok);
+#ifdef I2P_SUPPORT
+        if (serv->sam_sok)
+            close_socket(serv->sam_sok);
+#endif
         serv->connected = FALSE;
         serv->end_of_motd = FALSE;
         return 2;
@@ -1290,6 +1317,7 @@ traverse_http (int print_fd, int sok, char *serverAddr, int port)
     return 0;
 }
 
+
 static int
 traverse_proxy (int proxy_type, int print_fd, int sok, char *ip, int port, netstore *ns_proxy, int csok4, int csok6, int *csok, char bound)
 {
@@ -1325,7 +1353,7 @@ server_child (server * serv)
     char *proxy_ip = NULL;
     char *local_ip;
     int connect_port;
-    char buf[512];
+    char buf[4096];
     char bound = 0;
     int proxy_type = 0;
     char *proxy_host = NULL;
@@ -1334,7 +1362,12 @@ server_child (server * serv)
     int onion_check_len;
     char *onion_check_ptr;
 #endif
+#ifdef I2P_SUPPORT
+    int i2p_check_len;
+    char *i2p_check_ptr;
+#endif
 
+    
     ns_server = net_store_new ();
 
     /* is a hostname set? - bind to it */
@@ -1355,6 +1388,165 @@ server_child (server * serv)
         net_store_destroy (ns_local);
     }
 
+#ifdef I2P_SUPPORT
+    // .i2p
+    i2p_check_len = strlen(serv->hostname);
+    i2p_check_ptr = serv->hostname;
+    if (i2p_check_len > 4)
+    {
+        char * dest;
+        char * dest_start;
+        int i, n, id;
+        for ( i = 0; i< (i2p_check_len - 4); i++ ) i2p_check_ptr++;
+        if (strncmp(i2p_check_ptr, ".i2p", 4) == 0)
+        {
+            proxy_port = prefs.hex_net_sam_port;
+            if (proxy_port == 0) {
+                // default to 7656
+                proxy_port = 7656;
+            }
+            proxy_host = g_strdup("10.0.3.1");
+        }
+        if (proxy_host)
+        {
+            g_snprintf(buf, sizeof(buf), "0\nConnecting With I2P via %s\n", proxy_host);
+            write(serv->childwrite, buf, strlen(buf));
+            ip = net_resolve (ns_server, proxy_host, proxy_port, &real_hostname);
+            if(!ip)
+            {
+                write(serv->childwrite, "1\n", 2);
+                goto xit;
+            }
+            g_snprintf(buf, sizeof(buf), "0\nConnecting to router\n");
+            write(serv->childwrite, buf, strlen(buf));
+            
+            error = net_connect(ns_server, serv->sam_sok4, serv->sam_sok6, &serv->sam_sok);
+            if (error != 0)
+            {
+                g_snprintf(buf, sizeof(buf), "2\n%d\n", sock_error());
+                write(serv->childwrite, buf, strlen(buf));
+            } else
+            {
+                
+                g_snprintf (buf, sizeof (buf), "3\n%s\n%s\n%d\n",
+                            real_hostname, ip, proxy_port);
+                write (serv->childwrite, buf, strlen (buf));
+                
+                g_snprintf(buf, sizeof(buf), "0\nConnected With I2P\n");
+                write(serv->childwrite, buf, strlen(buf));
+                // initial sam connect okay
+                // send hello
+                n = g_snprintf(buf, sizeof(buf), "HELLO VERSION MIN=3.0 MAX=3.0\n");
+                send(serv->sam_sok, buf, n, 0);
+                n = waitline(serv->sam_sok, buf, sizeof(buf), TRUE);
+                if (strstr(buf, " RESULT=OK"))
+                {
+                    // hello result is okay
+                    g_snprintf(buf, sizeof(buf), "0\nCreating Session...\n");
+                    write(serv->childwrite, buf, strlen(buf));
+                    id = rand();
+                    n = g_snprintf(buf, sizeof(buf), "SESSION CREATE STYLE=STREAM DESTINATION=TRANSIENT ID=hextor_%d\n", id);
+                    send(serv->sam_sok, buf, n, 0);
+                    // read session create response
+                    // THIS WILL BLOCK FOR A WHILE
+                    n = waitline(serv->sam_sok, buf, sizeof(buf), TRUE);
+                    if (strstr(buf, " RESULT=OK"))
+                    {
+                        g_snprintf(buf, sizeof(buf), "0\nDoing name lookup...\n");
+                        write(serv->childwrite, buf, strlen(buf));
+                        
+                        // we created a session
+                        // do name lookup
+                        n = g_snprintf(buf, sizeof(buf), "NAMING LOOKUP NAME=%s\n", serv->hostname);
+                        send(serv->sam_sok, buf, n, 0);
+                        n = waitline(serv->sam_sok, buf, sizeof(buf), TRUE);
+                        if (strstr(buf, " RESULT=OK"))
+                        {
+                            // succeeded name lookup
+                            char * dest_ptr = strstr(buf, "VALUE=");
+                            if (dest_ptr)
+                            {
+                                dest_ptr += 6;
+                                dest_start = dest_ptr;
+                                n = 1;
+                                while(*dest_ptr && ( *dest_ptr != '\n' || *dest_ptr != ' ') )
+                                {
+                                    n += 1;
+                                    dest_ptr++;
+                                }
+                                dest = g_malloc(n);
+                                strncpy(dest, dest_start, n);
+                                
+                                error = net_connect(ns_server, serv->sok4, serv->sok6, &sok);
+                                if ( error != 0 )
+                                {
+                                    // error connecting?
+                                    g_snprintf(buf, sizeof(buf), "0\nI2P Router handshake failed, wtf?\n");
+                                    write(serv->childwrite, buf, strlen(buf)); 
+                                    g_snprintf(buf, sizeof(buf), "2\n%d\n", EIO);
+                                    write(serv->childwrite, buf, strlen(buf));                          
+                                } else
+                                {
+                                    n = g_snprintf(buf, sizeof(buf), "HELLO VERSION MIN=3.0 MAX=3.0\n");
+                                    send(sok, buf, n, 0);
+                                    n = waitline(sok, buf, sizeof(buf), TRUE);
+                                    if (strstr(buf, " RESULT=OK"))
+                                    {
+                                        n = g_snprintf(buf, sizeof(buf), "STREAM CONNECT ID=hextor_%d DESTINATION=%s SILENT=false\n", id, dest);
+                                        send(sok, buf, n, 0);
+                                        n = waitline(sok, buf, sizeof(buf), TRUE);
+                                        if (strstr(buf, " RESULT=OK"))
+                                        {
+                                            // okay pass it onto the server as success
+                                            g_snprintf (buf, sizeof (buf), "4\n%d\n", sok); /* success */
+                                            write (serv->childwrite, buf, strlen (buf));
+                                        }
+                                        else
+                                        {
+                                            // error connecting
+                                            g_snprintf(buf, sizeof(buf), "0\nI2P Router handshake failed, wtf?\n");
+                                            write(serv->childwrite, buf, strlen(buf)); 
+                                            g_snprintf(buf, sizeof(buf), "2\n%d\n", EIO);
+                                            write(serv->childwrite, buf, strlen(buf));  
+                                        }
+                                    }
+                                }
+                                g_free(dest);
+                            }
+                            else
+                            {
+                                // contains no valid result?
+                                g_snprintf(buf, sizeof(buf), "1\n");
+                                write(serv->childwrite, buf, strlen(buf)); 
+                            }
+                            
+                        } else
+                        {
+                            // failed name lookup
+                            g_snprintf(buf, sizeof(buf), "1\n");
+                            write(serv->childwrite, buf, strlen(buf)); 
+                        }
+                    } else
+                    {
+                        // we failed to create a session
+                        g_snprintf(buf, sizeof(buf), "2\n%d\n", EIO);
+                        write(serv->childwrite, buf, strlen(buf)); 
+                    }
+                } else
+                {
+                    // hello result is not okay
+                    g_snprintf(buf, sizeof(buf), "0\nInvalid Response from I2P\n");
+                    write(serv->childwrite, buf, strlen(buf));
+                    g_snprintf(buf, sizeof(buf), "1\n");
+                    write(serv->childwrite, buf, strlen(buf));
+                }
+            }
+            goto xit;
+
+        }
+    }
+#endif
+    
 #ifdef TOR_SUPPORT
     // .onion
     onion_check_len = strlen(serv->hostname);
@@ -1367,9 +1559,9 @@ server_child (server * serv)
         if (strncmp(onion_check_ptr,".onion",6)==0)
         { // we are tor
             proxy_type = 3;
-      proxy_port = prefs.hex_net_tor_port;
-      if (proxy_port == 0)
-        proxy_port = 9050; // default to 9050
+            proxy_port = prefs.hex_net_tor_port;
+            if (proxy_port == 0)
+                proxy_port = 9050; // default to 9050
             proxy_host = g_strdup("127.0.0.1");
         }
     }
@@ -1613,9 +1805,10 @@ server_connect (server *serv, char *hostname, int port, int no_login)
 
     /* create both sockets now, drop one later */
     net_sockets (&serv->sok4, &serv->sok6);
-    serv->proxy_sok4 = -1;
-    serv->proxy_sok6 = -1;
-
+    net_sockets (&serv->proxy_sok4, &serv->proxy_sok6);
+#ifdef I2P_SUPPORT
+    net_sockets (&serv->sam_sok4, &serv->sam_sok6);
+#endif
 #ifdef WIN32
     CloseHandle (CreateThread (NULL, 0,
                                (LPTHREAD_START_ROUTINE)server_child,
@@ -1649,18 +1842,17 @@ server_connect (server *serv, char *hostname, int port, int no_login)
                                                             serv);
                                 }
 
-        void
-        server_fill_her_up (server *serv)
-        {
-            serv->connect = server_connect;
-            serv->disconnect = server_disconnect;
-            serv->cleanup = server_cleanup;
-            serv->flush_queue = server_flush_queue;
-            serv->auto_reconnect = auto_reconnect;
-
-            proto_fill_her_up (serv);
-        }
-
+void
+    server_fill_her_up (server *serv) {
+        serv->connect = server_connect;
+        serv->disconnect = server_disconnect;
+        serv->cleanup = server_cleanup;
+        serv->flush_queue = server_flush_queue;
+        serv->auto_reconnect = auto_reconnect;
+        
+        proto_fill_her_up (serv);
+    }
+        
     void
         server_set_encoding (server *serv, char *new_encoding)
     {
@@ -1917,4 +2109,4 @@ server_connect (server *serv, char *hostname, int port, int no_login)
         g_free (serv);
 
         notify_cleanup ();
-    }
+   }
