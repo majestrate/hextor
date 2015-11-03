@@ -818,6 +818,7 @@ server_read_child (GIOChannel *source, GIOCondition condition, server *serv)
             closesocket(serv->sam_sok6);
         if (serv->sam_sok4 != -1)
             closesocket(serv->sam_sok4);
+        closesocket(serv->sam_sok);
 #endif
         EMIT_SIGNAL (XP_TE_CONNFAIL, sess, errorstring (atoi (tbuf)), NULL,
                      NULL, NULL, 0);
@@ -949,8 +950,7 @@ server_cleanup (server * serv)
         if (serv->proxy_sok)
             close_socket (serv->proxy_sok);
 #ifdef I2P_SUPPORT
-        if (serv->sam_sok)
-            close_socket(serv->sam_sok);
+        close_socket(serv->sam_sok);
 #endif
         serv->connected = FALSE;
         serv->end_of_motd = FALSE;
