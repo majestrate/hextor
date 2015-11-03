@@ -1405,7 +1405,8 @@ server_child (server * serv)
                 // default to 7656
                 proxy_port = 7656;
             }
-            proxy_host = g_strdup("10.0.3.1");
+            // TODO: don't hardcode
+            proxy_host = g_strdup("127.0.0.1");
         }
         if (proxy_host)
         {
