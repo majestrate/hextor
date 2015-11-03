@@ -1445,8 +1445,9 @@ server_child (server * serv)
                     // hello result is okay
                     g_snprintf(buf, sizeof(buf), "0\nCreating Session...\n");
                     write(serv->childwrite, buf, strlen(buf));
+                    srand(time(NULL));
                     id = rand();
-                    n = g_snprintf(buf, sizeof(buf), "SESSION CREATE STYLE=STREAM DESTINATION=TRANSIENT ID=hextor_%d\n", id);
+                    n = g_snprintf(buf, sizeof(buf), "SESSION CREATE STYLE=STREAM DESTINATION=TRANSIENT ID=hextor%d\n", id);
                     send(serv->sam_sok, buf, n, 0);
                     // read session create response
                     // THIS WILL BLOCK FOR A WHILE
@@ -1493,7 +1494,7 @@ server_child (server * serv)
                                     n = waitline(sok, buf, sizeof(buf), TRUE);
                                     if (strstr(buf, " RESULT=OK"))
                                     {
-                                        n = g_snprintf(buf, sizeof(buf), "STREAM CONNECT ID=hextor_%d DESTINATION=%s SILENT=false\n", id, dest);
+                                        n = g_snprintf(buf, sizeof(buf), "STREAM CONNECT ID=hextor%d DESTINATION=%s SILENT=false\n", id, dest);
                                         send(sok, buf, n, 0);
                                         n = waitline(sok, buf, sizeof(buf), TRUE);
                                         if (strstr(buf, " RESULT=OK"))
@@ -1505,11 +1506,17 @@ server_child (server * serv)
                                         else
                                         {
                                             // error connecting
-                                            g_snprintf(buf, sizeof(buf), "0\nI2P Router handshake failed, wtf?\n");
-                                            write(serv->childwrite, buf, strlen(buf)); 
                                             g_snprintf(buf, sizeof(buf), "2\n%d\n", EIO);
                                             write(serv->childwrite, buf, strlen(buf));  
                                         }
+                                    } else
+                                    {
+
+                                        // error handshaking
+                                        g_snprintf(buf, sizeof(buf), "0\nI2P Router handshake failed, wtf?\n");
+                                        write(serv->childwrite, buf, strlen(buf)); 
+                                        g_snprintf(buf, sizeof(buf), "2\n%d\n", EIO);
+                                        write(serv->childwrite, buf, strlen(buf));  
                                     }
                                 }
                                 g_free(dest);
@@ -1525,7 +1532,8 @@ server_child (server * serv)
                         {
                             // failed name lookup
                             g_snprintf(buf, sizeof(buf), "1\n");
-                            write(serv->childwrite, buf, strlen(buf)); 
+                            write(serv->childwrite, buf, strlen(buf));
+                            closesocket(serv->sam_sok);
                         }
                     } else
                     {
